@@ -5,7 +5,7 @@ The current release covers **two microservice systems**, **49 fault types**, and
 - **Online Boutique**: 452 cases
 - **Train-Ticket**: 204 cases
 
-![Overview of Cloud-OpsBench](https://github.com/wiluen/Cloud-OpsBench/blob/main/resource/overview.png)
+![Overview of Cloud-OpsBench](https://github.com/LLM4Ops/Cloud-OpsBench/blob/main/resource/overview.png)
 
 ## Key Features
 
@@ -98,7 +98,7 @@ golden-trajectory/<system>/<fault_category>/<case_id>/
 This means a single benchmark case may provide multiple expert reasoning paths.
 
 ### 📽️ An Easy Demo  
-We provide a demo that you can directly interact with fault cases in Cloud-OpsBench for diagnosis. We provide an [video link ▶️](https://www.youtube.com/watch?v=lVd0f-24T8o) to show.
+**Cloud-OpsBench** is easy to use, you do not need to deploy your cloud environment. We provide a demo that you can directly interact with fault cases in Cloud-OpsBench for diagnosis. We provide an [video link ▶️](https://www.youtube.com/watch?v=lVd0f-24T8o) to show.
 ```bash
 python interact.py
 ```
