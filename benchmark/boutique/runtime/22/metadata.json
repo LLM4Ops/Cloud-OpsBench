@@ -1,0 +1,20 @@
+{
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Runtime_Fault",
+    "fault_object": "app/adservice",
+    "root_cause": "oom_killed"
+  },
+  "process": {
+    "path1": [
+      "GetResources::pods",
+      "DescribeResource::pods::adservice",
+      "GetRecentLogs::adservice"
+    ],
+    "path2": [
+      "GetResources::pods",
+      "DescribeResource::pods::adservice"
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 2,
+    "total_trace_steps": 2,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE\nadservice-84dbdf99d-br4qp                1/1     Running   0          33s\ncartservice-79b49f5555-s4v45             1/1     Running   0          32s\ncheckoutservice-8445f8b6cb-7lvkt         1/1     Running   0          32s\ncurrencyservice-75686c9564-84grc         1/1     Running   0          32s\nemailservice-b78fc569b-5h5z9             1/1     Running   0          32s\nfrontend-6778bd7b8b-gsh5f                1/1     Running   0          32s\nmemory-consumer-d8cdd                    1/1     Running   0          31s\nmemory-consumer-dn8cd                    1/1     Running   0          31s\nmemory-consumer-pq7nj                    1/1     Running   0          31s\nmemory-consumer-x9vnx                    1/1     Running   0          31s\npaymentservice-6bb6859449-wfld5          0/1     Pending   0          30s\nproductcatalogservice-ddb46fc86-2n8dj    1/1     Running   0          31s\nrecommendationservice-7df9c5b676-nx5rj   1/1     Running   0          31s\nredis-cart-68db7b6f97-fls9m              1/1     Running   0          31s\nshippingservice-7cbfcb6d68-q5vsx         1/1     Running   0          31s\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'paymentservice-6bb6859449-wfld5'}",
+      "output": "Name:             paymentservice-6bb6859449-wfld5\nNamespace:        boutique\nPriority:         0\nService Account:  paymentservice\nNode:             <none>\nLabels:           app=paymentservice\n                  pod-template-hash=6bb6859449\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/paymentservice-6bb6859449\nContainers:\n  server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/paymentservice:v0.10.3\n    Port:       50051/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     200m\n      memory:  8Gi\n    Requests:\n      cpu:      100m\n      memory:   8Gi\n    Liveness:   grpc <pod>:50051  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Readiness:  grpc <pod>:50051  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Environment:\n      PORT:              50051\n      DISABLE_PROFILER:  1\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-4czn5 (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  kube-api-access-4czn5:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  32s   default-scheduler  0/4 nodes are available: 1 node(s) were unschedulable, 3 Insufficient memory. preemption: 0/4 nodes are available: 1 Preemption is not helpful for scheduling, 3 No preemption victims found for incoming pod.\n"
+    }
+  ]
+}

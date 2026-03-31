@@ -1,0 +1,40 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 5,
+    "total_trace_steps": 5,
+    "history_called_tool_names": [
+      "GetResources",
+      "GetErrorLogs",
+      "GetResources",
+      "GetResources",
+      "GetResources"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE\nadservice-64ddc5c766-pztfq               1/1     Running   0          92s\ncartservice-79b49f5555-w4shd             1/1     Running   0          92s\ncheckoutservice-8445f8b6cb-j2sgx         1/1     Running   0          92s\ncurrencyservice-75686c9564-8csc2         1/1     Running   0          92s\nemailservice-c86b9b8f6-rg5ff             1/1     Running   0          92s\npaymentservice-78c5996648-p6g5b          1/1     Running   0          91s\nproductcatalogservice-ddb46fc86-tdvv9    1/1     Running   0          91s\nrecommendationservice-7bf5b7d9b8-pcw8v   1/1     Running   0          91s\nredis-cart-6f966d9cc9-rkn67              1/1     Running   0          91s\nshippingservice-7ff54bf6b6-r48cj         1/1     Running   0          91s\n"
+    },
+    {
+      "tool_name": "GetErrorLogs",
+      "calling": "tool_name='GetErrorLogs' arguments={namespace: 'boutique', service_name: 'frontend'}",
+      "output": "\"\""
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'svc', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE\nadservice               ClusterIP   10.68.81.35     <none>        9555/TCP       95s\ncartservice             ClusterIP   10.68.107.33    <none>        7070/TCP       95s\ncheckoutservice         ClusterIP   10.68.208.100   <none>        5050/TCP       95s\ncurrencyservice         ClusterIP   10.68.132.119   <none>        7000/TCP       95s\nemailservice            ClusterIP   10.68.197.195   <none>        5000/TCP       95s\nfrontend                ClusterIP   10.68.168.202   <none>        80/TCP         93s\nfrontend-external       NodePort    10.68.254.78    <none>        80:30080/TCP   93s\npaymentservice          ClusterIP   10.68.7.69      <none>        50051/TCP      95s\nproductcatalogservice   ClusterIP   10.68.221.142   <none>        3550/TCP       94s\nrecommendationservice   ClusterIP   10.68.192.164   <none>        8080/TCP       94s\nredis-cart              ClusterIP   10.68.81.217    <none>        6379/TCP       94s\nshippingservice         ClusterIP   10.68.128.187   <none>        50051/TCP      94s\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'deploy', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                    READY   UP-TO-DATE   AVAILABLE   AGE\nadservice               1/1     1            1           98s\ncartservice             1/1     1            1           98s\ncheckoutservice         1/1     1            1           98s\ncurrencyservice         1/1     1            1           98s\nemailservice            1/1     1            1           98s\nfrontend                0/1     0            0           96s\npaymentservice          1/1     1            1           98s\nproductcatalogservice   1/1     1            1           97s\nrecommendationservice   1/1     1            1           97s\nredis-cart              1/1     1            1           97s\nshippingservice         1/1     1            1           97s\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'event', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "118s        Warning   FailedCreate        replicaset/frontend-657dd795f                 Error creating: pods \"frontend-657dd795f-b7v7n\" is forbidden: exceeded quota: pod-count-quota, requested: pods=1, used: pods=10, limited: pods=10\n118s        Normal    Started             pod/shippingservice-7ff54bf6b6-r48cj          Started container server\n118s        Normal    Pulled              pod/redis-cart-6f966d9cc9-rkn67               Container image \"redis:alpine\" already present on machine\n118s        Normal    Created             pod/redis-cart-6f966d9cc9-rkn67               Created container redis\n118s        Normal    Created             pod/recommendationservice-7bf5b7d9b8-pcw8v    Created container server\n118s        Normal    Pulled              pod/shippingservice-7ff54bf6b6-r48cj          Container image \"us-central1-docker.pkg.dev/google-samples/microservices-demo/shippingservice:v0.10.3\" already present on machine\n118s        Normal    Started             pod/redis-cart-6f966d9cc9-rkn67               Started container redis\n118s        Warning   FailedCreate        replicaset/frontend-657dd795f                 Error creating: pods \"frontend-657dd795f-25k5z\" is forbidden: exceeded quota: pod-count-quota, requested: pods=1, used: pods=10, limited: pods=10\n118s        Normal    ScalingReplicaSet   deployment/frontend                           Scaled up replica set frontend-657dd795f to 1\n118s        Warning   FailedCreate        replicaset/frontend-657dd795f                 Error creating: pods \"frontend-657dd795f-vxqt2\" is forbidden: exceeded quota: pod-count-quota, requested: pods=1, used: pods=10, limited: pods=10\n118s        Normal    Started             pod/recommendationservice-7bf5b7d9b8-pcw8v    Started container server\n118s        Warning   FailedCreate        replicaset/frontend-657dd795f                 Error creating: pods \"frontend-657dd795f-pcr4d\" is forbidden: exceeded quota: pod-count-quota, requested: pods=1, used: pods=10, limited: pods=10\n118s        Normal    Pulled              pod/recommendationservice-7bf5b7d9b8-pcw8v    Container image \"us-central1-docker.pkg.dev/google-samples/microservices-demo/recommendationservice:v0.10.3\" already present on machine\n118s        Normal    Created             pod/shippingservice-7ff54bf6b6-r48cj          Created container server\n117s        Warning   FailedCreate        replicaset/frontend-657dd795f                 Error creating: pods \"frontend-657dd795f-q624d\" is forbidden: exceeded quota: pod-count-quota, requested: pods=1, used: pods=10, limited: pods=10\n117s        Warning   FailedCreate        replicaset/frontend-657dd795f                 Error creating: pods \"frontend-657dd795f-gscq5\" is forbidden: exceeded quota: pod-count-quota, requested: pods=1, used: pods=10, limited: pods=10\n117s        Warning   FailedCreate        replicaset/frontend-657dd795f                 Error creating: pods \"frontend-657dd795f-xdng6\" is forbidden: exceeded quota: pod-count-quota, requested: pods=1, used: pods=10, limited: pods=10\n117s        Warning   FailedCreate        replicaset/frontend-657dd795f                 Error creating: pods \"frontend-657dd795f-s8ngs\" is forbidden: exceeded quota: pod-count-quota, requested: pods=1, used: pods=10, limited: pods=10\n116s        Warning   FailedCreate        replicaset/frontend-657dd795f                 Error creating: pods \"frontend-657dd795f-8tgmj\" is forbidden: exceeded quota: pod-count-quota, requested: pods=1, used: pods=10, limited: pods=10\n36s         Warning   FailedCreate        replicaset/frontend-657dd795f                 (combined from similar events): Error creating: pods \"frontend-657dd795f-l6vcw\" is forbidden: exceeded quota: pod-count-quota, requested: pods=1, used: pods=10, limited: pods=10\n"
+    }
+  ]
+}

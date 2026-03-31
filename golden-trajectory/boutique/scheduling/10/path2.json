@@ -1,0 +1,141 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 5,
+    "total_trace_steps": 5,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource",
+      "GetClusterConfiguration",
+      "GetResources",
+      "DescribeResource"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: True, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE   IP             NODE        NOMINATED NODE   READINESS GATES\nadservice-84dbdf99d-bxmpc                1/1     Running   0          73s   172.20.2.192   worker-02   <none>           <none>\ncartservice-79b49f5555-ds6nd             1/1     Running   0          72s   172.20.1.131   worker-01   <none>           <none>\ncheckoutservice-6b448f7956-xbc46         0/1     Pending   0          70s   <none>         <none>      <none>           <none>\ncurrencyservice-75686c9564-52btk         1/1     Running   0          72s   172.20.1.132   worker-01   <none>           <none>\nemailservice-b78fc569b-mzgf5             1/1     Running   0          72s   172.20.2.193   worker-02   <none>           <none>\nfrontend-6778bd7b8b-bvtbg                1/1     Running   0          72s   172.20.2.194   worker-02   <none>           <none>\npaymentservice-78c5996648-2t4kh          1/1     Running   0          71s   172.20.1.133   worker-01   <none>           <none>\nproductcatalogservice-ddb46fc86-jbfdf    1/1     Running   0          71s   172.20.1.134   worker-01   <none>           <none>\nrecommendationservice-7df9c5b676-cqd99   1/1     Running   0          71s   172.20.2.195   worker-02   <none>           <none>\nredis-cart-68db7b6f97-qvmjh              1/1     Running   0          71s   172.20.1.135   worker-01   <none>           <none>\nshippingservice-7cbfcb6d68-vqscw         1/1     Running   0          71s   172.20.2.196   worker-02   <none>           <none>\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'checkoutservice-6b448f7956-xbc46'}",
+      "output": "Name:             checkoutservice-6b448f7956-xbc46\nNamespace:        boutique\nPriority:         0\nService Account:  checkoutservice\nNode:             <none>\nLabels:           app=checkoutservice\n                  pod-template-hash=6b448f7956\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/checkoutservice-6b448f7956\nContainers:\n  server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/checkoutservice:v0.10.3\n    Port:       5050/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     200m\n      memory:  128Mi\n    Requests:\n      cpu:      100m\n      memory:   64Mi\n    Liveness:   grpc <pod>:5050  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Readiness:  grpc <pod>:5050  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Environment:\n      PORT:                          5050\n      PRODUCT_CATALOG_SERVICE_ADDR:  productcatalogservice:3550\n      SHIPPING_SERVICE_ADDR:         shippingservice:50051\n      PAYMENT_SERVICE_ADDR:          paymentservice:50051\n      EMAIL_SERVICE_ADDR:            emailservice:5000\n      CURRENCY_SERVICE_ADDR:         currencyservice:7000\n      CART_SERVICE_ADDR:             cartservice:7070\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-k9f8f (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  kube-api-access-k9f8f:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              hardware-type=gpu\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  71s   default-scheduler  0/4 nodes are available: 2 node(s) didn't match Pod's node affinity/selector, 2 node(s) were unschedulable. preemption: 0/4 nodes are available: 4 Preemption is not helpful for scheduling.\n"
+    },
+    {
+      "tool_name": "GetClusterConfiguration",
+      "calling": "tool_name='GetClusterConfiguration' arguments={}",
+      "output": {
+        "node_count": 4,
+        "nodes": [
+          {
+            "name": "master",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "master",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "master"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671352Ki"
+            }
+          },
+          {
+            "name": "worker-01",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "hardware-type": "gpu",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-01",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          },
+          {
+            "name": "worker-02",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-02",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671344Ki"
+            }
+          },
+          {
+            "name": "worker-03",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-03",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671356Ki"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'node', name: None, show_labels: True, output_wide: False, label_selector: None}",
+      "output": "NAME        STATUS                     ROLES    AGE   VERSION   LABELS\nmaster      Ready,SchedulingDisabled   master   98d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=master,kubernetes.io/os=linux,kubernetes.io/role=master\nworker-01   Ready,SchedulingDisabled   node     98d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,hardware-type=gpu,kubernetes.io/arch=amd64,kubernetes.io/hostname=worker-01,kubernetes.io/os=linux,kubernetes.io/role=node\nworker-02   Ready                      node     98d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=worker-02,kubernetes.io/os=linux,kubernetes.io/role=node\nworker-03   Ready                      node     98d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=worker-03,kubernetes.io/os=linux,kubernetes.io/role=node\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'node', name: 'worker-01'}",
+      "output": "Name:               worker-01\nRoles:              node\nLabels:             beta.kubernetes.io/arch=amd64\n                    beta.kubernetes.io/os=linux\n                    hardware-type=gpu\n                    kubernetes.io/arch=amd64\n                    kubernetes.io/hostname=worker-01\n                    kubernetes.io/os=linux\n                    kubernetes.io/role=node\nAnnotations:        flannel.alpha.coreos.com/backend-data: {\"VNI\":1,\"VtepMAC\":\"9e:19:95:44:a0:9c\"}\n                    flannel.alpha.coreos.com/backend-type: vxlan\n                    flannel.alpha.coreos.com/kube-subnet-manager: true\n                    flannel.alpha.coreos.com/public-ip: 192.168.0.222\n                    node.alpha.kubernetes.io/ttl: 0\n                    volumes.kubernetes.io/controller-managed-attach-detach: true\nCreationTimestamp:  Mon, 11 Aug 2025 15:49:09 +0800\nTaints:             node.kubernetes.io/unschedulable:NoSchedule\nUnschedulable:      true\nLease:\n  HolderIdentity:  worker-01\n  AcquireTime:     <unset>\n  RenewTime:       Mon, 17 Nov 2025 17:08:30 +0800\nConditions:\n  Type                 Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message\n  ----                 ------  -----------------                 ------------------                ------                       -------\n  NetworkUnavailable   False   Mon, 17 Nov 2025 16:23:42 +0800   Mon, 17 Nov 2025 16:23:42 +0800   FlannelIsUp                  Flannel is running on this node\n  MemoryPressure       False   Mon, 17 Nov 2025 17:08:33 +0800   Sun, 28 Sep 2025 14:34:57 +0800   KubeletHasSufficientMemory   kubelet has sufficient memory available\n  DiskPressure         False   Mon, 17 Nov 2025 17:08:33 +0800   Sun, 28 Sep 2025 14:34:57 +0800   KubeletHasNoDiskPressure     kubelet has no disk pressure\n  PIDPressure          False   Mon, 17 Nov 2025 17:08:33 +0800   Sun, 28 Sep 2025 14:34:57 +0800   KubeletHasSufficientPID      kubelet has sufficient PID available\n  Ready                True    Mon, 17 Nov 2025 17:08:33 +0800   Sun, 28 Sep 2025 14:34:57 +0800   KubeletReady                 kubelet is posting ready status\nAddresses:\n  InternalIP:  192.168.0.222\n  Hostname:    worker-01\nCapacity:\n  cpu:                8\n  ephemeral-storage:  103084600Ki\n  hugepages-1Gi:      0\n  hugepages-2Mi:      0\n  memory:             15978548Ki\n  pods:               110\nAllocatable:\n  cpu:                8\n  ephemeral-storage:  95002767203\n  hugepages-1Gi:      0\n  hugepages-2Mi:      0\n  memory:             15671348Ki\n  pods:               110\nSystem Info:\n  Machine ID:                 9c21ae206bb84c18b004394392724faa\n  System UUID:                79b4ce45-0707-43df-8b9e-b105ebfaf517\n  Boot ID:                    c5593ca9-ee29-41b1-ba0e-6796a2390fc7\n  Kernel Version:             5.15.0-138-generic\n  OS Image:                   Ubuntu 22.04.5 LTS\n  Operating System:           linux\n  Architecture:               amd64\n  Container Runtime Version:  containerd://1.7.23\n  Kubelet Version:            v1.31.2\n  Kube-Proxy Version:         v1.31.2\nPodCIDR:                      172.20.1.0/24\nPodCIDRs:                     172.20.1.0/24\nNon-terminated Pods:          (12 in total)\n  Namespace                   Name                                     CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age\n  ---------                   ----                                     ------------  ----------  ---------------  -------------  ---\n  boutique                    cartservice-79b49f5555-ds6nd             200m (2%)     300m (3%)   64Mi (0%)        128Mi (0%)     94s\n  boutique                    currencyservice-75686c9564-52btk         100m (1%)     200m (2%)   64Mi (0%)        1280Mi (8%)    94s\n  boutique                    paymentservice-78c5996648-2t4kh          100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     93s\n  boutique                    productcatalogservice-ddb46fc86-jbfdf    100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     93s\n  boutique                    redis-cart-68db7b6f97-qvmjh              70m (0%)      125m (1%)   200Mi (1%)       256Mi (1%)     93s\n  chaosblade                  chaosblade-tool-s8w48                    0 (0%)        0 (0%)      0 (0%)           0 (0%)         3d\n  istio-system                istio-cni-node-bjkpf                     100m (1%)     0 (0%)      100Mi (0%)       0 (0%)         20d\n  istio-system                ztunnel-9jv5r                            200m (2%)     0 (0%)      512Mi (3%)       0 (0%)         20d\n  kube-system                 kube-flannel-ds-v9qhx                    100m (1%)     0 (0%)      50Mi (0%)        0 (0%)         3d\n  kube-system                 node-local-dns-2ljtx                     25m (0%)      0 (0%)      5Mi (0%)         0 (0%)         98d\n  monitor                     cadvisor-pscz2                           0 (0%)        0 (0%)      0 (0%)           0 (0%)         3d\n  monitor                     node-exporter-psg6r                      0 (0%)        0 (0%)      0 (0%)           0 (0%)         3d\nAllocated resources:\n  (Total limits may be over 100 percent, i.e., overcommitted.)\n  Resource           Requests     Limits\n  --------           --------     ------\n  cpu                995m (12%)   1025m (12%)\n  memory             1123Mi (7%)  1920Mi (12%)\n  ephemeral-storage  0 (0%)       0 (0%)\n  hugepages-1Gi      0 (0%)       0 (0%)\n  hugepages-2Mi      0 (0%)       0 (0%)\nEvents:\n  Type     Reason                   Age                  From             Message\n  ----     ------                   ----                 ----             -------\n  Normal   Starting                 44m                  kube-proxy       \n  Normal   Starting                 44m                  kubelet          Starting kubelet.\n  Normal   NodeAllocatableEnforced  44m                  kubelet          Updated Node Allocatable limit across pods\n  Normal   NodeHasSufficientMemory  44m                  kubelet          Node worker-01 status is now: NodeHasSufficientMemory\n  Normal   NodeHasNoDiskPressure    44m                  kubelet          Node worker-01 status is now: NodeHasNoDiskPressure\n  Normal   NodeHasSufficientPID     44m                  kubelet          Node worker-01 status is now: NodeHasSufficientPID\n  Warning  Rebooted                 44m                  kubelet          Node worker-01 has been rebooted, boot id: c5593ca9-ee29-41b1-ba0e-6796a2390fc7\n  Normal   RegisteredNode           44m                  node-controller  Node worker-01 event: Registered Node worker-01 in Controller\n  Normal   NodeSchedulable          7m41s (x3 over 12m)  kubelet          Node worker-01 status is now: NodeSchedulable\n  Normal   NodeNotSchedulable       84s (x4 over 12m)    kubelet          Node worker-01 status is now: NodeNotSchedulable\n"
+    }
+  ]
+}

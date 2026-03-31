@@ -1,0 +1,22 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 2,
+    "total_trace_steps": 2,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE\nadservice-84dbdf99d-x28pk                1/1     Running   0          32s\ncartservice-79b49f5555-g8zpn             1/1     Running   0          32s\ncheckoutservice-8445f8b6cb-rjtx4         1/1     Running   0          32s\ncurrencyservice-75686c9564-q9t2d         1/1     Running   0          32s\nemailservice-b78fc569b-v87qm             1/1     Running   0          31s\nfrontend-6778bd7b8b-z8rz4                1/1     Running   0          31s\nmemory-hog-daemonset-7rjzz               1/1     Running   0          30s\nmemory-hog-daemonset-c25sk               1/1     Running   0          30s\nmemory-hog-daemonset-nfs66               1/1     Running   0          30s\nmemory-hog-daemonset-w2bgs               1/1     Running   0          30s\npaymentservice-78c5996648-5vw7n          1/1     Running   0          31s\nproductcatalogservice-d84897895-bvcdj    0/1     Pending   0          30s\nrecommendationservice-7df9c5b676-t9d97   1/1     Running   0          31s\nredis-cart-68db7b6f97-8g4p4              1/1     Running   0          30s\nshippingservice-7cbfcb6d68-cfgvb         1/1     Running   0          30s\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'productcatalogservice-d84897895-bvcdj'}",
+      "output": "Name:             productcatalogservice-d84897895-bvcdj\nNamespace:        boutique\nPriority:         0\nService Account:  productcatalogservice\nNode:             <none>\nLabels:           app=productcatalogservice\n                  pod-template-hash=d84897895\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/productcatalogservice-d84897895\nContainers:\n  server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/productcatalogservice:v0.10.3\n    Port:       3550/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     200m\n      memory:  8Gi\n    Requests:\n      cpu:      100m\n      memory:   8Gi\n    Liveness:   grpc <pod>:3550  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Readiness:  grpc <pod>:3550  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Environment:\n      PORT:              3550\n      DISABLE_PROFILER:  1\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-tt54t (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  kube-api-access-tt54t:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  32s   default-scheduler  0/4 nodes are available: 1 node(s) were unschedulable, 3 Insufficient memory. preemption: 0/4 nodes are available: 1 Preemption is not helpful for scheduling, 3 No preemption victims found for incoming pod.\n"
+    }
+  ]
+}

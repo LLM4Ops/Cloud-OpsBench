@@ -1,0 +1,20 @@
+{
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Startup_Fault",
+    "fault_object": "app/shippingservice",
+    "root_cause": "image_registry_dns_failure"
+  },
+  "process": {
+    "path1": [
+      "GetResources::pods",
+      "DescribeResource::pods::shippingservice"
+    ],
+    "path2": [
+      "GetResources::pods",
+      "DescribeResource::pods::shippingservice",
+      "GetAppYAML::shippingservice"
+    ]
+  }
+}

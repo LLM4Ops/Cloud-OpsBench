@@ -1,0 +1,134 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 4,
+    "total_trace_steps": 4,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource",
+      "GetAppYAML",
+      "GetClusterConfiguration"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: True, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE   IP            NODE        NOMINATED NODE   READINESS GATES\nadservice-84dbdf99d-9jtcv                1/1     Running   0          70s   172.20.2.32   worker-02   <none>           <none>\ncartservice-79b49f5555-68l6d             1/1     Running   0          71s   172.20.2.28   worker-02   <none>           <none>\ncheckoutservice-8445f8b6cb-qztfn         1/1     Running   0          70s   172.20.2.30   worker-02   <none>           <none>\ncurrencyservice-75686c9564-zm4xg         1/1     Running   0          70s   172.20.2.31   worker-02   <none>           <none>\nemailservice-b78fc569b-6k5d7             1/1     Running   0          71s   172.20.2.25   worker-02   <none>           <none>\nfrontend-6778bd7b8b-jll77                1/1     Running   0          71s   172.20.2.26   worker-02   <none>           <none>\npaymentservice-78c5996648-mmj6l          1/1     Running   0          71s   172.20.2.29   worker-02   <none>           <none>\npre-condition-pod                        1/1     Running   0          71s   172.20.2.24   worker-02   <none>           <none>\nproductcatalogservice-ddb46fc86-7q88n    1/1     Running   0          71s   172.20.2.27   worker-02   <none>           <none>\nrecommendationservice-68858794d6-pd6vc   0/1     Pending   0          71s   <none>        <none>      <none>           <none>\nredis-cart-68db7b6f97-4lhmh              1/1     Running   0          70s   172.20.2.34   worker-02   <none>           <none>\nshippingservice-7cbfcb6d68-b87m8         1/1     Running   0          70s   172.20.2.33   worker-02   <none>           <none>\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'recommendationservice-68858794d6-pd6vc'}",
+      "output": "Name:             recommendationservice-68858794d6-pd6vc\nNamespace:        boutique\nPriority:         0\nService Account:  recommendationservice\nNode:             <none>\nLabels:           app=recommendationservice\n                  pod-template-hash=68858794d6\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/recommendationservice-68858794d6\nContainers:\n  server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/recommendationservice:v0.10.3\n    Port:       8080/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     200m\n      memory:  450Mi\n    Requests:\n      cpu:      100m\n      memory:   220Mi\n    Liveness:   grpc <pod>:8080  delay=5s timeout=1s period=5s #success=1 #failure=3\n    Readiness:  grpc <pod>:8080  delay=5s timeout=1s period=5s #success=1 #failure=3\n    Environment:\n      PORT:                          8080\n      PRODUCT_CATALOG_SERVICE_ADDR:  productcatalogservice:3550\n      DISABLE_PROFILER:              1\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-txv6l (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  kube-api-access-txv6l:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              app=target-node\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  72s   default-scheduler  0/4 nodes are available: 1 node(s) had untolerated taint {node-unhealthy: true}, 1 node(s) were unschedulable, 2 node(s) didn't match Pod's node affinity/selector. preemption: 0/4 nodes are available: 4 Preemption is not helpful for scheduling.\n"
+    },
+    {
+      "tool_name": "GetAppYAML",
+      "calling": "tool_name='GetAppYAML' arguments={app_name: 'recommendationservice'}",
+      "output": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: recommendationservice\n  namespace: boutique\n  labels:\n    app: recommendationservice\nspec:\n  selector:\n    matchLabels:\n      app: recommendationservice\n  template:\n    metadata:\n      labels:\n        app: recommendationservice\n    spec:\n      nodeSelector:\n        app: target-node\n      serviceAccountName: recommendationservice\n      terminationGracePeriodSeconds: 5\n      securityContext:\n        fsGroup: 1000\n        runAsGroup: 1000\n        runAsNonRoot: true\n        runAsUser: 1000\n      containers:\n      - name: server\n        securityContext:\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop:\n              - ALL\n          privileged: false\n          readOnlyRootFilesystem: true\n        image: us-central1-docker.pkg.dev/google-samples/microservices-demo/recommendationservice:v0.10.3\n        ports:\n        - containerPort: 8080\n        readinessProbe:\n          initialDelaySeconds: 5\n          periodSeconds: 5\n          grpc:\n            port: 8080\n        livenessProbe:\n          initialDelaySeconds: 5\n          periodSeconds: 5\n          grpc:\n            port: 8080\n        env:\n        - name: PORT\n          value: \"8080\"\n        - name: PRODUCT_CATALOG_SERVICE_ADDR\n          value: \"productcatalogservice:3550\"\n        - name: DISABLE_PROFILER\n          value: \"1\"\n        resources:\n          requests:\n            cpu: 100m\n            memory: 220Mi\n          limits:\n            cpu: 200m\n            memory: 450Mi\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: recommendationservice\n  namespace: boutique\n  labels:\n    app: recommendationservice\nspec:\n  type: ClusterIP\n  selector:\n    app: recommendationservice\n  ports:\n  - name: grpc\n    port: 8080\n    targetPort: 8080\n---\napiVersion: v1\nkind: ServiceAccount\nmetadata:\n  name: recommendationservice\n  namespace: boutique"
+    },
+    {
+      "tool_name": "GetClusterConfiguration",
+      "calling": "tool_name='GetClusterConfiguration' arguments={}",
+      "output": {
+        "node_count": 4,
+        "nodes": [
+          {
+            "name": "master",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "master",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "master"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671356Ki"
+            }
+          },
+          {
+            "name": "worker-01",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node-unhealthy=true:NoExecute"
+            ],
+            "labels": {
+              "app": "target-node",
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          },
+          {
+            "name": "worker-02",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-02",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          },
+          {
+            "name": "worker-03",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-03",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

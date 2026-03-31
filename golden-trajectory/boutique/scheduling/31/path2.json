@@ -1,0 +1,135 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 4,
+    "total_trace_steps": 4,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource",
+      "GetClusterConfiguration",
+      "DescribeResource"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE\nadservice-84dbdf99d-rgqjr                1/1     Running   0          33s\ncartservice-79b49f5555-58lk6             1/1     Running   0          32s\ncheckoutservice-8445f8b6cb-clcxl         1/1     Running   0          32s\ncurrencyservice-75686c9564-nt4tx         1/1     Running   0          32s\nemailservice-b78fc569b-h77wt             1/1     Running   0          32s\nfrontend-849b4c58f6-vnz5p                0/1     Pending   0          30s\nmypod-7qjn2                              1/1     Running   0          31s\nmypod-mf7cg                              1/1     Running   0          31s\nmypod-mlr5t                              1/1     Running   0          31s\nmypod-vs9gb                              1/1     Running   0          31s\npaymentservice-78c5996648-jmlfz          1/1     Running   0          32s\nproductcatalogservice-ddb46fc86-rj269    1/1     Running   0          31s\nrecommendationservice-7df9c5b676-bw4fs   1/1     Running   0          31s\nredis-cart-68db7b6f97-dldqx              1/1     Running   0          31s\nshippingservice-7cbfcb6d68-t9w74         1/1     Running   0          31s\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'frontend-849b4c58f6-vnz5p'}",
+      "output": "Name:             frontend-849b4c58f6-vnz5p\nNamespace:        boutique\nPriority:         0\nService Account:  frontend\nNode:             <none>\nLabels:           app=frontend\n                  pod-template-hash=849b4c58f6\nAnnotations:      sidecar.istio.io/rewriteAppHTTPProbers: true\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/frontend-849b4c58f6\nContainers:\n  server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/frontend:v0.10.3\n    Port:       8080/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     5\n      memory:  128Mi\n    Requests:\n      cpu:     5\n      memory:  64Mi\n    Environment:\n      PORT:                             8080\n      PRODUCT_CATALOG_SERVICE_ADDR:     productcatalogservice:3550\n      CURRENCY_SERVICE_ADDR:            currencyservice:7000\n      CART_SERVICE_ADDR:                cartservice:7070\n      RECOMMENDATION_SERVICE_ADDR:      recommendationservice:8080\n      SHIPPING_SERVICE_ADDR:            shippingservice:50051\n      CHECKOUT_SERVICE_ADDR:            checkoutservice:5050\n      AD_SERVICE_ADDR:                  adservice:9555\n      SHOPPING_ASSISTANT_SERVICE_ADDR:  shoppingassistantservice:80\n      ENABLE_PROFILER:                  0\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-s26nh (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  kube-api-access-s26nh:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  31s   default-scheduler  0/4 nodes are available: 1 node(s) were unschedulable, 3 Insufficient cpu. preemption: 0/4 nodes are available: 1 Preemption is not helpful for scheduling, 3 No preemption victims found for incoming pod.\n"
+    },
+    {
+      "tool_name": "GetClusterConfiguration",
+      "calling": "tool_name='GetClusterConfiguration' arguments={}",
+      "output": {
+        "node_count": 4,
+        "nodes": [
+          {
+            "name": "master",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "master",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "master"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671352Ki"
+            }
+          },
+          {
+            "name": "worker-01",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "disk-type": "ssd",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-01",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          },
+          {
+            "name": "worker-02",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "disk-type": "ssd",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-02",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          },
+          {
+            "name": "worker-03",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "disk-type": "ssd",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-03",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671352Ki"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'mypod-mf7cg'}",
+      "output": "Name:             mypod-mf7cg\nNamespace:        boutique\nPriority:         0\nService Account:  default\nNode:             worker-01/192.168.0.222\nStart Time:       Tue, 11 Nov 2025 00:01:12 +0800\nLabels:           controller-revision-hash=569f59db9\n                  name=mypod\n                  pod-template-generation=1\nAnnotations:      <none>\nStatus:           Running\nIP:               172.20.1.66\nIPs:\n  IP:           172.20.1.66\nControlled By:  DaemonSet/mypod\nContainers:\n  busybox:\n    Container ID:  containerd://e59336be0c57dad3c559802f55371086802f5a1720f45035eec08a45531c7333\n    Image:         busybox:1.35\n    Image ID:      docker.io/library/busybox@sha256:98ad9d1a2be345201bb0709b0d38655eb1b370145c7d94ca1fe9c421f76e245a\n    Port:          <none>\n    Host Port:     <none>\n    Command:\n      sh\n      -c\n      while true; do sleep 3600; done\n    State:          Running\n      Started:      Tue, 11 Nov 2025 00:01:13 +0800\n    Ready:          True\n    Restart Count:  0\n    Limits:\n      cpu:     5\n      memory:  64Mi\n    Requests:\n      cpu:        5\n      memory:     64Mi\n    Environment:  <none>\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-kd47h (ro)\nConditions:\n  Type                        Status\n  PodReadyToStartContainers   True \n  Initialized                 True \n  Ready                       True \n  ContainersReady             True \n  PodScheduled                True \nVolumes:\n  kube-api-access-kd47h:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Guaranteed\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/disk-pressure:NoSchedule op=Exists\n                             node.kubernetes.io/memory-pressure:NoSchedule op=Exists\n                             node.kubernetes.io/not-ready:NoExecute op=Exists\n                             node.kubernetes.io/pid-pressure:NoSchedule op=Exists\n                             node.kubernetes.io/unreachable:NoExecute op=Exists\n                             node.kubernetes.io/unschedulable:NoSchedule op=Exists\nEvents:\n  Type    Reason     Age   From               Message\n  ----    ------     ----  ----               -------\n  Normal  Scheduled  32s   default-scheduler  Successfully assigned boutique/mypod-mf7cg to worker-01\n  Normal  Pulled     31s   kubelet            Container image \"busybox:1.35\" already present on machine\n  Normal  Created    31s   kubelet            Created container busybox\n  Normal  Started    31s   kubelet            Started container busybox\n"
+    }
+  ]
+}

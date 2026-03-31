@@ -1,0 +1,22 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 2,
+    "total_trace_steps": 2,
+    "history_called_tool_names": [
+      "GetResources",
+      "GetResources"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE\nadservice-84dbdf99d-d2wns                1/1     Running   0          62s\ncartservice-79b49f5555-cwkq2             1/1     Running   0          62s\ncheckoutservice-8445f8b6cb-m7ld8         1/1     Running   0          62s\ncurrencyservice-75686c9564-jkc22         1/1     Running   0          62s\nemailservice-b78fc569b-hbzkl             1/1     Running   0          62s\nfrontend-6778bd7b8b-4jkgh                1/1     Running   0          61s\npaymentservice-78c5996648-g98k2          1/1     Running   0          60s\nproductcatalogservice-ddb46fc86-txl8q    1/1     Running   0          61s\nrecommendationservice-7df9c5b676-llf5f   1/1     Running   0          61s\nredis-cart-68db7b6f97-rkmwf              1/1     Running   0          61s\nshippingservice-7cbfcb6d68-lfnqp         1/1     Running   0          60s\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'ep', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                    ENDPOINTS            AGE\nadservice               172.20.1.246:9555    79s\ncartservice             172.20.3.24:7070     79s\ncheckoutservice         172.20.1.247:5050    79s\ncurrencyservice         172.20.1.248:7000    79s\nemailservice            172.20.3.25:8080     79s\nfrontend                172.20.1.249:8080    78s\nfrontend-external       172.20.1.249:8080    78s\npaymentservice          172.20.3.28:80       77s\nproductcatalogservice   172.20.3.26:3550     78s\nrecommendationservice   172.20.1.250:8080    78s\nredis-cart              172.20.3.27:6379     78s\nshippingservice         172.20.1.251:50051   78s\n"
+    }
+  ]
+}

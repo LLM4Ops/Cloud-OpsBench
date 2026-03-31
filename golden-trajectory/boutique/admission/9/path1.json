@@ -1,0 +1,28 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 3,
+    "total_trace_steps": 3,
+    "history_called_tool_names": [
+      "GetResources",
+      "GetResources",
+      "GetResources"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                    READY   STATUS    RESTARTS   AGE\nadservice-64ddc5c766-cjb4x              1/1     Running   0          93s\ncartservice-79b49f5555-d5xns            1/1     Running   0          93s\ncheckoutservice-8445f8b6cb-fdsdj        1/1     Running   0          92s\ncurrencyservice-75686c9564-cjlbp        1/1     Running   0          92s\nemailservice-c86b9b8f6-jqtg6            1/1     Running   0          92s\nfrontend-657dd795f-cv75v                1/1     Running   0          92s\npaymentservice-78c5996648-kfs9d         1/1     Running   0          91s\nproductcatalogservice-ddb46fc86-4gq24   1/1     Running   0          91s\nredis-cart-6f966d9cc9-5jswz             1/1     Running   0          91s\nshippingservice-7ff54bf6b6-vrv4h        1/1     Running   0          91s\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'deploy', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                    READY   UP-TO-DATE   AVAILABLE   AGE\nadservice               1/1     1            1           98s\ncartservice             1/1     1            1           98s\ncheckoutservice         1/1     1            1           97s\ncurrencyservice         1/1     1            1           97s\nemailservice            1/1     1            1           97s\nfrontend                1/1     1            1           97s\npaymentservice          1/1     1            1           97s\nproductcatalogservice   1/1     1            1           96s\nrecommendationservice   0/1     0            0           96s\nredis-cart              1/1     1            1           96s\nshippingservice         1/1     1            1           96s\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'event', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "118s        Normal    ScalingReplicaSet   deployment/recommendationservice              Scaled up replica set recommendationservice-7595cbfcbd to 1\n118s        Normal    Scheduled           pod/redis-cart-6f966d9cc9-5jswz               Successfully assigned boutique/redis-cart-6f966d9cc9-5jswz to worker-02\n118s        Normal    Pulled              pod/productcatalogservice-ddb46fc86-4gq24     Container image \"us-central1-docker.pkg.dev/google-samples/microservices-demo/productcatalogservice:v0.10.3\" already present on machine\n118s        Normal    Scheduled           pod/paymentservice-78c5996648-kfs9d           Successfully assigned boutique/paymentservice-78c5996648-kfs9d to worker-01\n118s        Normal    Started             pod/productcatalogservice-ddb46fc86-4gq24     Started container server\n118s        Normal    Pulled              pod/frontend-657dd795f-cv75v                  Container image \"us-central1-docker.pkg.dev/google-samples/microservices-demo/frontend:v0.10.3\" already present on machine\n118s        Normal    Created             pod/frontend-657dd795f-cv75v                  Created container server\n118s        Normal    Created             pod/paymentservice-78c5996648-kfs9d           Created container server\n118s        Normal    ScalingReplicaSet   deployment/productcatalogservice              Scaled up replica set productcatalogservice-ddb46fc86 to 1\n118s        Normal    SuccessfulCreate    replicaset/shippingservice-7ff54bf6b6         Created pod: shippingservice-7ff54bf6b6-vrv4h\n118s        Normal    Created             pod/emailservice-c86b9b8f6-jqtg6              Created container server\n118s        Normal    Started             pod/paymentservice-78c5996648-kfs9d           Started container server\n117s        Normal    Started             pod/redis-cart-6f966d9cc9-5jswz               Started container redis\n117s        Normal    Created             pod/redis-cart-6f966d9cc9-5jswz               Created container redis\n117s        Normal    Pulled              pod/redis-cart-6f966d9cc9-5jswz               Container image \"redis:alpine\" already present on machine\n117s        Normal    Started             pod/shippingservice-7ff54bf6b6-vrv4h          Started container server\n117s        Normal    Created             pod/shippingservice-7ff54bf6b6-vrv4h          Created container server\n117s        Normal    Pulled              pod/shippingservice-7ff54bf6b6-vrv4h          Container image \"us-central1-docker.pkg.dev/google-samples/microservices-demo/shippingservice:v0.10.3\" already present on machine\n109s        Warning   Unhealthy           pod/adservice-64ddc5c766-cjb4x                Readiness probe failed: timeout: health rpc did not complete within 1s\n35s         Warning   FailedCreate        replicaset/recommendationservice-7595cbfcbd   Error creating: pods \"recommendationservice-7595cbfcbd-\" is forbidden: error looking up service account boutique/recommendservices: serviceaccount \"recommendservices\" not found\n"
+    }
+  ]
+}

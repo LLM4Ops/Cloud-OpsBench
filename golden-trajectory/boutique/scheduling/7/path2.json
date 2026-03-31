@@ -1,0 +1,138 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 4,
+    "total_trace_steps": 4,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource",
+      "GetResources",
+      "GetClusterConfiguration"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: True, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE   IP             NODE        NOMINATED NODE   READINESS GATES\nadservice-84dbdf99d-dmr2q                1/1     Running   0          73s   172.20.2.173   worker-02   <none>           <none>\ncartservice-79b49f5555-r6vs9             1/1     Running   0          73s   172.20.1.109   worker-01   <none>           <none>\ncheckoutservice-8445f8b6cb-92bqr         1/1     Running   0          73s   172.20.2.174   worker-02   <none>           <none>\ncurrencyservice-75686c9564-9nks5         1/1     Running   0          73s   172.20.1.110   worker-01   <none>           <none>\nemailservice-b78fc569b-rnm5n             1/1     Running   0          72s   172.20.2.175   worker-02   <none>           <none>\nfrontend-6778bd7b8b-6thhw                1/1     Running   0          72s   172.20.1.111   worker-01   <none>           <none>\npaymentservice-78c5996648-ccvjb          1/1     Running   0          72s   172.20.2.176   worker-02   <none>           <none>\nproductcatalogservice-ddb46fc86-6kblg    1/1     Running   0          72s   172.20.1.112   worker-01   <none>           <none>\nrecommendationservice-7df9c5b676-bclkl   1/1     Running   0          72s   172.20.1.113   worker-01   <none>           <none>\nredis-cart-68db7b6f97-5nwwk              0/1     Pending   0          71s   <none>         <none>      <none>           <none>\nredis-cart-68db7b6f97-9chqj              1/1     Running   0          71s   172.20.3.69    worker-03   <none>           <none>\nredis-cart-68db7b6f97-hlbw9              0/1     Pending   0          71s   <none>         <none>      <none>           <none>\nredis-cart-68db7b6f97-qg6gh              0/1     Pending   0          71s   <none>         <none>      <none>           <none>\nredis-cart-68db7b6f97-v8qkf              0/1     Pending   0          71s   <none>         <none>      <none>           <none>\nshippingservice-7cbfcb6d68-qvcpq         1/1     Running   0          71s   172.20.2.177   worker-02   <none>           <none>\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'redis-cart-68db7b6f97-v8qkf'}",
+      "output": "Name:             redis-cart-68db7b6f97-v8qkf\nNamespace:        boutique\nPriority:         0\nService Account:  default\nNode:             <none>\nLabels:           app=redis-cart\n                  pod-template-hash=68db7b6f97\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/redis-cart-68db7b6f97\nContainers:\n  redis:\n    Image:      redis:alpine\n    Port:       6379/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     125m\n      memory:  256Mi\n    Requests:\n      cpu:        70m\n      memory:     200Mi\n    Liveness:     tcp-socket :6379 delay=5s timeout=1s period=5s #success=1 #failure=3\n    Readiness:    tcp-socket :6379 delay=5s timeout=1s period=5s #success=1 #failure=3\n    Environment:  <none>\n    Mounts:\n      /data from redis-data (rw)\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-p6jtw (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  redis-data:\n    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)\n    ClaimName:  redis-cart-pvc\n    ReadOnly:   false\n  kube-api-access-p6jtw:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  74s   default-scheduler  0/4 nodes are available: 4 node(s) were unschedulable. preemption: 0/4 nodes are available: 4 Preemption is not helpful for scheduling.\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'node', name: None, show_labels: True, output_wide: False, label_selector: None}",
+      "output": "NAME        STATUS                     ROLES    AGE   VERSION   LABELS\nmaster      Ready,SchedulingDisabled   master   98d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=master,kubernetes.io/os=linux,kubernetes.io/role=master\nworker-01   Ready,SchedulingDisabled   node     98d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=worker-01,kubernetes.io/os=linux,kubernetes.io/role=node\nworker-02   Ready,SchedulingDisabled   node     98d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=worker-02,kubernetes.io/os=linux,kubernetes.io/role=node\nworker-03   Ready,SchedulingDisabled   node     98d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=worker-03,kubernetes.io/os=linux,kubernetes.io/role=node\n"
+    },
+    {
+      "tool_name": "GetClusterConfiguration",
+      "calling": "tool_name='GetClusterConfiguration' arguments={}",
+      "output": {
+        "node_count": 4,
+        "nodes": [
+          {
+            "name": "master",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "master",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "master"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671352Ki"
+            }
+          },
+          {
+            "name": "worker-01",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-01",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          },
+          {
+            "name": "worker-02",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-02",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671344Ki"
+            }
+          },
+          {
+            "name": "worker-03",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-03",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671356Ki"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

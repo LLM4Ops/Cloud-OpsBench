@@ -1,0 +1,22 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 2,
+    "total_trace_steps": 2,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE\nadservice-84dbdf99d-pdghs                1/1     Running   0          33s\ncartservice-79b49f5555-6tcmj             1/1     Running   0          32s\ncheckoutservice-8445f8b6cb-qj5t9         1/1     Running   0          32s\ncurrencyservice-75686c9564-zwg7t         1/1     Running   0          32s\nemailservice-b78fc569b-s4bjb             1/1     Running   0          32s\nfrontend-54565b4ccc-9hn89                0/1     Pending   0          30s\npaymentservice-78c5996648-f795p          1/1     Running   0          31s\nproductcatalogservice-ddb46fc86-vjm25    1/1     Running   0          31s\nrecommendationservice-7df9c5b676-ztn46   1/1     Running   0          31s\nredis-cart-68db7b6f97-6w5hj              1/1     Running   0          31s\nshippingservice-7cbfcb6d68-vgfmn         1/1     Running   0          31s\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'frontend-54565b4ccc-9hn89'}",
+      "output": "Name:             frontend-54565b4ccc-9hn89\nNamespace:        boutique\nPriority:         0\nService Account:  frontend\nNode:             <none>\nLabels:           app=frontend\n                  pod-template-hash=54565b4ccc\nAnnotations:      sidecar.istio.io/rewriteAppHTTPProbers: true\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/frontend-54565b4ccc\nContainers:\n  server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/frontend:v0.10.3\n    Port:       8080/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     200m\n      memory:  20Gi\n    Requests:\n      cpu:     100m\n      memory:  20Gi\n    Environment:\n      PORT:                             8080\n      PRODUCT_CATALOG_SERVICE_ADDR:     productcatalogservice:3550\n      CURRENCY_SERVICE_ADDR:            currencyservice:7000\n      CART_SERVICE_ADDR:                cartservice:7070\n      RECOMMENDATION_SERVICE_ADDR:      recommendationservice:8080\n      SHIPPING_SERVICE_ADDR:            shippingservice:50051\n      CHECKOUT_SERVICE_ADDR:            checkoutservice:5050\n      AD_SERVICE_ADDR:                  adservice:9555\n      SHOPPING_ASSISTANT_SERVICE_ADDR:  shoppingassistantservice:80\n      ENABLE_PROFILER:                  0\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-l7l8t (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  kube-api-access-l7l8t:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  31s   default-scheduler  0/4 nodes are available: 1 node(s) were unschedulable, 3 Insufficient memory. preemption: 0/4 nodes are available: 1 Preemption is not helpful for scheduling, 3 No preemption victims found for incoming pod.\n"
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 10,
+    "total_trace_steps": 10,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource",
+      "GetResources",
+      "DescribeResource",
+      "GetResources",
+      "GetAppYAML",
+      "GetClusterConfiguration",
+      "CheckNodeServiceStatus",
+      "CheckNodeServiceStatus",
+      "CheckNodeServiceStatus"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: True, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE   IP             NODE        NOMINATED NODE   READINESS GATES\nadservice-64ddc5c766-rhr7p               1/1     Running   0          99s   172.20.2.87    worker-02   <none>           <none>\ncartservice-79b49f5555-7fnln             1/1     Running   0          99s   172.20.1.240   worker-01   <none>           <none>\ncheckoutservice-8445f8b6cb-gndwd         1/1     Running   0          99s   172.20.2.88    worker-02   <none>           <none>\ncurrencyservice-5c6fdf7ccb-kmjwr         1/1     Running   0          98s   172.20.1.241   worker-01   <none>           <none>\nemailservice-c86b9b8f6-rl8jr             1/1     Running   0          98s   172.20.2.89    worker-02   <none>           <none>\nfrontend-657dd795f-6876c                 1/1     Running   0          98s   172.20.1.242   worker-01   <none>           <none>\npaymentservice-78c5996648-pvphk          1/1     Running   0          98s   172.20.1.243   worker-01   <none>           <none>\nproductcatalogservice-ddb46fc86-zv2nb    1/1     Running   0          98s   172.20.2.90    worker-02   <none>           <none>\nrecommendationservice-7bf5b7d9b8-tk7kf   0/1     Pending   0          82s   <none>         <none>      <none>           <none>\nredis-cart-589d486f78-h8sxf              1/1     Running   0          97s   172.20.2.91    worker-02   <none>           <none>\nshippingservice-7ff54bf6b6-dcz4d         1/1     Running   0          97s   172.20.1.244   worker-01   <none>           <none>\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'recommendationservice-7bf5b7d9b8-tk7kf'}",
+      "output": "Name:             recommendationservice-7bf5b7d9b8-tk7kf\nNamespace:        boutique\nPriority:         0\nService Account:  recommendationservice\nNode:             <none>\nLabels:           app=recommendationservice\n                  pod-template-hash=7bf5b7d9b8\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/recommendationservice-7bf5b7d9b8\nContainers:\n  server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/recommendationservice:v0.10.3\n    Port:       8080/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     200m\n      memory:  450Mi\n    Requests:\n      cpu:      100m\n      memory:   220Mi\n    Liveness:   grpc <pod>:8080  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Readiness:  grpc <pod>:8080  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Environment:\n      PORT:                          8080\n      PRODUCT_CATALOG_SERVICE_ADDR:  productcatalogservice:3550\n      DISABLE_PROFILER:              1\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-9wwnp (ro)\nVolumes:\n  kube-api-access-9wwnp:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:                      <none>\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'replicaset', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                               DESIRED   CURRENT   READY   AGE\nadservice-64ddc5c766               1         1         1       109s\ncartservice-79b49f5555             1         1         1       109s\ncheckoutservice-8445f8b6cb         1         1         1       109s\ncurrencyservice-5c6fdf7ccb         1         1         1       109s\nemailservice-c86b9b8f6             1         1         1       108s\nfrontend-657dd795f                 1         1         1       108s\npaymentservice-78c5996648          1         1         1       108s\nproductcatalogservice-ddb46fc86    1         1         1       108s\nrecommendationservice-7bf5b7d9b8   1         1         0       92s\nredis-cart-589d486f78              1         1         1       107s\nshippingservice-7ff54bf6b6         1         1         1       107s\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'replicaset', name: 'recommendationservice-7bf5b7d9b8'}",
+      "output": "Name:           recommendationservice-7bf5b7d9b8\nNamespace:      boutique\nSelector:       app=recommendationservice,pod-template-hash=7bf5b7d9b8\nLabels:         app=recommendationservice\n                pod-template-hash=7bf5b7d9b8\nAnnotations:    deployment.kubernetes.io/desired-replicas: 1\n                deployment.kubernetes.io/max-replicas: 2\n                deployment.kubernetes.io/revision: 1\nControlled By:  Deployment/recommendationservice\nReplicas:       1 current / 1 desired\nPods Status:    0 Running / 1 Waiting / 0 Succeeded / 0 Failed\nPod Template:\n  Labels:           app=recommendationservice\n                    pod-template-hash=7bf5b7d9b8\n  Service Account:  recommendationservice\n  Containers:\n   server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/recommendationservice:v0.10.3\n    Port:       8080/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     200m\n      memory:  450Mi\n    Requests:\n      cpu:      100m\n      memory:   220Mi\n    Liveness:   grpc <pod>:8080  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Readiness:  grpc <pod>:8080  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Environment:\n      PORT:                          8080\n      PRODUCT_CATALOG_SERVICE_ADDR:  productcatalogservice:3550\n      DISABLE_PROFILER:              1\n    Mounts:                          <none>\n  Volumes:                           <none>\n  Node-Selectors:                    <none>\n  Tolerations:                       <none>\nEvents:\n  Type     Reason            Age                From                   Message\n  ----     ------            ----               ----                   -------\n  Warning  FailedCreate      95s (x3 over 95s)  replicaset-controller  Error creating: pods \"recommendationservice-7bf5b7d9b8-\" is forbidden: error looking up service account boutique/recommendationservice: serviceaccount \"recommendationservice\" not found\n  Normal   SuccessfulCreate  95s                replicaset-controller  Created pod: recommendationservice-7bf5b7d9b8-tk7kf\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'serviceaccount', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                    SECRETS   AGE\nadservice               0         113s\ncartservice             0         113s\ncheckoutservice         0         113s\ncurrencyservice         0         112s\ndefault                 0         36d\nemailservice            0         112s\nfrontend                0         112s\npaymentservice          0         112s\nproductcatalogservice   0         112s\nrecommendationservice   0         96s\nshippingservice         0         111s\n"
+    },
+    {
+      "tool_name": "GetAppYAML",
+      "calling": "tool_name='GetAppYAML' arguments={app_name: 'recommendationservice'}",
+      "output": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: recommendationservice\n  namespace: boutique\n  labels:\n    app: recommendationservice\nspec:\n  selector:\n    matchLabels:\n      app: recommendationservice\n  template:\n    metadata:\n      labels:\n        app: recommendationservice\n    spec:\n      serviceAccountName: recommendationservice\n      terminationGracePeriodSeconds: 5\n      securityContext:\n        fsGroup: 1000\n        runAsGroup: 1000\n        runAsNonRoot: true\n        runAsUser: 1000\n      containers:\n      - name: server\n        securityContext:\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop:\n              - ALL\n          privileged: false\n          readOnlyRootFilesystem: true\n        image: us-central1-docker.pkg.dev/google-samples/microservices-demo/recommendationservice:v0.10.3\n        ports:\n        - containerPort: 8080\n        readinessProbe:\n          initialDelaySeconds: 5\n          grpc:\n            port: 8080\n        livenessProbe:\n          initialDelaySeconds: 5\n          grpc:\n            port: 8080\n        env:\n        - name: PORT\n          value: \"8080\"\n        - name: PRODUCT_CATALOG_SERVICE_ADDR\n          value: \"productcatalogservice:3550\"\n        - name: DISABLE_PROFILER\n          value: \"1\"\n        resources:\n          requests:\n            cpu: 100m\n            memory: 220Mi\n          limits:\n            cpu: 200m\n            memory: 450Mi\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: recommendationservice\n  namespace: boutique\n  labels:\n    app: recommendationservice\nspec:\n  type: ClusterIP\n  selector:\n    app: recommendationservice\n  ports:\n  - name: grpc\n    port: 8080\n    targetPort: 8080\n---\napiVersion: v1\nkind: ServiceAccount\nmetadata:\n  name: recommendationservice\n  namespace: boutique"
+    },
+    {
+      "tool_name": "GetClusterConfiguration",
+      "calling": "tool_name='GetClusterConfiguration' arguments={}",
+      "output": {
+        "node_count": 4,
+        "nodes": [
+          {
+            "name": "master",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "master",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "master"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671352Ki"
+            }
+          },
+          {
+            "name": "worker-01",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-01",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          },
+          {
+            "name": "worker-02",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-02",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671356Ki"
+            }
+          },
+          {
+            "name": "worker-03",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-03",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671344Ki"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "tool_name": "CheckNodeServiceStatus",
+      "calling": "tool_name='CheckNodeServiceStatus' arguments={node_name: 'worker-01', service_name: 'kubelet'}",
+      "output": "Service: kubelet\nNode: worker-01\nStatus: ● kubelet.service - Kubernetes Kubelet\n     Loaded: loaded (/etc/systemd/system/kubelet.service; enabled; vendor preset: enabled)\n     Active: active (running) since Tue 2025-12-02 15:05:36 CST; 6h ago\n       Docs: https://github.com/GoogleCloudPlatform/kubernetes\n    Process: 25448 ExecStartPre=/bin/mount -o remount,rw /sys/fs/cgroup (code=exited, status=0/SUCCESS)\n   Main PID: 25449 (kubelet)\n      Tasks: 17 (limit: 18592)\n     Memory: 45.6M\n        CPU: 5min 27.083s\n     CGroup: /system.slice/kubelet.service\n             └─25449 /opt/kube/bin/kubelet --config=/var/lib/kubelet/config.yaml --container-runtime-endpoint=unix:///run/containerd/containerd.sock --hostname-override=worker-01 --kubeconfig=/etc/kubernetes/kubelet.kubeconfig --root-dir=/var/lib/kubelet --v=2\n\nDec 02 21:34:55 worker-01 kubelet[25449]: I1202 21:34:55.649567   25449 pod_startup_latency_tracker.go:104] \"Observed pod startup duration\" pod=\"boutique/shippingservice-7ff54bf6b6-dcz4d\" podStartSLOduration=1.6495627339999999 podStartE2EDuration=\"1.649562734s\" podCreationTimestamp=\"2025-12-02 21:34:54 +0800 CST\" firstStartedPulling=\"0001-01-01 00:00:00 +0000 UTC\" lastFinishedPulling=\"0001-01-01 00:00:00 +0000 UTC\" observedRunningTime=\"2025-12-02 21:34:55.64929905 +0800 CST m=+23359.269820899\" watchObservedRunningTime=\"2025-12-02 21:34:55.649562734 +0800 CST m=+23359.270084581\"\nDec 02 21:35:03 worker-01 kubelet[25449]: I1202 21:35:03.515894   25449 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"ready\" pod=\"boutique/currencyservice-5c6fdf7ccb-kmjwr\"\nDec 02 21:35:03 worker-01 kubelet[25449]: I1202 21:35:03.895896   25449 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"ready\" pod=\"boutique/frontend-657dd795f-6876c\"\nDec 02 21:35:04 worker-01 kubelet[25449]: I1202 21:35:04.060385   25449 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"ready\" pod=\"boutique/paymentservice-78c5996648-pvphk\"\nDec 02 21:35:04 worker-01 kubelet[25449]: I1202 21:35:04.742492   25449 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"ready\" pod=\"boutique/shippingservice-7ff54bf6b6-dcz4d\"\nDec 02 21:36:58 worker-01 kubelet[25449]: I1202 21:36:58.464910   25449 log.go:25] \"Finished parsing log file\" path=\"/var/log/pods/boutique_cartservice-79b49f5555-7fnln_41004efe-94d6-48f1-8292-bcfeddb5d9ee/server/0.log\"\nDec 02 21:36:58 worker-01 kubelet[25449]: I1202 21:36:58.708917   25449 log.go:25] \"Finished parsing log file\" path=\"/var/log/pods/boutique_currencyservice-5c6fdf7ccb-kmjwr_9643a321-469b-49e9-94ef-7951811f42e3/server/0.log\"\nDec 02 21:36:58 worker-01 kubelet[25449]: I1202 21:36:58.950469   25449 log.go:25] \"Finished parsing log file\" path=\"/var/log/pods/boutique_frontend-657dd795f-6876c_a9e0a90d-7ec3-4b54-a76b-5b1c908de52b/server/0.log\"\nDec 02 21:36:59 worker-01 kubelet[25449]: I1202 21:36:59.067418   25449 log.go:25] \"Finished parsing log file\" path=\"/var/log/pods/boutique_paymentservice-78c5996648-pvphk_867a185e-9b4d-4756-afbe-ca5b8e6f03df/server/0.log\"\nDec 02 21:36:59 worker-01 kubelet[25449]: I1202 21:36:59.529454   25449 log.go:25] \"Finished parsing log file\" path=\"/var/log/pods/boutique_shippingservice-7ff54bf6b6-dcz4d_56ee8f48-7fa8-45a7-ab96-2232f64d5602/server/0.log\""
+    },
+    {
+      "tool_name": "CheckNodeServiceStatus",
+      "calling": "tool_name='CheckNodeServiceStatus' arguments={node_name: 'worker-02', service_name: 'kubelet'}",
+      "output": "Service: kubelet\nNode: worker-02\nStatus: ● kubelet.service - Kubernetes Kubelet\n     Loaded: loaded (/etc/systemd/system/kubelet.service; enabled; vendor preset: enabled)\n     Active: active (running) since Tue 2025-12-02 15:05:14 CST; 6h ago\n       Docs: https://github.com/GoogleCloudPlatform/kubernetes\n    Process: 25152 ExecStartPre=/bin/mount -o remount,rw /sys/fs/cgroup (code=exited, status=0/SUCCESS)\n   Main PID: 25153 (kubelet)\n      Tasks: 16 (limit: 18592)\n     Memory: 44.1M\n        CPU: 6min 6.338s\n     CGroup: /system.slice/kubelet.service\n             └─25153 /opt/kube/bin/kubelet --config=/var/lib/kubelet/config.yaml --container-runtime-endpoint=unix:///run/containerd/containerd.sock --hostname-override=worker-02 --kubeconfig=/etc/kubernetes/kubelet.kubeconfig --root-dir=/var/lib/kubelet --v=2\n\nDec 02 21:35:03 worker-02 kubelet[25153]: I1202 21:35:03.545929   25153 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"ready\" pod=\"boutique/emailservice-c86b9b8f6-rl8jr\"\nDec 02 21:35:03 worker-02 kubelet[25153]: I1202 21:35:03.561461   25153 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"ready\" pod=\"boutique/adservice-64ddc5c766-rhr7p\"\nDec 02 21:35:04 worker-02 kubelet[25153]: I1202 21:35:04.292037   25153 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"\" pod=\"boutique/productcatalogservice-ddb46fc86-zv2nb\"\nDec 02 21:35:04 worker-02 kubelet[25153]: I1202 21:35:04.294611   25153 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"ready\" pod=\"boutique/productcatalogservice-ddb46fc86-zv2nb\"\nDec 02 21:35:04 worker-02 kubelet[25153]: I1202 21:35:04.494168   25153 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"ready\" pod=\"boutique/redis-cart-589d486f78-h8sxf\"\nDec 02 21:36:58 worker-02 kubelet[25153]: I1202 21:36:58.342616   25153 log.go:25] \"Finished parsing log file\" path=\"/var/log/pods/boutique_adservice-64ddc5c766-rhr7p_bc6fda5f-b621-4022-bb44-92968da6bf41/server/0.log\"\nDec 02 21:36:58 worker-02 kubelet[25153]: I1202 21:36:58.582268   25153 log.go:25] \"Finished parsing log file\" path=\"/var/log/pods/boutique_checkoutservice-8445f8b6cb-gndwd_61dd9071-e2d1-425f-a0ab-7cf11d629d8f/server/0.log\"\nDec 02 21:36:58 worker-02 kubelet[25153]: I1202 21:36:58.824645   25153 log.go:25] \"Finished parsing log file\" path=\"/var/log/pods/boutique_emailservice-c86b9b8f6-rl8jr_d9b369c2-18b7-4fdb-a0b6-77d2778b08dc/server/0.log\"\nDec 02 21:36:59 worker-02 kubelet[25153]: I1202 21:36:59.185742   25153 log.go:25] \"Finished parsing log file\" path=\"/var/log/pods/boutique_productcatalogservice-ddb46fc86-zv2nb_ec789821-9230-4ae6-9b6c-b4dd5e05aac2/server/0.log\"\nDec 02 21:36:59 worker-02 kubelet[25153]: I1202 21:36:59.407048   25153 log.go:25] \"Finished parsing log file\" path=\"/var/log/pods/boutique_redis-cart-589d486f78-h8sxf_9757c6b6-b6fd-4dcf-9773-6b793eeadb38/redis/0.log\""
+    },
+    {
+      "tool_name": "CheckNodeServiceStatus",
+      "calling": "tool_name='CheckNodeServiceStatus' arguments={node_name: 'master', service_name: 'kube-scheduler'}",
+      "output": "Service: kube-scheduler\nNode: master\nStatus: ○ kube-scheduler.service - Kubernetes Scheduler\n     Loaded: loaded (/etc/systemd/system/kube-scheduler.service; enabled; vendor preset: enabled)\n     Active: inactive (dead) since Tue 2025-12-02 21:35:09 CST; 1min 51s ago\n       Docs: https://github.com/GoogleCloudPlatform/kubernetes\n    Process: 1380168 ExecStart=/opt/kube/bin/kube-scheduler --authentication-kubeconfig=/etc/kubernetes/kube-scheduler.kubeconfig --authorization-kubeconfig=/etc/kubernetes/kube-scheduler.kubeconfig --bind-address=0.0.0.0 --kubeconfig=/etc/kubernetes/kube-scheduler.kubeconfig --leader-elect=true --v=2 (code=exited, status=0/SUCCESS)\n   Main PID: 1380168 (code=exited, status=0/SUCCESS)\n        CPU: 878ms\n\nDec 02 21:35:09 master kube-scheduler[1380168]: I1202 21:35:09.275118 1380168 tlsconfig.go:258] \"Shutting down DynamicServingCertificateController\"\nDec 02 21:35:09 master kube-scheduler[1380168]: I1202 21:35:09.275124 1380168 secure_serving.go:258] Stopped listening on [::]:10259\nDec 02 21:35:09 master kube-scheduler[1380168]: I1202 21:35:09.275208 1380168 requestheader_controller.go:186] Shutting down RequestHeaderAuthRequestController\nDec 02 21:35:09 master kube-scheduler[1380168]: I1202 21:35:09.275343 1380168 configmap_cafile_content.go:226] \"Shutting down controller\" name=\"client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file\"\nDec 02 21:35:09 master kube-scheduler[1380168]: I1202 21:35:09.275419 1380168 configmap_cafile_content.go:226] \"Shutting down controller\" name=\"client-ca::kube-system::extension-apiserver-authentication::client-ca-file\"\nDec 02 21:35:09 master kube-scheduler[1380168]: I1202 21:35:09.275478 1380168 scheduling_queue.go:952] \"Scheduling queue is closed\"\nDec 02 21:35:09 master kube-scheduler[1380168]: E1202 21:35:09.278760 1380168 event.go:464] \"Unable to record event (will not retry!)\" err=\"broadcaster already stopped\"\nDec 02 21:35:09 master kube-scheduler[1380168]: I1202 21:35:09.278777 1380168 server.go:295] \"Requested to terminate, exiting\"\nDec 02 21:35:09 master systemd[1]: kube-scheduler.service: Deactivated successfully.\nDec 02 21:35:09 master systemd[1]: Stopped Kubernetes Scheduler."
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 8,
+    "total_trace_steps": 8,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource",
+      "DescribeResource",
+      "GetAppYAML",
+      "GetAppYAML",
+      "GetClusterConfiguration",
+      "DescribeResource",
+      "CheckNodeServiceStatus"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: True, label_selector: None}",
+      "output": "NAME                                     READY   STATUS              RESTARTS   AGE   IP             NODE        NOMINATED NODE   READINESS GATES\nadservice-64ddc5c766-p8jsd               0/1     ContainerCreating   0          64s   <none>         worker-01   <none>           <none>\ncartservice-79b49f5555-sk2s6             1/1     Running             0          64s   172.20.2.240   worker-02   <none>           <none>\ncheckoutservice-8445f8b6cb-rlf9c         1/1     Running             0          64s   172.20.2.241   worker-02   <none>           <none>\ncurrencyservice-5c6fdf7ccb-bkwpg         0/1     ContainerCreating   0          64s   <none>         worker-01   <none>           <none>\nemailservice-c86b9b8f6-8dd6p             0/1     ContainerCreating   0          63s   <none>         worker-01   <none>           <none>\nfrontend-657dd795f-6xdjn                 1/1     Running             0          63s   172.20.2.242   worker-02   <none>           <none>\npaymentservice-78c5996648-g6c2f          1/1     Running             0          63s   172.20.2.243   worker-02   <none>           <none>\nproductcatalogservice-ddb46fc86-ckbh6    0/1     ContainerCreating   0          63s   <none>         worker-01   <none>           <none>\nrecommendationservice-7bf5b7d9b8-ff6dp   1/1     Running             0          63s   172.20.2.244   worker-02   <none>           <none>\nredis-cart-589d486f78-zgb9x              0/1     ContainerCreating   0          62s   <none>         worker-01   <none>           <none>\nshippingservice-7ff54bf6b6-rc2nt         0/1     ContainerCreating   0          62s   <none>         worker-01   <none>           <none>\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'adservice-64ddc5c766-p8jsd'}",
+      "output": "Name:             adservice-64ddc5c766-p8jsd\nNamespace:        boutique\nPriority:         0\nService Account:  adservice\nNode:             worker-01/192.168.0.222\nStart Time:       Thu, 11 Dec 2025 10:46:30 +0800\nLabels:           app=adservice\n                  pod-template-hash=64ddc5c766\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/adservice-64ddc5c766\nContainers:\n  server:\n    Container ID:   \n    Image:          us-central1-docker.pkg.dev/google-samples/microservices-demo/adservice:v0.10.3\n    Image ID:       \n    Port:           9555/TCP\n    Host Port:      0/TCP\n    State:          Waiting\n      Reason:       ContainerCreating\n    Ready:          False\n    Restart Count:  0\n    Limits:\n      cpu:     300m\n      memory:  300Mi\n    Requests:\n      cpu:      200m\n      memory:   180Mi\n    Liveness:   grpc <pod>:9555  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Readiness:  grpc <pod>:9555  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Environment:\n      PORT:  9555\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-277kf (ro)\nConditions:\n  Type                        Status\n  PodReadyToStartContainers   False \n  Initialized                 True \n  Ready                       False \n  ContainersReady             False \n  PodScheduled                True \nVolumes:\n  kube-api-access-277kf:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason                  Age   From               Message\n  ----     ------                  ----  ----               -------\n  Normal   Scheduled               64s   default-scheduler  Successfully assigned boutique/adservice-64ddc5c766-p8jsd to worker-01\n  Warning  FailedCreatePodSandBox  64s   kubelet            Failed to create pod sandbox: rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial unix /run/containerd/containerd.sock: connect: no such file or directory\"\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'emailservice-c86b9b8f6-8dd6p'}",
+      "output": "Name:             emailservice-c86b9b8f6-8dd6p\nNamespace:        boutique\nPriority:         0\nService Account:  emailservice\nNode:             worker-01/192.168.0.222\nStart Time:       Thu, 11 Dec 2025 10:46:31 +0800\nLabels:           app=emailservice\n                  pod-template-hash=c86b9b8f6\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/emailservice-c86b9b8f6\nContainers:\n  server:\n    Container ID:   \n    Image:          us-central1-docker.pkg.dev/google-samples/microservices-demo/emailservice:v0.10.3\n    Image ID:       \n    Port:           8080/TCP\n    Host Port:      0/TCP\n    State:          Waiting\n      Reason:       ContainerCreating\n    Ready:          False\n    Restart Count:  0\n    Limits:\n      cpu:     200m\n      memory:  128Mi\n    Requests:\n      cpu:      100m\n      memory:   64Mi\n    Liveness:   grpc <pod>:8080  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Readiness:  grpc <pod>:8080  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Environment:\n      PORT:              8080\n      DISABLE_PROFILER:  1\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-mpt74 (ro)\nConditions:\n  Type                        Status\n  PodReadyToStartContainers   False \n  Initialized                 True \n  Ready                       False \n  ContainersReady             False \n  PodScheduled                True \nVolumes:\n  kube-api-access-mpt74:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason                  Age   From               Message\n  ----     ------                  ----  ----               -------\n  Normal   Scheduled               64s   default-scheduler  Successfully assigned boutique/emailservice-c86b9b8f6-8dd6p to worker-01\n  Warning  FailedCreatePodSandBox  64s   kubelet            Failed to create pod sandbox: rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial unix /run/containerd/containerd.sock: connect: no such file or directory\"\n"
+    },
+    {
+      "tool_name": "GetAppYAML",
+      "calling": "tool_name='GetAppYAML' arguments={app_name: 'adservice'}",
+      "output": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: adservice\n  namespace: boutique \n  labels:\n    app: adservice\nspec:\n  selector:\n    matchLabels:\n      app: adservice\n  template:\n    metadata:\n      labels:\n        app: adservice\n    spec:\n      serviceAccountName: adservice\n      terminationGracePeriodSeconds: 5\n      securityContext:\n        fsGroup: 1000\n        runAsGroup: 1000\n        runAsNonRoot: true\n        runAsUser: 1000\n      containers:\n      - name: server\n        securityContext:\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop:\n              - ALL\n          privileged: false\n          readOnlyRootFilesystem: true\n        image: us-central1-docker.pkg.dev/google-samples/microservices-demo/adservice:v0.10.3\n        ports:\n        - containerPort: 9555\n        env:\n        - name: PORT\n          value: \"9555\"\n        resources:\n          requests:\n            cpu: 200m\n            memory: 180Mi\n          limits:\n            cpu: 300m\n            memory: 300Mi\n        readinessProbe:\n          initialDelaySeconds: 5\n          grpc:\n            port: 9555\n        livenessProbe:\n          initialDelaySeconds: 5\n          grpc:\n            port: 9555\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: adservice\n  namespace: boutique\n  labels:\n    app: adservice\nspec:\n  type: ClusterIP\n  selector:\n    app: adservice\n  ports:\n  - name: grpc\n    port: 9555\n    targetPort: 9555\n\n---\napiVersion: v1\nkind: ServiceAccount\nmetadata:\n  name: adservice\n  namespace: boutique\n# [END gke_release_kubernetes_manifests_microservices_demo]"
+    },
+    {
+      "tool_name": "GetAppYAML",
+      "calling": "tool_name='GetAppYAML' arguments={app_name: 'emailservice'}",
+      "output": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: emailservice\n  namespace: boutique\n  labels:\n    app: emailservice\nspec:\n  selector:\n    matchLabels:\n      app: emailservice\n  template:\n    metadata:\n      labels:\n        app: emailservice\n    spec:\n      serviceAccountName: emailservice\n      terminationGracePeriodSeconds: 5\n      securityContext:\n        fsGroup: 1000\n        runAsGroup: 1000\n        runAsNonRoot: true\n        runAsUser: 1000\n      containers:\n      - name: server\n        securityContext:\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop:\n              - ALL\n          privileged: false\n          readOnlyRootFilesystem: true\n        image: us-central1-docker.pkg.dev/google-samples/microservices-demo/emailservice:v0.10.3\n        ports:\n        - containerPort: 8080\n        env:\n        - name: PORT\n          value: \"8080\"\n        - name: DISABLE_PROFILER\n          value: \"1\"\n        readinessProbe:\n          initialDelaySeconds: 5\n          grpc:\n            port: 8080\n        livenessProbe:\n          initialDelaySeconds: 5\n          grpc:\n            port: 8080\n        resources:\n          requests:\n            cpu: 100m\n            memory: 64Mi\n          limits:\n            cpu: 200m\n            memory: 128Mi\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: emailservice\n  namespace: boutique\n  labels:\n    app: emailservice\nspec:\n  type: ClusterIP\n  selector:\n    app: emailservice\n  ports:\n  - name: grpc\n    port: 5000\n    targetPort: 8080\n---\napiVersion: v1\nkind: ServiceAccount\nmetadata:\n  name: emailservice\n  namespace: boutique\n"
+    },
+    {
+      "tool_name": "GetClusterConfiguration",
+      "calling": "tool_name='GetClusterConfiguration' arguments={}",
+      "output": {
+        "node_count": 4,
+        "nodes": [
+          {
+            "name": "master",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "master",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "master"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671344Ki"
+            }
+          },
+          {
+            "name": "worker-01",
+            "role": "worker",
+            "status": "NotReady",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/not-ready:NoSchedule",
+              "node.kubernetes.io/not-ready:NoExecute"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-01",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671356Ki"
+            }
+          },
+          {
+            "name": "worker-02",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-02",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671352Ki"
+            }
+          },
+          {
+            "name": "worker-03",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-03",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671356Ki"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'node', name: 'worker-01'}",
+      "output": "Name:               worker-01\nRoles:              node\nLabels:             beta.kubernetes.io/arch=amd64\n                    beta.kubernetes.io/os=linux\n                    kubernetes.io/arch=amd64\n                    kubernetes.io/hostname=worker-01\n                    kubernetes.io/os=linux\n                    kubernetes.io/role=node\nAnnotations:        flannel.alpha.coreos.com/backend-data: {\"VNI\":1,\"VtepMAC\":\"9e:19:95:44:a0:9c\"}\n                    flannel.alpha.coreos.com/backend-type: vxlan\n                    flannel.alpha.coreos.com/kube-subnet-manager: true\n                    flannel.alpha.coreos.com/public-ip: 192.168.0.222\n                    node.alpha.kubernetes.io/ttl: 0\n                    volumes.kubernetes.io/controller-managed-attach-detach: true\nCreationTimestamp:  Mon, 11 Aug 2025 15:49:09 +0800\nTaints:             node.kubernetes.io/not-ready:NoExecute\n                    node.kubernetes.io/not-ready:NoSchedule\nUnschedulable:      false\nLease:\n  HolderIdentity:  worker-01\n  AcquireTime:     <unset>\n  RenewTime:       Thu, 11 Dec 2025 10:47:46 +0800\nConditions:\n  Type                 Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message\n  ----                 ------  -----------------                 ------------------                ------                       -------\n  NetworkUnavailable   False   Thu, 11 Dec 2025 10:22:27 +0800   Thu, 11 Dec 2025 10:22:27 +0800   FlannelIsUp                  Flannel is running on this node\n  MemoryPressure       False   Thu, 11 Dec 2025 10:46:56 +0800   Fri, 05 Dec 2025 16:44:53 +0800   KubeletHasSufficientMemory   kubelet has sufficient memory available\n  DiskPressure         False   Thu, 11 Dec 2025 10:46:56 +0800   Fri, 05 Dec 2025 16:44:53 +0800   KubeletHasNoDiskPressure     kubelet has no disk pressure\n  PIDPressure          False   Thu, 11 Dec 2025 10:46:56 +0800   Fri, 05 Dec 2025 16:44:53 +0800   KubeletHasSufficientPID      kubelet has sufficient PID available\n  Ready                False   Thu, 11 Dec 2025 10:46:56 +0800   Thu, 11 Dec 2025 10:46:56 +0800   KubeletNotReady              container runtime is down\nAddresses:\n  InternalIP:  192.168.0.222\n  Hostname:    worker-01\nCapacity:\n  cpu:                8\n  ephemeral-storage:  103084600Ki\n  hugepages-1Gi:      0\n  hugepages-2Mi:      0\n  memory:             15978556Ki\n  pods:               110\nAllocatable:\n  cpu:                8\n  ephemeral-storage:  95002767203\n  hugepages-1Gi:      0\n  hugepages-2Mi:      0\n  memory:             15671356Ki\n  pods:               110\nSystem Info:\n  Machine ID:                 9c21ae206bb84c18b004394392724faa\n  System UUID:                79b4ce45-0707-43df-8b9e-b105ebfaf517\n  Boot ID:                    09b414b7-9635-4147-951e-e3b45e44b3e6\n  Kernel Version:             5.15.0-138-generic\n  OS Image:                   Ubuntu 22.04.5 LTS\n  Operating System:           linux\n  Architecture:               amd64\n  Container Runtime Version:  containerd://Unknown\n  Kubelet Version:            v1.31.2\n  Kube-Proxy Version:         v1.31.2\nPodCIDR:                      172.20.1.0/24\nPodCIDRs:                     172.20.1.0/24\nNon-terminated Pods:          (13 in total)\n  Namespace                   Name                                     CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age\n  ---------                   ----                                     ------------  ----------  ---------------  -------------  ---\n  boutique                    adservice-64ddc5c766-p8jsd               200m (2%)     300m (3%)   180Mi (1%)       300Mi (1%)     86s\n  boutique                    currencyservice-5c6fdf7ccb-bkwpg         100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     86s\n  boutique                    emailservice-c86b9b8f6-8dd6p             100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     85s\n  boutique                    productcatalogservice-ddb46fc86-ckbh6    100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     85s\n  boutique                    redis-cart-589d486f78-zgb9x              100m (1%)     200m (2%)   128Mi (0%)       256Mi (1%)     84s\n  boutique                    shippingservice-7ff54bf6b6-rc2nt         100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     84s\n  chaosblade                  chaosblade-tool-s8w48                    0 (0%)        0 (0%)      0 (0%)           0 (0%)         26d\n  istio-system                istio-cni-node-bjkpf                     100m (1%)     0 (0%)      100Mi (0%)       0 (0%)         44d\n  istio-system                ztunnel-9jv5r                            200m (2%)     0 (0%)      512Mi (3%)       0 (0%)         44d\n  kube-system                 kube-flannel-ds-v9qhx                    100m (1%)     0 (0%)      50Mi (0%)        0 (0%)         26d\n  kube-system                 node-local-dns-2ljtx                     25m (0%)      0 (0%)      5Mi (0%)         0 (0%)         121d\n  monitor                     cadvisor-pscz2                           0 (0%)        0 (0%)      0 (0%)           0 (0%)         26d\n  monitor                     node-exporter-psg6r                      0 (0%)        0 (0%)      0 (0%)           0 (0%)         26d\nAllocated resources:\n  (Total limits may be over 100 percent, i.e., overcommitted.)\n  Resource           Requests     Limits\n  --------           --------     ------\n  cpu                1125m (14%)  1300m (16%)\n  memory             1231Mi (8%)  1068Mi (6%)\n  ephemeral-storage  0 (0%)       0 (0%)\n  hugepages-1Gi      0 (0%)       0 (0%)\n  hugepages-2Mi      0 (0%)       0 (0%)\nEvents:\n  Type     Reason                   Age                     From             Message\n  ----     ------                   ----                    ----             -------\n  Normal   Starting                 25m                     kube-proxy       \n  Normal   NodeNotReady             4d20h (x6 over 4d21h)   kubelet          Node worker-01 status is now: NodeNotReady\n  Warning  ContainerGCFailed        4d20h (x16 over 4d21h)  kubelet          rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial unix /run/containerd/containerd.sock: connect: no such file or directory\"\n  Normal   NodeReady                4d20h (x6 over 4d21h)   kubelet          Node worker-01 status is now: NodeReady\n  Normal   Starting                 25m                     kubelet          Starting kubelet.\n  Warning  InvalidDiskCapacity      25m                     kubelet          invalid capacity 0 on image filesystem\n  Normal   NodeAllocatableEnforced  25m                     kubelet          Updated Node Allocatable limit across pods\n  Normal   NodeHasSufficientMemory  25m                     kubelet          Node worker-01 status is now: NodeHasSufficientMemory\n  Normal   NodeHasNoDiskPressure    25m                     kubelet          Node worker-01 status is now: NodeHasNoDiskPressure\n  Normal   NodeHasSufficientPID     25m                     kubelet          Node worker-01 status is now: NodeHasSufficientPID\n  Warning  Rebooted                 25m                     kubelet          Node worker-01 has been rebooted, boot id: 09b414b7-9635-4147-951e-e3b45e44b3e6\n  Normal   RegisteredNode           25m                     node-controller  Node worker-01 event: Registered Node worker-01 in Controller\n  Normal   NodeNotReady             60s                     kubelet          Node worker-01 status is now: NodeNotReady\n  Warning  ContainerGCFailed        50s                     kubelet          rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing: dial unix /run/containerd/containerd.sock: connect: no such file or directory\"\n"
+    },
+    {
+      "tool_name": "CheckNodeServiceStatus",
+      "calling": "tool_name='CheckNodeServiceStatus' arguments={node_name: 'worker-01', service_name: 'containerd'}",
+      "output": "Service: containerd\nNode: worker-01\nStatus: ○ containerd.service - containerd container runtime\n     Loaded: loaded (/etc/systemd/system/containerd.service; enabled; vendor preset: enabled)\n     Active: inactive (dead) since Thu 2025-12-11 10:46:25 CST; 1min 38s ago\n       Docs: https://containerd.io\n    Process: 912 ExecStartPre=/sbin/modprobe overlay (code=exited, status=0/SUCCESS)\n    Process: 931 ExecStart=/opt/kube/bin/containerd-bin/containerd (code=exited, status=0/SUCCESS)\n   Main PID: 931 (code=exited, status=0/SUCCESS)\n      Tasks: 87 (limit: 18592)\n     Memory: 126.5M\n        CPU: 11.149s\n     CGroup: /system.slice/containerd.service\n             ├─1872 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id a00a0ec31d2e7f61eb68e49ee00174beff036b1d44630e20d4adbfe7a47513fb -address /run/containerd/containerd.sock\n             ├─1874 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id 6f84782d2d9c3e079f2175cb60287f0a374d2f1fa637a03127621b4e369cc77b -address /run/containerd/containerd.sock\n             ├─1875 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id d63218f6a288f27f3c71b1d9e228d727227b004399bd7d11caad3ae4b6d6e907 -address /run/containerd/containerd.sock\n             ├─1913 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id 8bb360d5416fa5fa089ede605c27212e6f4e6f9daf3ce1597d4781f82d18a1cc -address /run/containerd/containerd.sock\n             ├─3239 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id 124cd8945c144930b6a0543d586cd1cd4b01ac38f8cacc36cc76fec2d9a4776b -address /run/containerd/containerd.sock\n             ├─3588 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id dddf98d6ed5138c60d20fd97af59c63147958c146f6919927ef4c7a50b02d271 -address /run/containerd/containerd.sock\n             └─3657 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id 372a937e0215f3fb1f348d03dd2d6b39c791d24b5217acfe9fd537efe5fd7e79 -address /run/containerd/containerd.sock\n\nDec 11 10:46:25 worker-01 systemd[1]: containerd.service: Deactivated successfully.\nDec 11 10:46:25 worker-01 systemd[1]: containerd.service: Unit process 1872 (containerd-shim) remains running after unit stopped.\nDec 11 10:46:25 worker-01 systemd[1]: containerd.service: Unit process 1874 (containerd-shim) remains running after unit stopped.\nDec 11 10:46:25 worker-01 systemd[1]: containerd.service: Unit process 1875 (containerd-shim) remains running after unit stopped.\nDec 11 10:46:25 worker-01 systemd[1]: containerd.service: Unit process 1913 (containerd-shim) remains running after unit stopped.\nDec 11 10:46:25 worker-01 systemd[1]: containerd.service: Unit process 3239 (containerd-shim) remains running after unit stopped.\nDec 11 10:46:25 worker-01 systemd[1]: containerd.service: Unit process 3588 (containerd-shim) remains running after unit stopped.\nDec 11 10:46:25 worker-01 systemd[1]: containerd.service: Unit process 3657 (containerd-shim) remains running after unit stopped.\nDec 11 10:46:25 worker-01 systemd[1]: Stopped containerd container runtime.\nDec 11 10:46:25 worker-01 systemd[1]: containerd.service: Consumed 11.102s CPU time."
+    }
+  ]
+}

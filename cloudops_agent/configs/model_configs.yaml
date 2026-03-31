@@ -1,0 +1,17 @@
+model:
+  model: ""
+  provider: openai_compatible
+  api_base: ""
+  api_key: ""
+  temperature: 0
+  max_tokens: 4096
+  timeout: 60
+
+diagnosis:
+  max_iterations: 20
+  system: "boutique" # ["trainticket","boutique"]
+  fault_category: "scheduling" # ["service",'admission','startup','runtime','performance','scheduling','infrastructure']
+  dataset_root: "/root/Cloud-OpsBench" # file root:Cloud-OpsBench
+  save_root: "/root/trace"  # save diagnosis trajectory and results
+  prompt_strategy: "base" # ["base","icl","cot","rag"]
+

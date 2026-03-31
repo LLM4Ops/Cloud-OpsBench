@@ -1,0 +1,22 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 2,
+    "total_trace_steps": 2,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                     READY   STATUS              RESTARTS   AGE\nadservice-74c7f4c787-8g8cs               0/1     ContainerCreating   0          30s\ncartservice-79b49f5555-p4t79             1/1     Running             0          33s\ncheckoutservice-8445f8b6cb-mx9sj         1/1     Running             0          32s\ncurrencyservice-75686c9564-bhmq4         1/1     Running             0          32s\nemailservice-b78fc569b-k9ts6             1/1     Running             0          32s\nfrontend-6778bd7b8b-7vrnr                1/1     Running             0          32s\npaymentservice-78c5996648-cm2bx          1/1     Running             0          32s\nproductcatalogservice-ddb46fc86-7dtfc    1/1     Running             0          31s\nrecommendationservice-7df9c5b676-zwdrl   1/1     Running             0          31s\nredis-cart-68db7b6f97-7bkk4              1/1     Running             0          31s\nshippingservice-7cbfcb6d68-fxzq7         1/1     Running             0          31s\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'adservice-74c7f4c787-8g8cs'}",
+      "output": "Name:             adservice-74c7f4c787-8g8cs\nNamespace:        boutique\nPriority:         0\nService Account:  adservice\nNode:             worker-01/192.168.0.222\nStart Time:       Mon, 10 Nov 2025 21:28:13 +0800\nLabels:           app=adservice\n                  pod-template-hash=74c7f4c787\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/adservice-74c7f4c787\nContainers:\n  server:\n    Container ID:   \n    Image:          us-central1-docker.pkg.dev/google-samples/microservices-demo/adservice:v0.10.3\n    Image ID:       \n    Port:           9555/TCP\n    Host Port:      0/TCP\n    State:          Waiting\n      Reason:       ContainerCreating\n    Ready:          False\n    Restart Count:  0\n    Limits:\n      cpu:     300m\n      memory:  5Mi\n    Requests:\n      cpu:      200m\n      memory:   5Mi\n    Liveness:   grpc <pod>:9555  delay=5s timeout=1s period=5s #success=1 #failure=3\n    Readiness:  grpc <pod>:9555  delay=5s timeout=1s period=5s #success=1 #failure=3\n    Environment:\n      PORT:  9555\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-wfbx8 (ro)\nConditions:\n  Type                        Status\n  PodReadyToStartContainers   False \n  Initialized                 True \n  Ready                       False \n  ContainersReady             False \n  PodScheduled                True \nVolumes:\n  kube-api-access-wfbx8:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason                  Age               From               Message\n  ----     ------                  ----              ----               -------\n  Normal   Scheduled               30s               default-scheduler  Successfully assigned boutique/adservice-74c7f4c787-8g8cs to worker-01\n  Warning  FailedCreatePodSandBox  4s (x3 over 30s)  kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to create containerd task: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: container init was OOM-killed (memory limit too low?): unknown\n"
+    }
+  ]
+}

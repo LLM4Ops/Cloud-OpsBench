@@ -1,0 +1,135 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 4,
+    "total_trace_steps": 4,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource",
+      "GetClusterConfiguration",
+      "GetAppYAML"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: True, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE   IP            NODE        NOMINATED NODE   READINESS GATES\nadservice-84dbdf99d-6ntvd                1/1     Running   0          73s   172.20.1.22   worker-01   <none>           <none>\ncartservice-79b49f5555-4wnvt             1/1     Running   0          72s   172.20.2.82   worker-02   <none>           <none>\ncheckoutservice-8445f8b6cb-mltkf         1/1     Running   0          72s   172.20.2.83   worker-02   <none>           <none>\ncurrencyservice-75686c9564-2tp4w         1/1     Running   0          72s   172.20.1.23   worker-01   <none>           <none>\nemailservice-b78fc569b-vngk9             1/1     Running   0          72s   172.20.1.24   worker-01   <none>           <none>\nfrontend-6778bd7b8b-blcm4                1/1     Running   0          71s   172.20.2.84   worker-02   <none>           <none>\npaymentservice-84c59c8dff-rbvz9          0/1     Pending   0          70s   <none>        <none>      <none>           <none>\nproductcatalogservice-ddb46fc86-z5jxq    1/1     Running   0          71s   172.20.1.25   worker-01   <none>           <none>\nrecommendationservice-7df9c5b676-qvndv   1/1     Running   0          71s   172.20.2.85   worker-02   <none>           <none>\nredis-cart-68db7b6f97-6wk9g              1/1     Running   0          71s   172.20.1.26   worker-01   <none>           <none>\nshippingservice-7cbfcb6d68-xgj6n         1/1     Running   0          71s   172.20.2.86   worker-02   <none>           <none>\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'paymentservice-84c59c8dff-rbvz9'}",
+      "output": "Name:             paymentservice-84c59c8dff-rbvz9\nNamespace:        boutique\nPriority:         0\nService Account:  paymentservice\nNode:             <none>\nLabels:           app=paymentservice\n                  pod-template-hash=84c59c8dff\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/paymentservice-84c59c8dff\nContainers:\n  server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/paymentservice:v0.10.3\n    Port:       50051/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     200m\n      memory:  128Mi\n    Requests:\n      cpu:      100m\n      memory:   64Mi\n    Liveness:   grpc <pod>:50051  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Readiness:  grpc <pod>:50051  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Environment:\n      PORT:              50051\n      DISABLE_PROFILER:  1\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-k6mrr (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  kube-api-access-k6mrr:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              workload=high-performance\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  72s   default-scheduler  0/4 nodes are available: 1 node(s) had untolerated taint {environment: production}, 1 node(s) were unschedulable, 2 node(s) didn't match Pod's node affinity/selector. preemption: 0/4 nodes are available: 4 Preemption is not helpful for scheduling.\n"
+    },
+    {
+      "tool_name": "GetClusterConfiguration",
+      "calling": "tool_name='GetClusterConfiguration' arguments={}",
+      "output": {
+        "node_count": 4,
+        "nodes": [
+          {
+            "name": "master",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "master",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "master"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671356Ki"
+            }
+          },
+          {
+            "name": "worker-01",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "environment=production:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-01",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node",
+              "workload": "high-performance"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          },
+          {
+            "name": "worker-02",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-02",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          },
+          {
+            "name": "worker-03",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-03",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "tool_name": "GetAppYAML",
+      "calling": "tool_name='GetAppYAML' arguments={app_name: 'paymentservice'}",
+      "output": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: paymentservice\n  namespace: boutique\n  labels:\n    app: paymentservice\nspec:\n  selector:\n    matchLabels:\n      app: paymentservice\n  template:\n    metadata:\n      labels:\n        app: paymentservice\n    spec:\n      nodeSelector:\n        workload: high-performance\n      serviceAccountName: paymentservice\n      terminationGracePeriodSeconds: 5\n      securityContext:\n        fsGroup: 1000\n        runAsGroup: 1000\n        runAsNonRoot: true\n        runAsUser: 1000\n      containers:\n      - name: server\n        securityContext:\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop:\n              - ALL\n          privileged: false\n          readOnlyRootFilesystem: true\n        image: us-central1-docker.pkg.dev/google-samples/microservices-demo/paymentservice:v0.10.3\n        ports:\n        - containerPort: 50051\n        env:\n        - name: PORT\n          value: \"50051\"\n        - name: DISABLE_PROFILER\n          value: \"1\"\n        readinessProbe:\n          initialDelaySeconds: 5\n          grpc:\n            port: 50051\n        livenessProbe:\n          initialDelaySeconds: 5\n          grpc:\n            port: 50051\n        resources:\n          requests:\n            cpu: 100m\n            memory: 64Mi\n          limits:\n            cpu: 200m\n            memory: 128Mi\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: paymentservice\n  namespace: boutique\n  labels:\n    app: paymentservice\nspec:\n  type: ClusterIP\n  selector:\n    app: paymentservice\n  ports:\n  - name: grpc\n    port: 50051\n    targetPort: 50051\n---\napiVersion: v1\nkind: ServiceAccount\nmetadata:\n  name: paymentservice\n  namespace: boutique"
+    }
+  ]
+}

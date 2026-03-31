@@ -1,0 +1,22 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 2,
+    "total_trace_steps": 2,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: True, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE   IP             NODE        NOMINATED NODE   READINESS GATES\nadservice-84dbdf99d-52zlx                1/1     Running   0          32s   172.20.1.25    worker-01   <none>           <none>\ncartservice-79b49f5555-xdg25             1/1     Running   0          32s   172.20.3.247   worker-03   <none>           <none>\ncheckoutservice-8445f8b6cb-lns6w         1/1     Running   0          31s   172.20.1.26    worker-01   <none>           <none>\ncurrencyservice-75686c9564-phpgl         1/1     Running   0          31s   172.20.1.27    worker-01   <none>           <none>\nemailservice-b78fc569b-vdxwt             1/1     Running   0          31s   172.20.3.248   worker-03   <none>           <none>\nfrontend-6778bd7b8b-nnd4c                1/1     Running   0          31s   172.20.1.28    worker-01   <none>           <none>\npaymentservice-78c5996648-gv2zx          1/1     Running   0          31s   172.20.3.249   worker-03   <none>           <none>\nproductcatalogservice-ddb46fc86-zv9kk    1/1     Running   0          30s   172.20.1.29    worker-01   <none>           <none>\nrecommendationservice-7df9c5b676-sz7sz   1/1     Running   0          30s   172.20.1.30    worker-01   <none>           <none>\nredis-cart-54754cc77c-qgnv6              0/1     Pending   0          30s   <none>         <none>      <none>           <none>\nshippingservice-7cbfcb6d68-klflx         1/1     Running   0          30s   172.20.3.250   worker-03   <none>           <none>\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'redis-cart-54754cc77c-qgnv6'}",
+      "output": "Name:             redis-cart-54754cc77c-qgnv6\nNamespace:        boutique\nPriority:         0\nService Account:  default\nNode:             <none>\nLabels:           app=redis-cart\n                  pod-template-hash=54754cc77c\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/redis-cart-54754cc77c\nContainers:\n  redis:\n    Image:      redis:alpine\n    Port:       6379/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     12\n      memory:  256Mi\n    Requests:\n      cpu:        12\n      memory:     200Mi\n    Liveness:     tcp-socket :6379 delay=5s timeout=1s period=5s #success=1 #failure=3\n    Readiness:    tcp-socket :6379 delay=5s timeout=1s period=5s #success=1 #failure=3\n    Environment:  <none>\n    Mounts:\n      /data from redis-data (rw)\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-dp6mv (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  redis-data:\n    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)\n    ClaimName:  redis-cart-pvc\n    ReadOnly:   false\n  kube-api-access-dp6mv:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  32s   default-scheduler  0/4 nodes are available: 1 node(s) were unschedulable, 3 Insufficient cpu. preemption: 0/4 nodes are available: 1 Preemption is not helpful for scheduling, 3 No preemption victims found for incoming pod.\n"
+    }
+  ]
+}

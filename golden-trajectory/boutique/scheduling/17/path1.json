@@ -1,0 +1,22 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 2,
+    "total_trace_steps": 2,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE\nadservice-84dbdf99d-2fdqg                1/1     Running   0          32s\ncartservice-6b9c55fd97-hxwnf             0/1     Pending   0          29s\ncheckoutservice-8445f8b6cb-kzcjm         1/1     Running   0          31s\ncurrencyservice-75686c9564-dxnv8         1/1     Running   0          31s\nemailservice-b78fc569b-ctc6c             1/1     Running   0          31s\nfrontend-6778bd7b8b-2znwn                1/1     Running   0          31s\npaymentservice-78c5996648-42l4h          1/1     Running   0          31s\nproductcatalogservice-ddb46fc86-7t6dv    1/1     Running   0          30s\nrecommendationservice-7df9c5b676-qngh4   1/1     Running   0          30s\nredis-cart-68db7b6f97-8wl9d              1/1     Running   0          30s\nshippingservice-7cbfcb6d68-c864t         1/1     Running   0          30s\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'cartservice-6b9c55fd97-hxwnf'}",
+      "output": "Name:             cartservice-6b9c55fd97-hxwnf\nNamespace:        boutique\nPriority:         0\nService Account:  cartservice\nNode:             <none>\nLabels:           app=cartservice\n                  pod-template-hash=6b9c55fd97\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/cartservice-6b9c55fd97\nContainers:\n  server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/cartservice:v0.10.3\n    Port:       7070/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     16\n      memory:  128Mi\n    Requests:\n      cpu:     16\n      memory:  64Mi\n    Environment:\n      REDIS_ADDR:  redis-cart:6379\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-qgxmv (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  kube-api-access-qgxmv:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  30s   default-scheduler  0/4 nodes are available: 1 node(s) were unschedulable, 3 Insufficient cpu. preemption: 0/4 nodes are available: 1 Preemption is not helpful for scheduling, 3 No preemption victims found for incoming pod.\n"
+    }
+  ]
+}

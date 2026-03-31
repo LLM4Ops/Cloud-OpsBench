@@ -1,0 +1,34 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 4,
+    "total_trace_steps": 4,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource",
+      "GetResources",
+      "GetResources"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE\nadservice-84dbdf99d-ckhpq                1/1     Running   0          32s\ncartservice-79b49f5555-f72v7             1/1     Running   0          32s\ncheckoutservice-8445f8b6cb-8skkk         1/1     Running   0          31s\ncurrencyservice-75686c9564-lst2q         1/1     Running   0          31s\nemailservice-b78fc569b-vnbtz             1/1     Running   0          31s\nfrontend-6778bd7b8b-9l24w                1/1     Running   0          31s\npaymentservice-78c5996648-fhs5f          1/1     Running   0          31s\nproductcatalogservice-ddb46fc86-ghs49    1/1     Running   0          30s\nrecommendationservice-7df9c5b676-4zh4m   1/1     Running   0          30s\nredis-cart-68db7b6f97-2jwj6              0/1     Pending   0          30s\nshippingservice-7cbfcb6d68-2b5mc         1/1     Running   0          30s\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'redis-cart-68db7b6f97-2jwj6'}",
+      "output": "Name:             redis-cart-68db7b6f97-2jwj6\nNamespace:        boutique\nPriority:         0\nService Account:  default\nNode:             <none>\nLabels:           app=redis-cart\n                  pod-template-hash=68db7b6f97\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/redis-cart-68db7b6f97\nContainers:\n  redis:\n    Image:      redis:alpine\n    Port:       6379/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     125m\n      memory:  256Mi\n    Requests:\n      cpu:        70m\n      memory:     200Mi\n    Liveness:     tcp-socket :6379 delay=5s timeout=1s period=5s #success=1 #failure=3\n    Readiness:    tcp-socket :6379 delay=5s timeout=1s period=5s #success=1 #failure=3\n    Environment:  <none>\n    Mounts:\n      /data from redis-data (rw)\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-9789t (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  redis-data:\n    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)\n    ClaimName:  redis-cart-pvc\n    ReadOnly:   false\n  kube-api-access-9789t:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  32s   default-scheduler  0/4 nodes are available: pod has unbound immediate PersistentVolumeClaims. preemption: 0/4 nodes are available: 4 Preemption is not helpful for scheduling.\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pvc', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME             STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE\nredis-cart-pvc   Pending                                      fast-ssd       <unset>                 41s\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pv', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME            CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   VOLUMEATTRIBUTESCLASS   REASON   AGE\nredis-cart-pv   1Gi        RWO            Retain           Available                          <unset>                          54s\n"
+    }
+  ]
+}

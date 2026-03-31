@@ -1,0 +1,153 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 7,
+    "total_trace_steps": 7,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource",
+      "GetResources",
+      "GetResources",
+      "DescribeResource",
+      "GetClusterConfiguration",
+      "CheckNodeServiceStatus"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: True, label_selector: None}",
+      "output": "NAME                                     READY   STATUS              RESTARTS   AGE    IP             NODE        NOMINATED NODE   READINESS GATES\nadservice-64ddc5c766-pxzsh               1/1     Running             0          2m9s   172.20.1.80    worker-01   <none>           <none>\ncartservice-79b49f5555-qp24s             1/1     Running             0          2m9s   172.20.2.176   worker-02   <none>           <none>\ncheckoutservice-8445f8b6cb-m4kqm         1/1     Running             0          2m9s   172.20.1.81    worker-01   <none>           <none>\ncurrencyservice-5c6fdf7ccb-24bhb         1/1     Running             0          2m9s   172.20.2.177   worker-02   <none>           <none>\nemailservice-c86b9b8f6-czdx2             1/1     Running             0          2m8s   172.20.1.82    worker-01   <none>           <none>\nfrontend-657dd795f-t7r2f                 1/1     Running             0          2m8s   172.20.2.178   worker-02   <none>           <none>\npaymentservice-78c5996648-4hxwk          1/1     Running             0          2m8s   172.20.1.83    worker-01   <none>           <none>\nproductcatalogservice-ddb46fc86-qknf5    1/1     Running             0          2m8s   172.20.2.179   worker-02   <none>           <none>\nrecommendationservice-7bf5b7d9b8-rbnpg   1/1     Running             0          2m7s   172.20.2.180   worker-02   <none>           <none>\nredis-cart-589d486f78-85kxj              1/1     Running             0          2m7s   172.20.1.84    worker-01   <none>           <none>\nshippingservice-5c98c8d685-sv77f         0/1     ContainerCreating   0          112s   <none>         worker-01   <none>           <none>\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'shippingservice-5c98c8d685-sv77f'}",
+      "output": "Name:             shippingservice-5c98c8d685-sv77f\nNamespace:        boutique\nPriority:         0\nService Account:  shippingservice\nNode:             worker-01/192.168.0.222\nStart Time:       Fri, 05 Dec 2025 16:36:24 +0800\nLabels:           app=shippingservice\n                  pod-template-hash=5c98c8d685\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/shippingservice-5c98c8d685\nContainers:\n  server:\n    Container ID:   \n    Image:          us-central1-docker.pkg.dev/google-samples/microservices-demo/shippingservice:v0.10.3\n    Image ID:       \n    Port:           50051/TCP\n    Host Port:      0/TCP\n    State:          Waiting\n      Reason:       ContainerCreating\n    Ready:          False\n    Restart Count:  0\n    Limits:\n      cpu:     200m\n      memory:  128Mi\n    Requests:\n      cpu:      100m\n      memory:   64Mi\n    Liveness:   grpc <pod>:50051  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Readiness:  grpc <pod>:50051  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Environment:\n      PORT:              50051\n      DISABLE_PROFILER:  1\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-n2l6f (ro)\nConditions:\n  Type                        Status\n  PodReadyToStartContainers   False \n  Initialized                 True \n  Ready                       False \n  ContainersReady             False \n  PodScheduled                True \nVolumes:\n  kube-api-access-n2l6f:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              kubernetes.io/hostname=worker-01\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type    Reason     Age   From               Message\n  ----    ------     ----  ----               -------\n  Normal  Scheduled  115s  default-scheduler  Successfully assigned boutique/shippingservice-5c98c8d685-sv77f to worker-01\n  Normal  Pulled     115s  kubelet            Container image \"us-central1-docker.pkg.dev/google-samples/microservices-demo/shippingservice:v0.10.3\" already present on machine\n  Normal  Created    115s  kubelet            Created container server\n  Normal  Started    115s  kubelet            Started container server\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'event', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "2m38s       Normal    SuccessfulCreate       replicaset/redis-cart-589d486f78              Created pod: redis-cart-589d486f78-85kxj\n2m38s       Normal    Pulled                 pod/paymentservice-78c5996648-4hxwk           Container image \"us-central1-docker.pkg.dev/google-samples/microservices-demo/paymentservice:v0.10.3\" already present on machine\n2m38s       Normal    ScalingReplicaSet      deployment/recommendationservice              Scaled up replica set recommendationservice-7bf5b7d9b8 to 1\n2m38s       Normal    ScalingReplicaSet      deployment/redis-cart                         Scaled up replica set redis-cart-589d486f78 to 1\n2m38s       Normal    Created                pod/recommendationservice-7bf5b7d9b8-rbnpg    Created container server\n2m38s       Normal    SuccessfulCreate       replicaset/recommendationservice-7bf5b7d9b8   Created pod: recommendationservice-7bf5b7d9b8-rbnpg\n2m38s       Normal    Started                pod/redis-cart-589d486f78-85kxj               Started container redis\n2m38s       Normal    Created                pod/paymentservice-78c5996648-4hxwk           Created container server\n2m38s       Normal    Started                pod/paymentservice-78c5996648-4hxwk           Started container server\n2m23s       Normal    Started                pod/shippingservice-5c98c8d685-sv77f          Started container server\n2m23s       Normal    SuccessfulCreate       replicaset/shippingservice-5c98c8d685         Created pod: shippingservice-5c98c8d685-sv77f\n2m23s       Warning   FailedCreate           replicaset/shippingservice-5c98c8d685         Error creating: pods \"shippingservice-5c98c8d685-\" is forbidden: error looking up service account boutique/shippingservice: serviceaccount \"shippingservice\" not found\n2m23s       Normal    Created                pod/shippingservice-5c98c8d685-sv77f          Created container server\n2m23s       Normal    ScalingReplicaSet      deployment/shippingservice                    Scaled up replica set shippingservice-5c98c8d685 to 1\n2m23s       Normal    Pulled                 pod/shippingservice-5c98c8d685-sv77f          Container image \"us-central1-docker.pkg.dev/google-samples/microservices-demo/shippingservice:v0.10.3\" already present on machine\n105s        Warning   NodeNotReady           pod/adservice-64ddc5c766-pxzsh                Node is not ready\n105s        Warning   NodeNotReady           pod/redis-cart-589d486f78-85kxj               Node is not ready\n105s        Warning   NodeNotReady           pod/paymentservice-78c5996648-4hxwk           Node is not ready\n105s        Warning   NodeNotReady           pod/emailservice-c86b9b8f6-czdx2              Node is not ready\n105s        Warning   NodeNotReady           pod/checkoutservice-8445f8b6cb-m4kqm          Node is not ready\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'node', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME        STATUS                     ROLES    AGE    VERSION\nmaster      Ready,SchedulingDisabled   master   116d   v1.31.2\nworker-01   NotReady                   node     116d   v1.31.2\nworker-02   Ready                      node     116d   v1.31.2\nworker-03   Ready                      node     116d   v1.31.2\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'node', name: 'worker-01'}",
+      "output": "Name:               worker-01\nRoles:              node\nLabels:             beta.kubernetes.io/arch=amd64\n                    beta.kubernetes.io/os=linux\n                    kubernetes.io/arch=amd64\n                    kubernetes.io/hostname=worker-01\n                    kubernetes.io/os=linux\n                    kubernetes.io/role=node\nAnnotations:        flannel.alpha.coreos.com/backend-data: {\"VNI\":1,\"VtepMAC\":\"9e:19:95:44:a0:9c\"}\n                    flannel.alpha.coreos.com/backend-type: vxlan\n                    flannel.alpha.coreos.com/kube-subnet-manager: true\n                    flannel.alpha.coreos.com/public-ip: 192.168.0.222\n                    node.alpha.kubernetes.io/ttl: 0\n                    volumes.kubernetes.io/controller-managed-attach-detach: true\nCreationTimestamp:  Mon, 11 Aug 2025 15:49:09 +0800\nTaints:             node.kubernetes.io/unreachable:NoExecute\n                    node.kubernetes.io/unreachable:NoSchedule\nUnschedulable:      false\nLease:\n  HolderIdentity:  worker-01\n  AcquireTime:     <unset>\n  RenewTime:       Fri, 05 Dec 2025 16:36:19 +0800\nConditions:\n  Type                 Status    LastHeartbeatTime                 LastTransitionTime                Reason              Message\n  ----                 ------    -----------------                 ------------------                ------              -------\n  NetworkUnavailable   False     Fri, 05 Dec 2025 14:12:18 +0800   Fri, 05 Dec 2025 14:12:18 +0800   FlannelIsUp         Flannel is running on this node\n  MemoryPressure       Unknown   Fri, 05 Dec 2025 16:36:19 +0800   Fri, 05 Dec 2025 16:37:02 +0800   NodeStatusUnknown   Kubelet stopped posting node status.\n  DiskPressure         Unknown   Fri, 05 Dec 2025 16:36:19 +0800   Fri, 05 Dec 2025 16:37:02 +0800   NodeStatusUnknown   Kubelet stopped posting node status.\n  PIDPressure          Unknown   Fri, 05 Dec 2025 16:36:19 +0800   Fri, 05 Dec 2025 16:37:02 +0800   NodeStatusUnknown   Kubelet stopped posting node status.\n  Ready                Unknown   Fri, 05 Dec 2025 16:36:19 +0800   Fri, 05 Dec 2025 16:37:02 +0800   NodeStatusUnknown   Kubelet stopped posting node status.\nAddresses:\n  InternalIP:  192.168.0.222\n  Hostname:    worker-01\nCapacity:\n  cpu:                8\n  ephemeral-storage:  103084600Ki\n  hugepages-1Gi:      0\n  hugepages-2Mi:      0\n  memory:             15978552Ki\n  pods:               110\nAllocatable:\n  cpu:                8\n  ephemeral-storage:  95002767203\n  hugepages-1Gi:      0\n  hugepages-2Mi:      0\n  memory:             15671352Ki\n  pods:               110\nSystem Info:\n  Machine ID:                 9c21ae206bb84c18b004394392724faa\n  System UUID:                79b4ce45-0707-43df-8b9e-b105ebfaf517\n  Boot ID:                    ad742446-88a4-4f30-bedc-2a963471f1b3\n  Kernel Version:             5.15.0-138-generic\n  OS Image:                   Ubuntu 22.04.5 LTS\n  Operating System:           linux\n  Architecture:               amd64\n  Container Runtime Version:  containerd://1.7.23\n  Kubelet Version:            v1.31.2\n  Kube-Proxy Version:         v1.31.2\nPodCIDR:                      172.20.1.0/24\nPodCIDRs:                     172.20.1.0/24\nNon-terminated Pods:          (13 in total)\n  Namespace                   Name                                CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age\n  ---------                   ----                                ------------  ----------  ---------------  -------------  ---\n  boutique                    adservice-64ddc5c766-pxzsh          200m (2%)     300m (3%)   180Mi (1%)       300Mi (1%)     2m34s\n  boutique                    checkoutservice-8445f8b6cb-m4kqm    100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     2m34s\n  boutique                    emailservice-c86b9b8f6-czdx2        100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     2m33s\n  boutique                    paymentservice-78c5996648-4hxwk     100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     2m33s\n  boutique                    redis-cart-589d486f78-85kxj         100m (1%)     200m (2%)   128Mi (0%)       256Mi (1%)     2m32s\n  boutique                    shippingservice-5c98c8d685-sv77f    100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     2m17s\n  chaosblade                  chaosblade-tool-s8w48               0 (0%)        0 (0%)      0 (0%)           0 (0%)         21d\n  istio-system                istio-cni-node-bjkpf                100m (1%)     0 (0%)      100Mi (0%)       0 (0%)         38d\n  istio-system                ztunnel-9jv5r                       200m (2%)     0 (0%)      512Mi (3%)       0 (0%)         38d\n  kube-system                 kube-flannel-ds-v9qhx               100m (1%)     0 (0%)      50Mi (0%)        0 (0%)         21d\n  kube-system                 node-local-dns-2ljtx                25m (0%)      0 (0%)      5Mi (0%)         0 (0%)         116d\n  monitor                     cadvisor-pscz2                      0 (0%)        0 (0%)      0 (0%)           0 (0%)         21d\n  monitor                     node-exporter-psg6r                 0 (0%)        0 (0%)      0 (0%)           0 (0%)         21d\nAllocated resources:\n  (Total limits may be over 100 percent, i.e., overcommitted.)\n  Resource           Requests     Limits\n  --------           --------     ------\n  cpu                1125m (14%)  1300m (16%)\n  memory             1231Mi (8%)  1068Mi (6%)\n  ephemeral-storage  0 (0%)       0 (0%)\n  hugepages-1Gi      0 (0%)       0 (0%)\n  hugepages-2Mi      0 (0%)       0 (0%)\nEvents:\n  Type     Reason                   Age                    From             Message\n  ----     ------                   ----                   ----             -------\n  Normal   NodeAllocatableEnforced  57m                    kubelet          Updated Node Allocatable limit across pods\n  Normal   Starting                 57m                    kubelet          Starting kubelet.\n  Warning  InvalidDiskCapacity      57m                    kubelet          invalid capacity 0 on image filesystem\n  Normal   NodeHasSufficientPID     57m (x3 over 57m)      kubelet          Node worker-01 status is now: NodeHasSufficientPID\n  Normal   NodeHasSufficientMemory  57m (x3 over 57m)      kubelet          Node worker-01 status is now: NodeHasSufficientMemory\n  Normal   NodeHasNoDiskPressure    57m (x3 over 57m)      kubelet          Node worker-01 status is now: NodeHasNoDiskPressure\n  Normal   NodeReady                57m (x2 over 57m)      kubelet          Node worker-01 status is now: NodeReady\n  Normal   NodeReady                52m (x2 over 52m)      kubelet          Node worker-01 status is now: NodeReady\n  Normal   Starting                 52m                    kubelet          Starting kubelet.\n  Warning  InvalidDiskCapacity      52m                    kubelet          invalid capacity 0 on image filesystem\n  Normal   NodeAllocatableEnforced  52m                    kubelet          Updated Node Allocatable limit across pods\n  Normal   NodeHasSufficientMemory  52m (x3 over 52m)      kubelet          Node worker-01 status is now: NodeHasSufficientMemory\n  Normal   NodeHasNoDiskPressure    52m (x3 over 52m)      kubelet          Node worker-01 status is now: NodeHasNoDiskPressure\n  Normal   NodeHasSufficientPID     52m (x3 over 52m)      kubelet          Node worker-01 status is now: NodeHasSufficientPID\n  Normal   NodeHasSufficientPID     27m (x2 over 27m)      kubelet          Node worker-01 status is now: NodeHasSufficientPID\n  Normal   NodeReady                27m                    kubelet          Node worker-01 status is now: NodeReady\n  Warning  InvalidDiskCapacity      27m                    kubelet          invalid capacity 0 on image filesystem\n  Normal   NodeAllocatableEnforced  27m                    kubelet          Updated Node Allocatable limit across pods\n  Normal   NodeHasSufficientMemory  27m (x2 over 27m)      kubelet          Node worker-01 status is now: NodeHasSufficientMemory\n  Normal   NodeHasNoDiskPressure    27m (x2 over 27m)      kubelet          Node worker-01 status is now: NodeHasNoDiskPressure\n  Normal   Starting                 27m                    kubelet          Starting kubelet.\n  Normal   NodeReady                20m (x2 over 20m)      kubelet          Node worker-01 status is now: NodeReady\n  Normal   Starting                 20m                    kubelet          Starting kubelet.\n  Warning  InvalidDiskCapacity      20m                    kubelet          invalid capacity 0 on image filesystem\n  Normal   NodeAllocatableEnforced  20m                    kubelet          Updated Node Allocatable limit across pods\n  Normal   NodeHasSufficientMemory  20m (x3 over 20m)      kubelet          Node worker-01 status is now: NodeHasSufficientMemory\n  Normal   NodeHasNoDiskPressure    20m (x3 over 20m)      kubelet          Node worker-01 status is now: NodeHasNoDiskPressure\n  Normal   NodeHasSufficientPID     20m (x3 over 20m)      kubelet          Node worker-01 status is now: NodeHasSufficientPID\n  Normal   Starting                 11m                    kubelet          Starting kubelet.\n  Normal   NodeReady                11m (x2 over 11m)      kubelet          Node worker-01 status is now: NodeReady\n  Warning  InvalidDiskCapacity      11m                    kubelet          invalid capacity 0 on image filesystem\n  Normal   NodeAllocatableEnforced  11m                    kubelet          Updated Node Allocatable limit across pods\n  Normal   NodeHasSufficientMemory  11m (x3 over 11m)      kubelet          Node worker-01 status is now: NodeHasSufficientMemory\n  Normal   NodeHasNoDiskPressure    11m (x3 over 11m)      kubelet          Node worker-01 status is now: NodeHasNoDiskPressure\n  Normal   NodeHasSufficientPID     11m (x3 over 11m)      kubelet          Node worker-01 status is now: NodeHasSufficientPID\n  Normal   Starting                 3m24s                  kubelet          Starting kubelet.\n  Warning  InvalidDiskCapacity      3m24s                  kubelet          invalid capacity 0 on image filesystem\n  Normal   NodeAllocatableEnforced  3m24s                  kubelet          Updated Node Allocatable limit across pods\n  Normal   NodeHasSufficientMemory  3m24s (x2 over 3m24s)  kubelet          Node worker-01 status is now: NodeHasSufficientMemory\n  Normal   NodeHasNoDiskPressure    3m24s (x2 over 3m24s)  kubelet          Node worker-01 status is now: NodeHasNoDiskPressure\n  Normal   NodeHasSufficientPID     3m24s (x2 over 3m24s)  kubelet          Node worker-01 status is now: NodeHasSufficientPID\n  Normal   NodeReady                3m24s                  kubelet          Node worker-01 status is now: NodeReady\n  Normal   NodeNotReady             99s (x15 over 137m)    node-controller  Node worker-01 status is now: NodeNotReady\n"
+    },
+    {
+      "tool_name": "GetClusterConfiguration",
+      "calling": "tool_name='GetClusterConfiguration' arguments={}",
+      "output": {
+        "node_count": 4,
+        "nodes": [
+          {
+            "name": "master",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "master",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "master"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671352Ki"
+            }
+          },
+          {
+            "name": "worker-01",
+            "role": "worker",
+            "status": "Unknown",
+            "conditions": {
+              "MemoryPressure": "Unknown",
+              "DiskPressure": "Unknown",
+              "PIDPressure": "Unknown"
+            },
+            "taints": [
+              "node.kubernetes.io/unreachable:NoSchedule",
+              "node.kubernetes.io/unreachable:NoExecute"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-01",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671352Ki"
+            }
+          },
+          {
+            "name": "worker-02",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-02",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671340Ki"
+            }
+          },
+          {
+            "name": "worker-03",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-03",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671344Ki"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "tool_name": "CheckNodeServiceStatus",
+      "calling": "tool_name='CheckNodeServiceStatus' arguments={node_name: 'worker-01', service_name: 'kubelet'}",
+      "output": "Service: kubelet\nNode: worker-01\nStatus: ○ kubelet.service - Kubernetes Kubelet\n     Loaded: loaded (/etc/systemd/system/kubelet.service; enabled; vendor preset: enabled)\n     Active: inactive (dead) since Fri 2025-12-05 16:36:24 CST; 2min 23s ago\n       Docs: https://github.com/GoogleCloudPlatform/kubernetes\n    Process: 144480 ExecStartPre=/bin/mount -o remount,rw /sys/fs/cgroup (code=exited, status=0/SUCCESS)\n    Process: 144481 ExecStart=/opt/kube/bin/kubelet --config=/var/lib/kubelet/config.yaml --container-runtime-endpoint=unix:///run/containerd/containerd.sock --hostname-override=worker-01 --kubeconfig=/etc/kubernetes/kubelet.kubeconfig --root-dir=/var/lib/kubelet --v=2 (code=exited, status=0/SUCCESS)\n   Main PID: 144481 (code=exited, status=0/SUCCESS)\n        CPU: 1.662s\n\nDec 05 16:36:24 worker-01 kubelet[144481]: I1205 16:36:24.498185  144481 reconciler_common.go:245] \"operationExecutor.VerifyControllerAttachedVolume started for volume \\\"kube-api-access-n2l6f\\\" (UniqueName: \\\"kubernetes.io/projected/d24ad2cc-335b-48fb-bb30-bd4da04dfb05-kube-api-access-n2l6f\\\") pod \\\"shippingservice-5c98c8d685-sv77f\\\" (UID: \\\"d24ad2cc-335b-48fb-bb30-bd4da04dfb05\\\") \" pod=\"boutique/shippingservice-5c98c8d685-sv77f\"\nDec 05 16:36:24 worker-01 kubelet[144481]: I1205 16:36:24.599259  144481 reconciler_common.go:218] \"operationExecutor.MountVolume started for volume \\\"kube-api-access-n2l6f\\\" (UniqueName: \\\"kubernetes.io/projected/d24ad2cc-335b-48fb-bb30-bd4da04dfb05-kube-api-access-n2l6f\\\") pod \\\"shippingservice-5c98c8d685-sv77f\\\" (UID: \\\"d24ad2cc-335b-48fb-bb30-bd4da04dfb05\\\") \" pod=\"boutique/shippingservice-5c98c8d685-sv77f\"\nDec 05 16:36:24 worker-01 kubelet[144481]: I1205 16:36:24.607357  144481 operation_generator.go:637] \"MountVolume.SetUp succeeded for volume \\\"kube-api-access-n2l6f\\\" (UniqueName: \\\"kubernetes.io/projected/d24ad2cc-335b-48fb-bb30-bd4da04dfb05-kube-api-access-n2l6f\\\") pod \\\"shippingservice-5c98c8d685-sv77f\\\" (UID: \\\"d24ad2cc-335b-48fb-bb30-bd4da04dfb05\\\") \" pod=\"boutique/shippingservice-5c98c8d685-sv77f\"\nDec 05 16:36:24 worker-01 kubelet[144481]: I1205 16:36:24.638397  144481 util.go:30] \"No sandbox for pod can be found. Need to start a new one\" pod=\"boutique/shippingservice-5c98c8d685-sv77f\"\nDec 05 16:36:24 worker-01 kubelet[144481]: I1205 16:36:24.894665  144481 kubelet.go:2439] \"SyncLoop (PLEG): event for pod\" pod=\"boutique/shippingservice-5c98c8d685-sv77f\" event={\"ID\":\"d24ad2cc-335b-48fb-bb30-bd4da04dfb05\",\"Type\":\"ContainerStarted\",\"Data\":\"d28ef68c0c3c2c2dca6565ef90fcf79835a2a6bcd3174b9fac126432be03ac9b\"}\nDec 05 16:36:24 worker-01 kubelet[144481]: I1205 16:36:24.908081  144481 dynamic_cafile_content.go:174] \"Shutting down controller\" name=\"client-ca-bundle::/etc/kubernetes/ssl/ca.pem\"\nDec 05 16:36:24 worker-01 systemd[1]: Stopping Kubernetes Kubelet...\nDec 05 16:36:24 worker-01 systemd[1]: kubelet.service: Deactivated successfully.\nDec 05 16:36:24 worker-01 systemd[1]: Stopped Kubernetes Kubelet.\nDec 05 16:36:24 worker-01 systemd[1]: kubelet.service: Consumed 1.662s CPU time."
+    }
+  ]
+}

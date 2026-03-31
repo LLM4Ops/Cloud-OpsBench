@@ -1,0 +1,28 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 3,
+    "total_trace_steps": 3,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource",
+      "GetResources"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: True, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE   IP             NODE        NOMINATED NODE   READINESS GATES\nadservice-74f5c86c49-2lhwq               0/1     Pending   0          70s   <none>         <none>      <none>           <none>\ncartservice-79b49f5555-5dj4j             1/1     Running   0          73s   172.20.2.237   worker-02   <none>           <none>\ncheckoutservice-8445f8b6cb-rgkhj         1/1     Running   0          72s   172.20.1.176   worker-01   <none>           <none>\ncurrencyservice-75686c9564-46b8p         1/1     Running   0          72s   172.20.1.177   worker-01   <none>           <none>\nemailservice-b78fc569b-2khmd             1/1     Running   0          72s   172.20.2.238   worker-02   <none>           <none>\nfrontend-6778bd7b8b-bvt68                1/1     Running   0          72s   172.20.1.178   worker-01   <none>           <none>\npaymentservice-78c5996648-pdl8r          1/1     Running   0          71s   172.20.1.179   worker-01   <none>           <none>\nproductcatalogservice-ddb46fc86-gt4sq    1/1     Running   0          71s   172.20.2.239   worker-02   <none>           <none>\nrecommendationservice-7df9c5b676-jgkc2   1/1     Running   0          71s   172.20.2.240   worker-02   <none>           <none>\nredis-cart-68db7b6f97-7ml8n              1/1     Running   0          71s   172.20.1.180   worker-01   <none>           <none>\nshippingservice-7cbfcb6d68-mv8xs         1/1     Running   0          71s   172.20.2.241   worker-02   <none>           <none>\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'adservice-74f5c86c49-2lhwq'}",
+      "output": "Name:             adservice-74f5c86c49-2lhwq\nNamespace:        boutique\nPriority:         0\nService Account:  adservice\nNode:             <none>\nLabels:           app=adservice\n                  pod-template-hash=74f5c86c49\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/adservice-74f5c86c49\nContainers:\n  server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/adservice:v0.10.3\n    Port:       9555/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     300m\n      memory:  300Mi\n    Requests:\n      cpu:      200m\n      memory:   180Mi\n    Liveness:   grpc <pod>:9555  delay=5s timeout=1s period=5s #success=1 #failure=3\n    Readiness:  grpc <pod>:9555  delay=5s timeout=1s period=5s #success=1 #failure=3\n    Environment:\n      PORT:  9555\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-8j4s8 (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  kube-api-access-8j4s8:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              environment=production\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  70s   default-scheduler  0/4 nodes are available: 1 node(s) were unschedulable, 3 node(s) didn't match Pod's node affinity/selector. preemption: 0/4 nodes are available: 4 Preemption is not helpful for scheduling.\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'node', name: None, show_labels: True, output_wide: False, label_selector: None}",
+      "output": "NAME        STATUS                     ROLES    AGE   VERSION   LABELS\nmaster      Ready,SchedulingDisabled   master   98d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=master,kubernetes.io/os=linux,kubernetes.io/role=master\nworker-01   Ready                      node     98d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,environment=staging,kubernetes.io/arch=amd64,kubernetes.io/hostname=worker-01,kubernetes.io/os=linux,kubernetes.io/role=node\nworker-02   Ready                      node     98d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,environment=staging,kubernetes.io/arch=amd64,kubernetes.io/hostname=worker-02,kubernetes.io/os=linux,kubernetes.io/role=node\nworker-03   Ready                      node     98d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,environment=staging,kubernetes.io/arch=amd64,kubernetes.io/hostname=worker-03,kubernetes.io/os=linux,kubernetes.io/role=node\n"
+    }
+  ]
+}

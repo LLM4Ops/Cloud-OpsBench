@@ -1,0 +1,46 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 6,
+    "total_trace_steps": 6,
+    "history_called_tool_names": [
+      "GetResources",
+      "GetErrorLogs",
+      "GetResources",
+      "CheckServiceConnectivity",
+      "GetResources",
+      "GetResources"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE\nadservice-99b76fc49-k6svh                1/1     Running   0          94s\ncartservice-9b469fbc4-fsnqr              1/1     Running   0          94s\ncheckoutservice-6bcfb6486c-dcmxf         1/1     Running   0          94s\ncurrencyservice-5c9c9fdd9d-s9qpd         1/1     Running   0          94s\nemailservice-69cb5ccf57-fq5qr            1/1     Running   0          93s\npaymentservice-f8b6c595c-cf8bn           1/1     Running   0          93s\nproductcatalogservice-5f876f76c9-nfm7n   1/1     Running   0          93s\nrecommendationservice-6b4cdff567-5w7wt   1/1     Running   0          93s\nredis-cart-5858bb886-p2dr6               1/1     Running   0          93s\nshippingservice-696cc9d869-ffprb         1/1     Running   0          92s\n"
+    },
+    {
+      "tool_name": "GetErrorLogs",
+      "calling": "tool_name='GetErrorLogs' arguments={namespace: 'boutique', service_name: 'frontend'}",
+      "output": "\"\""
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'svc', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE\nadservice               ClusterIP   10.68.70.159    <none>        9555/TCP       96s\ncartservice             ClusterIP   10.68.78.161    <none>        7070/TCP       96s\ncheckoutservice         ClusterIP   10.68.19.1      <none>        5050/TCP       96s\ncurrencyservice         ClusterIP   10.68.116.102   <none>        7000/TCP       96s\nemailservice            ClusterIP   10.68.177.47    <none>        5000/TCP       96s\nfrontend                ClusterIP   10.68.157.190   <none>        80/TCP         94s\nfrontend-external       NodePort    10.68.9.160     <none>        80:30080/TCP   94s\npaymentservice          ClusterIP   10.68.64.112    <none>        50051/TCP      95s\nproductcatalogservice   ClusterIP   10.68.32.237    <none>        3550/TCP       95s\nrecommendationservice   ClusterIP   10.68.199.56    <none>        8080/TCP       95s\nredis-cart              ClusterIP   10.68.16.230    <none>        6379/TCP       95s\nshippingservice         ClusterIP   10.68.230.50    <none>        50051/TCP      95s\n"
+    },
+    {
+      "tool_name": "CheckServiceConnectivity",
+      "calling": "tool_name='CheckServiceConnectivity' arguments={namespace: 'boutique', service_name: 'frontend', port: 80}",
+      "output": "Connection Failed"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'deploy', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                    READY   UP-TO-DATE   AVAILABLE   AGE\nadservice               1/1     1            1           99s\ncartservice             1/1     1            1           99s\ncheckoutservice         1/1     1            1           99s\ncurrencyservice         1/1     1            1           99s\nemailservice            1/1     1            1           99s\nfrontend                0/1     0            0           97s\npaymentservice          1/1     1            1           98s\nproductcatalogservice   1/1     1            1           98s\nrecommendationservice   1/1     1            1           98s\nredis-cart              1/1     1            1           98s\nshippingservice         1/1     1            1           98s\n"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'event', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "2m          Normal    Created             pod/redis-cart-5858bb886-p2dr6                Created container redis\n2m          Normal    Created             pod/recommendationservice-6b4cdff567-5w7wt    Created container server\n2m          Normal    Started             pod/recommendationservice-6b4cdff567-5w7wt    Started container server\n2m          Normal    Pulled              pod/recommendationservice-6b4cdff567-5w7wt    Container image \"us-central1-docker.pkg.dev/google-samples/microservices-demo/recommendationservice:v0.10.3\" already present on machine\n2m          Warning   FailedCreate        replicaset/frontend-78fdd6f7d6                Error creating: pods \"frontend-78fdd6f7d6-n6pcz\" is forbidden: exceeded quota: memory-request-quota, requested: requests.memory=300Mi, used: requests.memory=3000Mi, limited: requests.memory=3Gi\n2m          Normal    Pulled              pod/productcatalogservice-5f876f76c9-nfm7n    Container image \"us-central1-docker.pkg.dev/google-samples/microservices-demo/productcatalogservice:v0.10.3\" already present on machine\n2m          Normal    SuccessfulCreate    replicaset/shippingservice-696cc9d869         Created pod: shippingservice-696cc9d869-ffprb\n2m          Normal    Created             pod/shippingservice-696cc9d869-ffprb          Created container server\n2m          Normal    Pulled              pod/shippingservice-696cc9d869-ffprb          Container image \"us-central1-docker.pkg.dev/google-samples/microservices-demo/shippingservice:v0.10.3\" already present on machine\n2m          Warning   FailedCreate        replicaset/frontend-78fdd6f7d6                Error creating: pods \"frontend-78fdd6f7d6-bgdvl\" is forbidden: exceeded quota: memory-request-quota, requested: requests.memory=300Mi, used: requests.memory=3000Mi, limited: requests.memory=3Gi\n2m          Warning   FailedCreate        replicaset/frontend-78fdd6f7d6                Error creating: pods \"frontend-78fdd6f7d6-7hclt\" is forbidden: exceeded quota: memory-request-quota, requested: requests.memory=300Mi, used: requests.memory=3000Mi, limited: requests.memory=3Gi\n2m          Normal    Started             pod/shippingservice-696cc9d869-ffprb          Started container server\n119s        Warning   FailedCreate        replicaset/frontend-78fdd6f7d6                Error creating: pods \"frontend-78fdd6f7d6-w2xpd\" is forbidden: exceeded quota: memory-request-quota, requested: requests.memory=300Mi, used: requests.memory=3000Mi, limited: requests.memory=3Gi\n119s        Warning   FailedCreate        replicaset/frontend-78fdd6f7d6                Error creating: pods \"frontend-78fdd6f7d6-n2j7n\" is forbidden: exceeded quota: memory-request-quota, requested: requests.memory=300Mi, used: requests.memory=3000Mi, limited: requests.memory=3Gi\n119s        Warning   FailedCreate        replicaset/frontend-78fdd6f7d6                Error creating: pods \"frontend-78fdd6f7d6-pxldx\" is forbidden: exceeded quota: memory-request-quota, requested: requests.memory=300Mi, used: requests.memory=3000Mi, limited: requests.memory=3Gi\n119s        Warning   FailedCreate        replicaset/frontend-78fdd6f7d6                Error creating: pods \"frontend-78fdd6f7d6-td2qf\" is forbidden: exceeded quota: memory-request-quota, requested: requests.memory=300Mi, used: requests.memory=3000Mi, limited: requests.memory=3Gi\n118s        Warning   FailedCreate        replicaset/frontend-78fdd6f7d6                Error creating: pods \"frontend-78fdd6f7d6-4bxxb\" is forbidden: exceeded quota: memory-request-quota, requested: requests.memory=300Mi, used: requests.memory=3000Mi, limited: requests.memory=3Gi\n101s        Warning   Unhealthy           pod/adservice-99b76fc49-k6svh                 Liveness probe failed: timeout: failed to connect service \"172.20.2.145:9555\" within 1s: context deadline exceeded\n101s        Warning   Unhealthy           pod/adservice-99b76fc49-k6svh                 Readiness probe failed: timeout: failed to connect service \"172.20.2.145:9555\" within 1s: context deadline exceeded\n38s         Warning   FailedCreate        replicaset/frontend-78fdd6f7d6                (combined from similar events): Error creating: pods \"frontend-78fdd6f7d6-mvqsk\" is forbidden: exceeded quota: memory-request-quota, requested: requests.memory=300Mi, used: requests.memory=3000Mi, limited: requests.memory=3Gi\n"
+    }
+  ]
+}

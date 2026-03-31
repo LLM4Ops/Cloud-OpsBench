@@ -1,0 +1,22 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 2,
+    "total_trace_steps": 2,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE\nadservice-84dbdf99d-zk626                1/1     Running   0          33s\ncartservice-79b49f5555-98phd             1/1     Running   0          32s\ncheckoutservice-7587897bf4-m6x7w         0/1     Pending   0          30s\ncpu-consumer-65q8j                       1/1     Running   0          31s\ncpu-consumer-bkj66                       1/1     Running   0          31s\ncpu-consumer-bx7kp                       1/1     Running   0          31s\ncpu-consumer-f2qwg                       1/1     Running   0          31s\ncurrencyservice-75686c9564-d9n8v         1/1     Running   0          32s\nemailservice-b78fc569b-952mx             1/1     Running   0          32s\nfrontend-6778bd7b8b-t6cjv                1/1     Running   0          32s\npaymentservice-78c5996648-sqb27          1/1     Running   0          32s\nproductcatalogservice-ddb46fc86-rmc64    1/1     Running   0          31s\nrecommendationservice-7df9c5b676-bdg96   1/1     Running   0          31s\nredis-cart-68db7b6f97-kd2rs              1/1     Running   0          31s\nshippingservice-7cbfcb6d68-f5mmq         1/1     Running   0          31s\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'checkoutservice-7587897bf4-m6x7w'}",
+      "output": "Name:             checkoutservice-7587897bf4-m6x7w\nNamespace:        boutique\nPriority:         0\nService Account:  checkoutservice\nNode:             <none>\nLabels:           app=checkoutservice\n                  pod-template-hash=7587897bf4\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/checkoutservice-7587897bf4\nContainers:\n  server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/checkoutservice:v0.10.3\n    Port:       5050/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     5\n      memory:  128Mi\n    Requests:\n      cpu:      5\n      memory:   64Mi\n    Liveness:   grpc <pod>:5050  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Readiness:  grpc <pod>:5050  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Environment:\n      PORT:                          5050\n      PRODUCT_CATALOG_SERVICE_ADDR:  productcatalogservice:3550\n      SHIPPING_SERVICE_ADDR:         shippingservice:50051\n      PAYMENT_SERVICE_ADDR:          paymentservice:50051\n      EMAIL_SERVICE_ADDR:            emailservice:5000\n      CURRENCY_SERVICE_ADDR:         currencyservice:7000\n      CART_SERVICE_ADDR:             cartservice:7070\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-79ft4 (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  kube-api-access-79ft4:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  30s   default-scheduler  0/4 nodes are available: 1 node(s) were unschedulable, 3 Insufficient cpu. preemption: 0/4 nodes are available: 1 Preemption is not helpful for scheduling, 3 No preemption victims found for incoming pod.\n"
+    }
+  ]
+}

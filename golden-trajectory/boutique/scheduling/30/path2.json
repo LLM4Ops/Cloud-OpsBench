@@ -1,0 +1,141 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 5,
+    "total_trace_steps": 5,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource",
+      "GetClusterConfiguration",
+      "GetResources",
+      "DescribeResource"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE\nadservice-84dbdf99d-c72zp                1/1     Running   0          32s\ncartservice-79b49f5555-mkwd8             1/1     Running   0          32s\ncheckoutservice-8445f8b6cb-ndfjm         1/1     Running   0          32s\ncurrencyservice-75686c9564-kxc7n         1/1     Running   0          31s\ndaemon1-pq8b6                            1/1     Running   0          30s\ndaemon1-qwk2f                            1/1     Running   0          30s\ndaemon1-v55hr                            1/1     Running   0          30s\ndaemon1-znlvt                            1/1     Running   0          30s\nemailservice-6cc965cc46-x4xnv            0/1     Pending   0          30s\nfrontend-6778bd7b8b-fl55l                1/1     Running   0          31s\npaymentservice-78c5996648-kz4w6          1/1     Running   0          31s\nproductcatalogservice-ddb46fc86-p9fc8    1/1     Running   0          31s\nrecommendationservice-7df9c5b676-s89r5   1/1     Running   0          30s\nredis-cart-68db7b6f97-nt8b4              1/1     Running   0          30s\nshippingservice-7cbfcb6d68-46crn         1/1     Running   0          30s\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'emailservice-6cc965cc46-x4xnv'}",
+      "output": "Name:             emailservice-6cc965cc46-x4xnv\nNamespace:        boutique\nPriority:         0\nService Account:  emailservice\nNode:             <none>\nLabels:           app=emailservice\n                  pod-template-hash=6cc965cc46\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/emailservice-6cc965cc46\nContainers:\n  server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/emailservice:v0.10.3\n    Port:       8080/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     5\n      memory:  128Mi\n    Requests:\n      cpu:      5\n      memory:   64Mi\n    Liveness:   grpc <pod>:8080  delay=5s timeout=1s period=5s #success=1 #failure=3\n    Readiness:  grpc <pod>:8080  delay=5s timeout=1s period=5s #success=1 #failure=3\n    Environment:\n      PORT:              8080\n      DISABLE_PROFILER:  1\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-wdsh6 (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  kube-api-access-wdsh6:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  31s   default-scheduler  0/4 nodes are available: 1 node(s) were unschedulable, 3 Insufficient cpu. preemption: 0/4 nodes are available: 1 Preemption is not helpful for scheduling, 3 No preemption victims found for incoming pod.\n"
+    },
+    {
+      "tool_name": "GetClusterConfiguration",
+      "calling": "tool_name='GetClusterConfiguration' arguments={}",
+      "output": {
+        "node_count": 4,
+        "nodes": [
+          {
+            "name": "master",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "master",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "master"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671352Ki"
+            }
+          },
+          {
+            "name": "worker-01",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "disk-type": "ssd",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-01",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          },
+          {
+            "name": "worker-02",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "disk-type": "ssd",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-02",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          },
+          {
+            "name": "worker-03",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "disk-type": "ssd",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-03",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671352Ki"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'daemonset', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME      DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE\ndaemon1   4         4         4       4            4           <none>          40s\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'daemonset', name: 'daemon1'}",
+      "output": "Name:           daemon1\nSelector:       name=daemon1\nNode-Selector:  <none>\nLabels:         <none>\nAnnotations:    deprecated.daemonset.template.generation: 1\nDesired Number of Nodes Scheduled: 4\nCurrent Number of Nodes Scheduled: 4\nNumber of Nodes Scheduled with Up-to-date Pods: 4\nNumber of Nodes Scheduled with Available Pods: 4\nNumber of Nodes Misscheduled: 0\nPods Status:  4 Running / 0 Waiting / 0 Succeeded / 0 Failed\nPod Template:\n  Labels:  name=daemon1\n  Containers:\n   consumer:\n    Image:      busybox:1.35\n    Port:       <none>\n    Host Port:  <none>\n    Command:\n      sh\n      -c\n      while true; do sleep 3600; done\n    Limits:\n      cpu:     5\n      memory:  128Mi\n    Requests:\n      cpu:         5\n      memory:      64Mi\n    Environment:   <none>\n    Mounts:        <none>\n  Volumes:         <none>\n  Node-Selectors:  <none>\n  Tolerations:     <none>\nEvents:\n  Type    Reason            Age   From                  Message\n  ----    ------            ----  ----                  -------\n  Normal  SuccessfulCreate  40s   daemonset-controller  Created pod: daemon1-pq8b6\n  Normal  SuccessfulCreate  40s   daemonset-controller  Created pod: daemon1-qwk2f\n  Normal  SuccessfulCreate  40s   daemonset-controller  Created pod: daemon1-znlvt\n  Normal  SuccessfulCreate  40s   daemonset-controller  Created pod: daemon1-v55hr\n"
+    }
+  ]
+}

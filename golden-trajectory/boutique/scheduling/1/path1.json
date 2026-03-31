@@ -1,0 +1,34 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 4,
+    "total_trace_steps": 4,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource",
+      "GetAppYAML",
+      "GetResources"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: True, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE   IP            NODE        NOMINATED NODE   READINESS GATES\nadservice-84dbdf99d-gr4jx                1/1     Running   0          73s   172.20.2.61   worker-02   <none>           <none>\ncartservice-79b49f5555-rl2kp             0/1     Pending   0          70s   <none>        <none>      <none>           <none>\ncheckoutservice-8445f8b6cb-lqnlx         1/1     Running   0          72s   172.20.1.6    worker-01   <none>           <none>\ncurrencyservice-75686c9564-d76qj         1/1     Running   0          72s   172.20.2.62   worker-02   <none>           <none>\nemailservice-b78fc569b-6xl4x             1/1     Running   0          72s   172.20.1.7    worker-01   <none>           <none>\nfrontend-6778bd7b8b-mkq9c                1/1     Running   0          72s   172.20.1.8    worker-01   <none>           <none>\npaymentservice-78c5996648-9d7zm          1/1     Running   0          72s   172.20.2.63   worker-02   <none>           <none>\nproductcatalogservice-ddb46fc86-jg7kl    1/1     Running   0          71s   172.20.1.9    worker-01   <none>           <none>\nrecommendationservice-7df9c5b676-zgzj4   1/1     Running   0          71s   172.20.2.64   worker-02   <none>           <none>\nredis-cart-68db7b6f97-85b2n              1/1     Running   0          71s   172.20.1.10   worker-01   <none>           <none>\nshippingservice-7cbfcb6d68-cltm4         1/1     Running   0          71s   172.20.2.65   worker-02   <none>           <none>\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'cartservice-79b49f5555-rl2kp'}",
+      "output": "Name:             cartservice-79b49f5555-rl2kp\nNamespace:        boutique\nPriority:         0\nService Account:  cartservice\nNode:             <none>\nLabels:           app=cartservice\n                  pod-template-hash=79b49f5555\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/cartservice-79b49f5555\nContainers:\n  server:\n    Image:      us-central1-docker.pkg.dev/google-samples/microservices-demo/cartservice:v0.10.3\n    Port:       7070/TCP\n    Host Port:  0/TCP\n    Limits:\n      cpu:     300m\n      memory:  128Mi\n    Requests:\n      cpu:     200m\n      memory:  64Mi\n    Environment:\n      REDIS_ADDR:  redis-cart:6379\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-7bshx (ro)\nConditions:\n  Type           Status\n  PodScheduled   False \nVolumes:\n  kube-api-access-7bshx:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason            Age   From               Message\n  ----     ------            ----  ----               -------\n  Warning  FailedScheduling  71s   default-scheduler  0/4 nodes are available: 4 node(s) were unschedulable. preemption: 0/4 nodes are available: 4 Preemption is not helpful for scheduling.\n"
+    },
+    {
+      "tool_name": "GetAppYAML",
+      "calling": "tool_name='GetAppYAML' arguments={app_name: 'cartservice'}",
+      "output": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: cartservice\n  namespace: boutique\n  labels:\n    app: cartservice\nspec:\n  selector:\n    matchLabels:\n      app: cartservice\n  template:\n    metadata:\n      labels:\n        app: cartservice\n    spec:\n      serviceAccountName: cartservice\n      terminationGracePeriodSeconds: 5\n      securityContext:\n        fsGroup: 1000\n        runAsGroup: 1000\n        runAsNonRoot: true\n        runAsUser: 1000\n      containers:\n      - name: server\n        securityContext:\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop:\n              - ALL\n          privileged: false\n          readOnlyRootFilesystem: true\n        image: us-central1-docker.pkg.dev/google-samples/microservices-demo/cartservice:v0.10.3\n        ports:\n        - containerPort: 7070\n        env:\n        - name: REDIS_ADDR\n          value: \"redis-cart:6379\"\n        resources:\n          requests:\n            cpu: 200m\n            memory: 64Mi\n          limits:\n            cpu: 300m\n            memory: 128Mi\n\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: cartservice\n  namespace: boutique\n  labels:\n    app: cartservice\nspec:\n  type: ClusterIP\n  selector:\n    app: cartservice\n  ports:\n  - name: grpc\n    port: 7070\n    targetPort: 7070\n---\napiVersion: v1\nkind: ServiceAccount\nmetadata:\n  name: cartservice\n  namespace: boutique"
+    },
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'node', name: None, show_labels: True, output_wide: False, label_selector: None}",
+      "output": "NAME        STATUS                     ROLES    AGE   VERSION   LABELS\nmaster      Ready,SchedulingDisabled   master   95d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=master,kubernetes.io/os=linux,kubernetes.io/role=master\nworker-01   Ready,SchedulingDisabled   node     95d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=worker-01,kubernetes.io/os=linux,kubernetes.io/role=node\nworker-02   Ready,SchedulingDisabled   node     95d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=worker-02,kubernetes.io/os=linux,kubernetes.io/role=node\nworker-03   Ready,SchedulingDisabled   node     95d   v1.31.2   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=worker-03,kubernetes.io/os=linux,kubernetes.io/role=node\n"
+    }
+  ]
+}

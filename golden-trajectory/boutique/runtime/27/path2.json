@@ -1,0 +1,22 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 2,
+    "total_trace_steps": 2,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: False, label_selector: None}",
+      "output": "NAME                                     READY   STATUS              RESTARTS   AGE\nadservice-84dbdf99d-f9rrp                1/1     Running             0          32s\ncartservice-79b49f5555-f9tbc             1/1     Running             0          32s\ncheckoutservice-8445f8b6cb-tsnw4         1/1     Running             0          31s\ncurrencyservice-75686c9564-97b42         1/1     Running             0          31s\nemailservice-b78fc569b-kk52x             1/1     Running             0          31s\nfrontend-6778bd7b8b-nr57v                1/1     Running             0          31s\npaymentservice-8694bc5949-9p4xp          0/1     ContainerCreating   0          29s\nproductcatalogservice-ddb46fc86-vgk44    1/1     Running             0          30s\nrecommendationservice-7df9c5b676-vs2qs   1/1     Running             0          30s\nredis-cart-68db7b6f97-lsl6j              1/1     Running             0          30s\nshippingservice-7cbfcb6d68-b2gph         1/1     Running             0          30s\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'paymentservice-8694bc5949-9p4xp'}",
+      "output": "Name:             paymentservice-8694bc5949-9p4xp\nNamespace:        boutique\nPriority:         0\nService Account:  paymentservice\nNode:             worker-03/192.168.0.174\nStart Time:       Tue, 11 Nov 2025 04:03:44 +0800\nLabels:           app=paymentservice\n                  pod-template-hash=8694bc5949\nAnnotations:      <none>\nStatus:           Pending\nIP:               \nIPs:              <none>\nControlled By:    ReplicaSet/paymentservice-8694bc5949\nContainers:\n  server:\n    Container ID:   \n    Image:          us-central1-docker.pkg.dev/google-samples/microservices-demo/paymentservice:v0.10.3\n    Image ID:       \n    Port:           50051/TCP\n    Host Port:      0/TCP\n    State:          Waiting\n      Reason:       ContainerCreating\n    Ready:          False\n    Restart Count:  0\n    Limits:\n      cpu:     200m\n      memory:  5Mi\n    Requests:\n      cpu:      100m\n      memory:   5Mi\n    Liveness:   grpc <pod>:50051  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Readiness:  grpc <pod>:50051  delay=5s timeout=1s period=10s #success=1 #failure=3\n    Environment:\n      PORT:              50051\n      DISABLE_PROFILER:  1\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-pthzn (ro)\nConditions:\n  Type                        Status\n  PodReadyToStartContainers   False \n  Initialized                 True \n  Ready                       False \n  ContainersReady             False \n  PodScheduled                True \nVolumes:\n  kube-api-access-pthzn:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type     Reason                  Age               From               Message\n  ----     ------                  ----              ----               -------\n  Normal   Scheduled               31s               default-scheduler  Successfully assigned boutique/paymentservice-8694bc5949-9p4xp to worker-03\n  Warning  FailedCreatePodSandBox  4s (x3 over 31s)  kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to create containerd task: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: container init was OOM-killed (memory limit too low?): unknown\n"
+    }
+  ]
+}

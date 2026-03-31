@@ -1,0 +1,156 @@
+{
+  "statistics": {
+    "valid_tool_call_count": 8,
+    "total_trace_steps": 8,
+    "history_called_tool_names": [
+      "GetResources",
+      "DescribeResource",
+      "GetErrorLogs",
+      "GetClusterConfiguration",
+      "CheckServiceConnectivity",
+      "CheckServiceConnectivity",
+      "DescribeResource",
+      "CheckNodeServiceStatus"
+    ]
+  },
+  "diagnostic_trace": [
+    {
+      "tool_name": "GetResources",
+      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'pod', name: None, show_labels: False, output_wide: True, label_selector: None}",
+      "output": "NAME                                     READY   STATUS    RESTARTS   AGE   IP             NODE        NOMINATED NODE   READINESS GATES\nadservice-d68dfc56-r2w4m                 1/1     Running   0          72s   172.20.2.3     worker-02   <none>           <none>\ncartservice-7c5f46fc47-wlzxf             1/1     Running   0          73s   172.20.2.2     worker-02   <none>           <none>\ncheckoutservice-dbcdcb5fb-sh5w5          1/1     Running   0          72s   172.20.2.4     worker-02   <none>           <none>\ncurrencyservice-5cd6467fc4-njwvc         1/1     Running   0          71s   172.20.1.218   worker-01   <none>           <none>\nemailservice-7dc7d85bcb-8jft2            1/1     Running   0          73s   172.20.2.253   worker-02   <none>           <none>\nfrontend-6778bd7b8b-6dlql                1/1     Running   0          71s   172.20.2.6     worker-02   <none>           <none>\npaymentservice-869f9f96cd-m5jpz          1/1     Running   0          73s   172.20.1.215   worker-01   <none>           <none>\nproductcatalogservice-6fb89f98f8-sjvgj   1/1     Running   0          73s   172.20.2.254   worker-02   <none>           <none>\nrecommendationservice-54dfdd6986-rbvmg   1/1     Running   0          73s   172.20.1.216   worker-01   <none>           <none>\nredis-cart-58649b5469-tthdt              1/1     Running   0          72s   172.20.1.217   worker-01   <none>           <none>\nshippingservice-674c8c548d-mb69s         1/1     Running   0          72s   172.20.2.5     worker-02   <none>           <none>\n"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'pod', name: 'frontend-6778bd7b8b-6dlql'}",
+      "output": "Name:             frontend-6778bd7b8b-6dlql\nNamespace:        boutique\nPriority:         0\nService Account:  frontend\nNode:             worker-02/192.168.0.53\nStart Time:       Fri, 02 Jan 2026 16:01:41 +0800\nLabels:           app=frontend\n                  pod-template-hash=6778bd7b8b\nAnnotations:      sidecar.istio.io/rewriteAppHTTPProbers: true\nStatus:           Running\nIP:               172.20.2.6\nIPs:\n  IP:           172.20.2.6\nControlled By:  ReplicaSet/frontend-6778bd7b8b\nContainers:\n  server:\n    Container ID:   containerd://5de9b1ebf2682e0ab76f3da1752f1ee0361ca1b6fbc2f7f77cea71c5f606848e\n    Image:          us-central1-docker.pkg.dev/google-samples/microservices-demo/frontend:v0.10.3\n    Image ID:       us-central1-docker.pkg.dev/google-samples/microservices-demo/frontend@sha256:83f44050fc5ea5999ea04a940e687d7bd5ad357fcf6e6f5944e5e32de006bbdb\n    Port:           8080/TCP\n    Host Port:      0/TCP\n    State:          Running\n      Started:      Fri, 02 Jan 2026 16:01:42 +0800\n    Ready:          True\n    Restart Count:  0\n    Limits:\n      cpu:     200m\n      memory:  128Mi\n    Requests:\n      cpu:     100m\n      memory:  64Mi\n    Environment:\n      PORT:                             8080\n      PRODUCT_CATALOG_SERVICE_ADDR:     productcatalogservice:3550\n      CURRENCY_SERVICE_ADDR:            currencyservice:7000\n      CART_SERVICE_ADDR:                cartservice:7070\n      RECOMMENDATION_SERVICE_ADDR:      recommendationservice:8080\n      SHIPPING_SERVICE_ADDR:            shippingservice:50051\n      CHECKOUT_SERVICE_ADDR:            checkoutservice:5050\n      AD_SERVICE_ADDR:                  adservice:9555\n      SHOPPING_ASSISTANT_SERVICE_ADDR:  shoppingassistantservice:80\n      ENABLE_PROFILER:                  0\n    Mounts:\n      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-p6p5v (ro)\nConditions:\n  Type                        Status\n  PodReadyToStartContainers   True \n  Initialized                 True \n  Ready                       True \n  ContainersReady             True \n  PodScheduled                True \nVolumes:\n  kube-api-access-p6p5v:\n    Type:                    Projected (a volume that contains injected data from multiple sources)\n    TokenExpirationSeconds:  3607\n    ConfigMapName:           kube-root-ca.crt\n    ConfigMapOptional:       <nil>\n    DownwardAPI:             true\nQoS Class:                   Burstable\nNode-Selectors:              <none>\nTolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s\n                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s\nEvents:\n  Type    Reason     Age   From               Message\n  ----    ------     ----  ----               -------\n  Normal  Scheduled  72s   default-scheduler  Successfully assigned boutique/frontend-6778bd7b8b-6dlql to worker-02\n  Normal  Pulled     71s   kubelet            Container image \"us-central1-docker.pkg.dev/google-samples/microservices-demo/frontend:v0.10.3\" already present on machine\n  Normal  Created    71s   kubelet            Created container server\n  Normal  Started    71s   kubelet            Started container server\n"
+    },
+    {
+      "tool_name": "GetErrorLogs",
+      "calling": "tool_name='GetErrorLogs' arguments={namespace: 'boutique', service_name: 'frontend'}",
+      "output": "\"{\\n  \\\"total_log_count\\\": 921,\\n  \\\"total_errors\\\": 206,\\n  \\\"total_error_ratio\\\": 0.2237,\\n  \\\"patterns\\\": [\\n    {\\n      \\\"count\\\": 91,\\n      \\\"ratio\\\": 0.0988,\\n      \\\"sample\\\": \\\"2026-01-02T16:02:47.484036136+08:00 {\\\\\\\"error\\\\\\\":\\\\\\\"could not retrieve currencies: rpc error: code = Unavailable desc = connection error: desc = \\\\\\\\\\\\\\\"transport: Error while dialing: dial tcp 10.68.192.252:7000: i/o timeout\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"http.req.id\\\\\\\":\\\\\\\"4462f941-ff9e-42a4-94b3-f1ebb046cf1f\\\\\\\",\\\\\\\"http.req.method\\\\\\\":\\\\\\\"GET\\\\\\\",\\\\\\\"http.req.path\\\\\\\":\\\\\\\"/cart\\\\\\\",\\\\\\\"message\\\\\\\":\\\\\\\"request error\\\\\\\",\\\\\\\"session\\\\\\\":\\\\\\\"a948572a-cff4-4ae4-a1a6-33e97db81ae8\\\\\\\",\\\\\\\"severity\\\\\\\":\\\\\\\"error\\\\\\\",\\\\\\\"timestamp\\\\\\\":\\\\\\\"2026-01-02T08:02:47.483991873Z\\\\\\\"}\\\"\\n    },\\n    {\\n      \\\"count\\\": 88,\\n      \\\"ratio\\\": 0.0955,\\n      \\\"sample\\\": \\\"2026-01-02T16:02:44.878593957+08:00 {\\\\\\\"error\\\\\\\":\\\\\\\"could not retrieve product: rpc error: code = Unavailable desc = connection error: desc = \\\\\\\\\\\\\\\"transport: Error while dialing: dial tcp 10.68.54.111:3550: i/o timeout\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"http.req.id\\\\\\\":\\\\\\\"13a1cacf-3387-49b3-8020-dda4d21b7228\\\\\\\",\\\\\\\"http.req.method\\\\\\\":\\\\\\\"GET\\\\\\\",\\\\\\\"http.req.path\\\\\\\":\\\\\\\"/product/1YMWWN1N4O\\\\\\\",\\\\\\\"message\\\\\\\":\\\\\\\"request error\\\\\\\",\\\\\\\"session\\\\\\\":\\\\\\\"07c2378b-8c13-4af3-a324-51bbad07a50f\\\\\\\",\\\\\\\"severity\\\\\\\":\\\\\\\"error\\\\\\\",\\\\\\\"timestamp\\\\\\\":\\\\\\\"2026-01-02T08:02:44.878552828Z\\\\\\\"}\\\"\\n    },\\n    {\\n      \\\"count\\\": 25,\\n      \\\"ratio\\\": 0.0271,\\n      \\\"sample\\\": \\\"2026-01-02T16:02:47.009477897+08:00 {\\\\\\\"error\\\\\\\":\\\\\\\"failed to complete the order: rpc error: code = Unavailable desc = connection error: desc = \\\\\\\\\\\\\\\"transport: Error while dialing: dial tcp 10.68.176.74:5050: i/o timeout\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"http.req.id\\\\\\\":\\\\\\\"44d3167f-cc61-49ec-bfdd-84e364efebdd\\\\\\\",\\\\\\\"http.req.method\\\\\\\":\\\\\\\"POST\\\\\\\",\\\\\\\"http.req.path\\\\\\\":\\\\\\\"/cart/checkout\\\\\\\",\\\\\\\"message\\\\\\\":\\\\\\\"request error\\\\\\\",\\\\\\\"session\\\\\\\":\\\\\\\"bf355ad4-62df-488f-bf24-b51b9ccc5480\\\\\\\",\\\\\\\"severity\\\\\\\":\\\\\\\"error\\\\\\\",\\\\\\\"timestamp\\\\\\\":\\\\\\\"2026-01-02T08:02:47.009405647Z\\\\\\\"}\\\"\\n    },\\n    {\\n      \\\"count\\\": 1,\\n      \\\"ratio\\\": 0.0011,\\n      \\\"sample\\\": \\\"2026-01-02T16:01:42.330037256+08:00 {\\\\\\\"message\\\\\\\":\\\\\\\"Failed to fetch the name of the cluster in which the pod is runningmetadata: GCE metadata \\\\\\\\\\\\\\\"instance/attributes/cluster-name\\\\\\\\\\\\\\\" not defined\\\\\\\",\\\\\\\"severity\\\\\\\":\\\\\\\"error\\\\\\\",\\\\\\\"timestamp\\\\\\\":\\\\\\\"2026-01-02T08:01:42.329920318Z\\\\\\\"}\\\"\\n    },\\n    {\\n      \\\"count\\\": 1,\\n      \\\"ratio\\\": 0.0011,\\n      \\\"sample\\\": \\\"2026-01-02T16:01:42.340044826+08:00 {\\\\\\\"message\\\\\\\":\\\\\\\"Failed to fetch the Zone of the node where the pod is scheduledmetadata: GCE metadata \\\\\\\\\\\\\\\"instance/zone\\\\\\\\\\\\\\\" not defined\\\\\\\",\\\\\\\"severity\\\\\\\":\\\\\\\"error\\\\\\\",\\\\\\\"timestamp\\\\\\\":\\\\\\\"2026-01-02T08:01:42.33996203Z\\\\\\\"}\\\"\\n    }\\n  ]\\n}\""
+    },
+    {
+      "tool_name": "GetClusterConfiguration",
+      "calling": "tool_name='GetClusterConfiguration' arguments={}",
+      "output": {
+        "node_count": 4,
+        "nodes": [
+          {
+            "name": "master",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [
+              "node.kubernetes.io/unschedulable:NoSchedule"
+            ],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "master",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "master"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          },
+          {
+            "name": "worker-01",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-01",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671352Ki"
+            }
+          },
+          {
+            "name": "worker-02",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-02",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          },
+          {
+            "name": "worker-03",
+            "role": "worker",
+            "status": "Ready",
+            "conditions": {
+              "MemoryPressure": "False",
+              "DiskPressure": "False",
+              "PIDPressure": "False"
+            },
+            "taints": [],
+            "labels": {
+              "beta.kubernetes.io/arch": "amd64",
+              "beta.kubernetes.io/os": "linux",
+              "kubernetes.io/arch": "amd64",
+              "kubernetes.io/hostname": "worker-03",
+              "kubernetes.io/os": "linux",
+              "kubernetes.io/role": "node"
+            },
+            "allocatable_resources": {
+              "cpu": "8",
+              "memory": "15671348Ki"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "tool_name": "CheckServiceConnectivity",
+      "calling": "tool_name='CheckServiceConnectivity' arguments={namespace: 'boutique', service_name: 'productcatalogservice', port: 3550}",
+      "output": "=== Service productcatalogservice:3550 Connectivity test report ===\nDebug Pod test results deployed on worker-01: productcatalogservice (10.68.54.111:3550) open\nConnection Succeeded\nDebug Pod test results deployed on worker-02: punt!\nTerminated\nConnection Failed\nDebug Pod test results deployed on worker-03: productcatalogservice (10.68.54.111:3550) open\nConnection Succeeded"
+    },
+    {
+      "tool_name": "CheckServiceConnectivity",
+      "calling": "tool_name='CheckServiceConnectivity' arguments={namespace: 'boutique', service_name: 'paymentservice', port: 50051}",
+      "output": "=== Service paymentservice:50051 Connectivity test report ===\nDebug Pod test results deployed on worker-01: paymentservice (10.68.241.70:50051) open\nConnection Succeeded\nDebug Pod test results deployed on worker-02: punt!\nTerminated\nConnection Failed\nDebug Pod test results deployed on worker-03: paymentservice (10.68.241.70:50051) open\nConnection Succeeded"
+    },
+    {
+      "tool_name": "DescribeResource",
+      "calling": "tool_name='DescribeResource' arguments={namespace: 'boutique', resource_type: 'node', name: 'worker-02'}",
+      "output": "Name:               worker-02\nRoles:              node\nLabels:             beta.kubernetes.io/arch=amd64\n                    beta.kubernetes.io/os=linux\n                    kubernetes.io/arch=amd64\n                    kubernetes.io/hostname=worker-02\n                    kubernetes.io/os=linux\n                    kubernetes.io/role=node\nAnnotations:        flannel.alpha.coreos.com/backend-data: {\"VNI\":1,\"VtepMAC\":\"5a:d9:43:a8:2f:c8\"}\n                    flannel.alpha.coreos.com/backend-type: vxlan\n                    flannel.alpha.coreos.com/kube-subnet-manager: true\n                    flannel.alpha.coreos.com/public-ip: 192.168.0.53\n                    node.alpha.kubernetes.io/ttl: 0\n                    volumes.kubernetes.io/controller-managed-attach-detach: true\nCreationTimestamp:  Mon, 11 Aug 2025 15:49:09 +0800\nTaints:             <none>\nUnschedulable:      false\nLease:\n  HolderIdentity:  worker-02\n  AcquireTime:     <unset>\n  RenewTime:       Fri, 02 Jan 2026 16:03:12 +0800\nConditions:\n  Type                 Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message\n  ----                 ------  -----------------                 ------------------                ------                       -------\n  NetworkUnavailable   False   Fri, 02 Jan 2026 11:52:43 +0800   Fri, 02 Jan 2026 11:52:43 +0800   FlannelIsUp                  Flannel is running on this node\n  MemoryPressure       False   Fri, 02 Jan 2026 16:02:34 +0800   Thu, 11 Dec 2025 11:28:55 +0800   KubeletHasSufficientMemory   kubelet has sufficient memory available\n  DiskPressure         False   Fri, 02 Jan 2026 16:02:34 +0800   Thu, 11 Dec 2025 11:28:55 +0800   KubeletHasNoDiskPressure     kubelet has no disk pressure\n  PIDPressure          False   Fri, 02 Jan 2026 16:02:34 +0800   Thu, 11 Dec 2025 11:28:55 +0800   KubeletHasSufficientPID      kubelet has sufficient PID available\n  Ready                True    Fri, 02 Jan 2026 16:02:34 +0800   Fri, 02 Jan 2026 13:12:14 +0800   KubeletReady                 kubelet is posting ready status\nAddresses:\n  InternalIP:  192.168.0.53\n  Hostname:    worker-02\nCapacity:\n  cpu:                8\n  ephemeral-storage:  103084600Ki\n  hugepages-1Gi:      0\n  hugepages-2Mi:      0\n  memory:             15978548Ki\n  pods:               110\nAllocatable:\n  cpu:                8\n  ephemeral-storage:  95002767203\n  hugepages-1Gi:      0\n  hugepages-2Mi:      0\n  memory:             15671348Ki\n  pods:               110\nSystem Info:\n  Machine ID:                 9c21ae206bb84c18b004394392724faa\n  System UUID:                aa737935-f9cf-4bc8-ac3d-3c8936223857\n  Boot ID:                    2d4fac40-e77d-4b98-9f48-c91432de3a28\n  Kernel Version:             5.15.0-138-generic\n  OS Image:                   Ubuntu 22.04.5 LTS\n  Operating System:           linux\n  Architecture:               amd64\n  Container Runtime Version:  containerd://1.7.23\n  Kubelet Version:            v1.31.2\n  Kube-Proxy Version:         v1.31.2\nPodCIDR:                      172.20.2.0/24\nPodCIDRs:                     172.20.2.0/24\nNon-terminated Pods:          (14 in total)\n  Namespace                   Name                                      CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age\n  ---------                   ----                                      ------------  ----------  ---------------  -------------  ---\n  boutique                    adservice-d68dfc56-r2w4m                  100m (1%)     200m (2%)   200Mi (1%)       300Mi (1%)     96s\n  boutique                    cartservice-7c5f46fc47-wlzxf              100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     97s\n  boutique                    checkoutservice-dbcdcb5fb-sh5w5           100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     96s\n  boutique                    emailservice-7dc7d85bcb-8jft2             100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     97s\n  boutique                    frontend-6778bd7b8b-6dlql                 100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     95s\n  boutique                    productcatalogservice-6fb89f98f8-sjvgj    100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     97s\n  boutique                    shippingservice-674c8c548d-mb69s          100m (1%)     200m (2%)   64Mi (0%)        128Mi (0%)     96s\n  chaosblade                  chaosblade-tool-lg5cc                     0 (0%)        0 (0%)      0 (0%)           0 (0%)         49d\n  istio-system                istio-cni-node-44dhl                      100m (1%)     0 (0%)      100Mi (0%)       0 (0%)         66d\n  istio-system                ztunnel-qjds9                             200m (2%)     0 (0%)      512Mi (3%)       0 (0%)         66d\n  kube-system                 kube-flannel-ds-sqbpp                     100m (1%)     0 (0%)      50Mi (0%)        0 (0%)         49d\n  kube-system                 node-local-dns-mrmqq                      25m (0%)      0 (0%)      5Mi (0%)         0 (0%)         144d\n  monitor                     cadvisor-jn9lz                            0 (0%)        0 (0%)      0 (0%)           0 (0%)         49d\n  monitor                     node-exporter-x96tv                       0 (0%)        0 (0%)      0 (0%)           0 (0%)         49d\nAllocated resources:\n  (Total limits may be over 100 percent, i.e., overcommitted.)\n  Resource           Requests     Limits\n  --------           --------     ------\n  cpu                1125m (14%)  1400m (17%)\n  memory             1251Mi (8%)  1068Mi (6%)\n  ephemeral-storage  0 (0%)       0 (0%)\n  hugepages-1Gi      0 (0%)       0 (0%)\n  hugepages-2Mi      0 (0%)       0 (0%)\nEvents:\n  Type    Reason    Age   From        Message\n  ----    ------    ----  ----        -------\n  Normal  Starting  34m   kube-proxy  \n  Normal  Starting  12m   kube-proxy  \n"
+    },
+    {
+      "tool_name": "CheckNodeServiceStatus",
+      "calling": "tool_name='CheckNodeServiceStatus' arguments={node_name: 'worker-02', service_name: 'kube-proxy'}",
+      "output": "Service: kube-proxy\nNode: worker-02\nStatus: ○ kube-proxy.service - Kubernetes Kube-Proxy Server\n     Loaded: loaded (/etc/systemd/system/kube-proxy.service; enabled; vendor preset: enabled)\n     Active: inactive (dead) since Fri 2026-01-02 16:01:18 CST; 4min 18s ago\n       Docs: https://github.com/GoogleCloudPlatform/kubernetes\n    Process: 204877 ExecStart=/opt/kube/bin/kube-proxy --config=/var/lib/kube-proxy/kube-proxy-config.yaml (code=killed, signal=TERM)\n   Main PID: 204877 (code=killed, signal=TERM)\n        CPU: 7.195s\n\nJan 02 15:50:37 worker-02 kube-proxy[204877]: I0102 15:50:37.271796  204877 shared_informer.go:313] Waiting for caches to sync for endpoint slice config\nJan 02 15:50:37 worker-02 kube-proxy[204877]: I0102 15:50:37.271826  204877 config.go:328] \"Starting node config controller\"\nJan 02 15:50:37 worker-02 kube-proxy[204877]: I0102 15:50:37.271831  204877 shared_informer.go:313] Waiting for caches to sync for node config\nJan 02 15:50:37 worker-02 kube-proxy[204877]: I0102 15:50:37.372160  204877 shared_informer.go:320] Caches are synced for node config\nJan 02 15:50:37 worker-02 kube-proxy[204877]: I0102 15:50:37.372175  204877 shared_informer.go:320] Caches are synced for endpoint slice config\nJan 02 15:50:37 worker-02 kube-proxy[204877]: I0102 15:50:37.372188  204877 shared_informer.go:320] Caches are synced for service config\nJan 02 16:01:18 worker-02 systemd[1]: Stopping Kubernetes Kube-Proxy Server...\nJan 02 16:01:18 worker-02 systemd[1]: kube-proxy.service: Deactivated successfully.\nJan 02 16:01:18 worker-02 systemd[1]: Stopped Kubernetes Kube-Proxy Server.\nJan 02 16:01:18 worker-02 systemd[1]: kube-proxy.service: Consumed 7.195s CPU time."
+    }
+  ]
+}
