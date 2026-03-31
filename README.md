@@ -97,6 +97,12 @@ golden-trajectory/<system>/<fault_category>/<case_id>/
 
 This means a single benchmark case may provide multiple expert reasoning paths.
 
+### 📽️ An Easy Demo  
+We provide a demo that you can directly interact with fault cases in Cloud-OpsBench for diagnosis. We provide an [video link ▶️](https://www.youtube.com/watch?v=lVd0f-24T8o) to show.
+```bash
+python interact.py
+```
+
 ## Running the ReAct Agent
 
 The repository includes a lightweight ReAct-style diagnostic agent under `cloudops_agent/`.
