@@ -79,7 +79,7 @@ benchmark/<system>/<fault_category>/<case_id>/
 - `raw_data/k8s_states.json`: Kubernetes object snapshots.
 - `raw_data/logs.json`: service and container logs.
 - `raw_data/alert.json`: alert and anomaly signals from adnormal metrics and requests.
-- `raw_data/metrics.csv`: time-series metrics for performance cases only.
+- `raw_data/metrics.csv`: time-series metrics.
 
 Not every case contains `metrics.csv`. Some faults occur in the early Pod lifecycle before the workload enters the running stage and before user traffic or load arrives, so no runtime performance metrics are generated for those cases.
 
@@ -95,10 +95,8 @@ golden-trajectory/<system>/<fault_category>/<case_id>/
 └── path2.json
 ```
 
-This means a single benchmark case may provide multiple expert reasoning paths.
-
 ### 📽️ An Easy Demo  
-**Cloud-OpsBench** is easy to use, you do not need to deploy your cloud environment. We provide a demo that you can directly interact with fault cases in Cloud-OpsBench for diagnosis. We provide an [video link ▶️](https://www.youtube.com/watch?v=lVd0f-24T8o) to show.
+We provide a demo that you can directly interact with fault cases in Cloud-OpsBench for diagnosis. We provide an [video link ▶️](https://www.youtube.com/watch?v=lVd0f-24T8o) to show.
 ```bash
 python interact.py
 ```
@@ -186,7 +184,7 @@ Cloud-OpsBench provides a set of diagnostic tools for interactive RCA.
 
 ## Experimental Results
 
-The following tables are taken from `/root/k8srca/table3.tex` and report outcome and process metrics by system.
+The following tables report outcome and process metrics by system.
 
 ### Boutique
 
