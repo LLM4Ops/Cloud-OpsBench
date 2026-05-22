@@ -1,0 +1,24 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 2,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "frontend",
+      "time_range": "2026-05-18 18:31:58 ~ 2026-05-18 18:34:33",
+      "status": "ABNORMAL",
+      "evidence": [
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=21.10ms -> Current=10169.49ms (+48098.9%) | Peak=13846.15ms | p90latency: Normal=73.15ms -> Current=26033.90ms (+35491.2%) | Peak=26769.23ms"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "productcatalogservice",
+      "time_range": "2026-05-18 18:31:58 ~ 2026-05-18 18:34:33",
+      "status": "ABNORMAL",
+      "evidence": [
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=0.31ms -> Current=3332.65ms (+1089001.8%) | Peak=3434.20ms | p90latency: Normal=2.96ms -> Current=4666.53ms (+157659.6%) | Peak=4686.84ms"
+      ]
+    }
+  ]
+}

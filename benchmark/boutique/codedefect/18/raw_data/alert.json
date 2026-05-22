@@ -1,0 +1,15 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 1,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "checkoutservice",
+      "time_range": "2026-05-19 16:58:09 ~ 2026-05-19 17:00:44",
+      "status": "ABNORMAL",
+      "evidence": [
+        "TRAFFIC_ANOMALY [Network Surge] | Inbound: Normal=11.60pps -> Current=39.92pps (+244.0%) | Outbound: Normal=13.19pps -> Current=45.64pps (+245.9%)"
+      ]
+    }
+  ]
+}

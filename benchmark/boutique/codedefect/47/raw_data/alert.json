@@ -1,0 +1,48 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 5,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "frontend",
+      "time_range": "2026-05-18 22:59:26 ~ 2026-05-18 23:02:01",
+      "status": "ABNORMAL",
+      "evidence": [
+        "ERROR_SPIKE [Success Rate Drop] | Normal=90.5% -> Cur=66.7% (-23.8%)"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "recommendationservice",
+      "time_range": "2026-05-18 22:59:26 ~ 2026-05-18 23:02:01",
+      "status": "ABNORMAL",
+      "evidence": [
+        "AVAILABILITY_MISSING [Data Loss] | success_rate vanished"
+      ]
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 526,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 18,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "Browse home page",
+      "entry_service": "frontend",
+      "url": "/",
+      "occurrences": 16,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    }
+  ]
+}

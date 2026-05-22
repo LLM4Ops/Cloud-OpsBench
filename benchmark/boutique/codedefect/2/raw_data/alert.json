@@ -1,0 +1,32 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 3,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "paymentservice",
+      "time_range": "2026-05-19 10:24:29 ~ 2026-05-19 10:27:04",
+      "status": "ABNORMAL",
+      "evidence": [
+        "AVAILABILITY_MISSING [Data Loss] | success_rate vanished"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "emailservice",
+      "time_range": "2026-05-19 10:24:29 ~ 2026-05-19 10:27:04",
+      "status": "ABNORMAL",
+      "evidence": [
+        "AVAILABILITY_MISSING [Data Loss] | success_rate vanished"
+      ]
+    },
+    {
+      "request_method": "POST",
+      "business_action": "Checkout order",
+      "entry_service": "frontend",
+      "url": "/cart/checkout",
+      "occurrences": 181,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    }
+  ]
+}

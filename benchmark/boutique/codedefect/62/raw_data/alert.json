@@ -1,0 +1,32 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 3,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "frontend",
+      "time_range": "2026-05-19 13:31:02 ~ 2026-05-19 13:33:37",
+      "status": "ABNORMAL",
+      "evidence": [
+        "RESOURCE_SATURATION [cpu] | Normal=0.01 cores -> Current=0.03 cores (+324.5%)",
+        "FILESYSTEM_WRITE_SURGE [fs_write_bytes] | Normal=0.00B/s -> Current=162345.95B/s (New Spike) | Peak=401646.51B/s"
+      ]
+    },
+    {
+      "request_method": "GET",
+      "business_action": "Browse home page",
+      "entry_service": "frontend",
+      "url": "/",
+      "occurrences": 16,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 13,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    }
+  ]
+}

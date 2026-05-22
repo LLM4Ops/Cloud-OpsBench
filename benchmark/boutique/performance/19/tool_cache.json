@@ -675,10 +675,221 @@
   "CheckServiceConnectivity:{\"namespace\":\"boutique\",\"service_name\":\"productcatalogservice\",\"port\":3550}": "productcatalogservice (10.68.176.158:3550) open\nConnection Succeeded",
   "CheckServiceConnectivity:{\"namespace\":\"boutique\",\"service_name\":\"recommendationservice\",\"port\":8080}": "recommendationservice (10.68.237.219:8080) open\nConnection Succeeded",
   "CheckServiceConnectivity:{\"namespace\":\"boutique\",\"service_name\":\"redis-cart\",\"port\":6379}": "redis-cart (10.68.191.135:6379) open\nConnection Succeeded",
-  "CheckServiceConnectivity:{\"namespace\":\"boutique\",\"service_name\":\"shippingservice\",\"port\":50051}": "shippingservice (10.68.214.114:50051) open\nConnection Succeeded"
-,
+  "CheckServiceConnectivity:{\"namespace\":\"boutique\",\"service_name\":\"shippingservice\",\"port\":50051}": "shippingservice (10.68.214.114:50051) open\nConnection Succeeded",
   "GetResources:{\"resource_type\":\"namespaces\",\"name\":\"\"}": "NAME              STATUS\nboutique          Active\ndefault           Active\nkube-node-lease   Active\nkube-public       Active\nkube-system       Active\n",
   "GetResources:{\"resource_type\":\"namespaces\",\"name\":\"\",\"output_wide\":true}": "NAME              STATUS\nboutique          Active\ndefault           Active\nkube-node-lease   Active\nkube-public       Active\nkube-system       Active\n",
   "GetResources:{\"resource_type\":\"namespaces\",\"name\":\"\",\"show_labels\":true}": "NAME              STATUS\nboutique          Active\ndefault           Active\nkube-node-lease   Active\nkube-public       Active\nkube-system       Active\n",
-  "DescribeResource:{\"resource_type\":\"namespaces\",\"name\":\"boutique\"}": "Name:         boutique\nLabels:       kubernetes.io/metadata.name=boutique\nAnnotations:  <none>\nStatus:       Active\n\nNo Resource Quotas.\nNo LimitRange resource.\n"
+  "DescribeResource:{\"resource_type\":\"namespaces\",\"name\":\"boutique\"}": "Name:         boutique\nLabels:       kubernetes.io/metadata.name=boutique\nAnnotations:  <none>\nStatus:       Active\n\nNo Resource Quotas.\nNo LimitRange resource.\n",
+  "ListCodeFiles:{\"app_name\":\"adservice\"}": {
+    "service": "adservice",
+    "root": "code/adservice",
+    "files": [
+      {
+        "path": "src/main/java/hipstershop/AdService.java",
+        "description": "gRPC ad service implementation, including ad selection by context key and fallback random ads."
+      },
+      {
+        "path": "src/main/java/hipstershop/AdServiceClient.java",
+        "description": "small standalone client used to call the ad service for manual or local testing."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"cartservice\"}": {
+    "service": "cartservice",
+    "root": "code/cartservice",
+    "files": [
+      {
+        "path": "src/Program.cs",
+        "description": "cart service process entrypoint and ASP.NET Core host startup."
+      },
+      {
+        "path": "src/Startup.cs",
+        "description": "cart service dependency injection, Redis-backed deployment wiring, optional backend selection, and gRPC endpoint registration."
+      },
+      {
+        "path": "src/cartstore/AlloyDBCartStore.cs",
+        "description": "optional cart persistence backend for AlloyDB; not used in the current Redis-backed deployment."
+      },
+      {
+        "path": "src/cartstore/ICartStore.cs",
+        "description": "cart storage interface shared by all cart persistence backends."
+      },
+      {
+        "path": "src/cartstore/RedisCartStore.cs",
+        "description": "active cart persistence implementation used in this deployment, backed by Redis or in-memory distributed cache."
+      },
+      {
+        "path": "src/cartstore/SpannerCartStore.cs",
+        "description": "optional cart persistence backend for Cloud Spanner; not used in the current Redis-backed deployment."
+      },
+      {
+        "path": "src/services/CartService.cs",
+        "description": "gRPC cart business API for adding items, reading cart contents, and emptying carts."
+      },
+      {
+        "path": "src/services/HealthCheckService.cs",
+        "description": "gRPC health check service for cart service readiness and liveness."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"checkoutservice\"}": {
+    "service": "checkoutservice",
+    "root": "code/checkoutservice",
+    "files": [
+      {
+        "path": "main.go",
+        "description": "checkout service core workflow: cart retrieval, item preparation, shipping quote, payment charge, shipping order, cart cleanup, and confirmation email."
+      },
+      {
+        "path": "money/money.go",
+        "description": "money validation and arithmetic helpers used by checkout order total calculation."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"currencyservice\"}": {
+    "service": "currencyservice",
+    "root": "code/currencyservice",
+    "files": [
+      {
+        "path": "client.js",
+        "description": "small standalone client used to call the currency service for manual or local testing."
+      },
+      {
+        "path": "server.js",
+        "description": "currency service gRPC server, supported-currency API, currency conversion logic, and health check handler."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"emailservice\"}": {
+    "service": "emailservice",
+    "root": "code/emailservice",
+    "files": [
+      {
+        "path": "email_client.py",
+        "description": "small standalone client used to send a test order confirmation through the email service."
+      },
+      {
+        "path": "email_server.py",
+        "description": "email service gRPC server, order confirmation email construction, dummy email mode, and health check handling."
+      },
+      {
+        "path": "logger.py",
+        "description": "JSON logger setup shared by the email service."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"frontend\"}": {
+    "service": "frontend",
+    "root": "code/frontend",
+    "files": [
+      {
+        "path": "deployment_details.go",
+        "description": "frontend deployment metadata helpers exposed to templates and diagnostics."
+      },
+      {
+        "path": "handlers.go",
+        "description": "HTTP request handlers for home, product, cart, checkout, currency, assistant, and ad selection flows."
+      },
+      {
+        "path": "main.go",
+        "description": "frontend process entrypoint, environment configuration, backend gRPC connections, HTTP route registration, and observability setup."
+      },
+      {
+        "path": "middleware.go",
+        "description": "frontend HTTP middleware for request logging and trace context handling."
+      },
+      {
+        "path": "money/money.go",
+        "description": "money formatting and arithmetic helpers used by frontend page rendering."
+      },
+      {
+        "path": "packaging_info.go",
+        "description": "optional packaging service integration helpers used by product pages."
+      },
+      {
+        "path": "rpc.go",
+        "description": "frontend backend RPC client wrappers for product catalog, cart, recommendation, shipping, currency, checkout, and ads."
+      },
+      {
+        "path": "validator/validator.go",
+        "description": "request payload structs and validation helpers for cart, checkout, and currency forms."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"paymentservice\"}": {
+    "service": "paymentservice",
+    "root": "code/paymentservice",
+    "files": [
+      {
+        "path": "charge.js",
+        "description": "payment charge business logic, credit card validation, accepted card checks, expiration checks, and transaction id generation."
+      },
+      {
+        "path": "index.js",
+        "description": "payment service process entrypoint and tracing/profiling initialization before starting the gRPC server."
+      },
+      {
+        "path": "logger.js",
+        "description": "JSON logger setup shared by the payment service."
+      },
+      {
+        "path": "server.js",
+        "description": "payment service gRPC server, Charge RPC handler, error mapping, and health service registration."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"productcatalogservice\"}": {
+    "service": "productcatalogservice",
+    "root": "code/productcatalogservice",
+    "files": [
+      {
+        "path": "catalog_loader.go",
+        "description": "product catalog file loading and JSON parsing into in-memory product data."
+      },
+      {
+        "path": "product_catalog.go",
+        "description": "product catalog gRPC business API for listing products, getting one product, and searching products."
+      },
+      {
+        "path": "server.go",
+        "description": "product catalog service process entrypoint, gRPC server setup, environment configuration, health checks, and observability setup."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"recommendationservice\"}": {
+    "service": "recommendationservice",
+    "root": "code/recommendationservice",
+    "files": [
+      {
+        "path": "client.py",
+        "description": "small standalone client used to call the recommendation service for manual or local testing."
+      },
+      {
+        "path": "logger.py",
+        "description": "JSON logger setup shared by the recommendation service."
+      },
+      {
+        "path": "recommendation_server.py",
+        "description": "recommendation service gRPC server, recommendation selection logic, product catalog client calls, and health check handling."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"shippingservice\"}": {
+    "service": "shippingservice",
+    "root": "code/shippingservice",
+    "files": [
+      {
+        "path": "main.go",
+        "description": "shipping service gRPC server, GetQuote and ShipOrder RPC handlers, health checks, and observability setup."
+      },
+      {
+        "path": "quote.go",
+        "description": "shipping quote value type and quote calculation helpers based on cart item count."
+      },
+      {
+        "path": "tracker.go",
+        "description": "shipping tracking id generation helpers."
+      }
+    ]
+  }
 }

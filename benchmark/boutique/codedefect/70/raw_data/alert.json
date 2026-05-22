@@ -1,0 +1,59 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 6,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "frontend",
+      "time_range": "2026-05-18 17:57:32 ~ 2026-05-18 18:00:07",
+      "status": "ABNORMAL",
+      "evidence": [
+        "ERROR_SPIKE [Success Rate Drop] | Normal=90.5% -> Cur=32.6% (-57.8%)"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "cartservice",
+      "time_range": "2026-05-18 17:57:32 ~ 2026-05-18 18:00:07",
+      "status": "ABNORMAL",
+      "evidence": [
+        "AVAILABILITY_MISSING [Data Loss] | success_rate vanished",
+        "LATENCY_MISSING [p90latency] | latency dropped to zero/NaN"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "recommendationservice",
+      "time_range": "2026-05-18 17:57:32 ~ 2026-05-18 18:00:07",
+      "status": "ABNORMAL",
+      "evidence": [
+        "AVAILABILITY_MISSING [Data Loss] | success_rate vanished"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "adservice",
+      "time_range": "2026-05-18 17:57:32 ~ 2026-05-18 18:00:07",
+      "status": "ABNORMAL",
+      "evidence": [
+        "AVAILABILITY_MISSING [Data Loss] | success_rate vanished"
+      ]
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 546,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "Browse home page",
+      "entry_service": "frontend",
+      "url": "/",
+      "occurrences": 545,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    }
+  ]
+}

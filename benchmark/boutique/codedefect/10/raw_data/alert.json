@@ -1,0 +1,15 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 1,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "checkoutservice",
+      "time_range": "2026-05-18 16:41:47 ~ 2026-05-18 16:44:22",
+      "status": "ABNORMAL",
+      "evidence": [
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=18.66ms -> Current=3750.00ms (+19995.4%) | Peak=3750.00ms | p90latency: Normal=64.03ms -> Current=4750.00ms (+7318.6%) | Peak=4750.00ms"
+      ]
+    }
+  ]
+}

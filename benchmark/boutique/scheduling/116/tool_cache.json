@@ -585,10 +585,221 @@
   "CheckNodeServiceStatus:{\"node_name\":\"worker-02\",\"service_name\":\"kube-proxy\"}": "Service: kube-proxy\nNode: worker-02\nStatus: ● kube-proxy.service - Kubernetes Kube-Proxy Server\n     Loaded: loaded (/etc/systemd/system/kube-proxy.service; enabled; vendor preset: enabled)\n     Active: active (running) since Fri 2025-11-14 13:25:56 CST; 1h 34min ago\n       Docs: https://github.com/GoogleCloudPlatform/kubernetes\n   Main PID: 339 (kube-proxy)\n      Tasks: 9 (limit: 18592)\n     Memory: 70.3M\n        CPU: 30.065s\n     CGroup: /system.slice/kube-proxy.service\n             └─339 /opt/kube/bin/kube-proxy --config=/var/lib/kube-proxy/kube-proxy-config.yaml\n\nNov 14 13:26:08 worker-02 kube-proxy[339]: I1114 13:26:08.000     339 config.go:199] \"Starting service config controller\"\nNov 14 13:26:08 worker-02 kube-proxy[339]: I1114 13:26:08.000     339 shared_informer.go:313] Waiting for caches to sync for service config\nNov 14 13:26:08 worker-02 kube-proxy[339]: I1114 13:26:08.000     339 config.go:105] \"Starting endpoint slice config controller\"\nNov 14 13:26:08 worker-02 kube-proxy[339]: I1114 13:26:08.000     339 shared_informer.go:313] Waiting for caches to sync for endpoint slice config\nNov 14 13:26:08 worker-02 kube-proxy[339]: I1114 13:26:08.000     339 config.go:328] \"Starting node config controller\"\nNov 14 13:26:08 worker-02 kube-proxy[339]: I1114 13:26:08.000     339 shared_informer.go:313] Waiting for caches to sync for node config\nNov 14 13:26:09 worker-02 kube-proxy[339]: I1114 13:26:09.000     339 shared_informer.go:320] Caches are synced for endpoint slice config\nNov 14 13:26:09 worker-02 kube-proxy[339]: I1114 13:26:09.000     339 shared_informer.go:320] Caches are synced for service config\nNov 14 13:26:09 worker-02 kube-proxy[339]: I1114 13:26:09.000     339 shared_informer.go:320] Caches are synced for node config\nNov 14 13:28:06 worker-02 kube-proxy[339]: I1114 13:28:06.000     339 graceful_termination.go:105] \"Removed real server from graceful delete real server list\" realServer=\"10.68.0.2:53/TCP/172.20.3.242:53\"\n",
   "CheckNodeServiceStatus:{\"node_name\":\"worker-03\",\"service_name\":\"kubelet\"}": "Service: kubelet\nNode: worker-03\nStatus: ● kubelet.service - Kubernetes Kubelet\n     Loaded: loaded (/etc/systemd/system/kubelet.service; enabled; vendor preset: enabled)\n     Active: active (running) since Fri 2025-11-14 13:25:56 CST; 1h 34min ago\n       Docs: https://github.com/GoogleCloudPlatform/kubernetes\n    Process: 1964 ExecStartPre=/bin/mount -o remount,rw /sys/fs/cgroup (code=exited, status=0/SUCCESS)\n   Main PID: 1965 (kubelet)\n      Tasks: 19 (limit: 18592)\n     Memory: 77.0M\n        CPU: 2min 18.795s\n     CGroup: /system.slice/kubelet.service\n             └─1965 /opt/kube/bin/kubelet --config=/var/lib/kubelet/config.yaml --container-runtime-endpoint=unix:///run/containerd/containerd.sock --hostname-override=worker-03 --kubeconfig=/etc/kubernetes/kubelet.kubeconfig --root-dir=/var/lib/kubelet --v=2\n\nNov 14 13:26:24 worker-03 kubelet[1965]: I1114 13:26:24.000    1771 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"ready\" pod=\"istio-system/istiod-84f4f85779-ltcbg\"\nNov 14 13:26:25 worker-03 kubelet[1965]: I1114 13:26:25.000    1771 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"\" pod=\"istio-system/istio-cni-node-pzjpg\"\nNov 14 13:26:25 worker-03 kubelet[1965]: I1114 13:26:25.000    1771 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"ready\" pod=\"istio-system/istio-cni-node-pzjpg\"\nNov 14 13:26:26 worker-03 kubelet[1965]: I1114 13:26:26.000    1771 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"\" pod=\"kube-system/coredns-66dfb88745-5nhbv\"\nNov 14 13:26:26 worker-03 kubelet[1965]: I1114 13:26:26.000    1771 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"ready\" pod=\"kube-system/coredns-66dfb88745-5nhbv\"\nNov 14 13:26:35 worker-03 kubelet[1965]: I1114 13:26:35.000    1771 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"ready\" pod=\"kube-system/metrics-server-7cfd7b768f-7598j\"\nNov 14 13:26:37 worker-03 kubelet[1965]: I1114 13:26:37.000    1771 kubelet.go:2528] \"SyncLoop (probe)\" probe=\"readiness\" status=\"ready\" pod=\"istio-system/ztunnel-9mdqq\"\nNov 14 13:30:06 worker-03 kubelet[1965]: I1114 13:30:06.000    1771 kubelet.go:1488] \"Image garbage collection succeeded\"\n",
   "CheckNodeServiceStatus:{\"node_name\":\"worker-03\",\"service_name\":\"containerd\"}": "Service: containerd\nNode: worker-03\nStatus: ● containerd.service - containerd container runtime\n     Loaded: loaded (/etc/systemd/system/containerd.service; enabled; vendor preset: enabled)\n     Active: active (running) since Fri 2025-11-14 13:25:56 CST; 1h 34min ago\n       Docs: https://containerd.io\n    Process: 904 ExecStartPre=/sbin/modprobe overlay (code=exited, status=0/SUCCESS)\n   Main PID: 900 (containerd)\n      Tasks: 197 (limit: 18592)\n     Memory: 228.4M\n        CPU: 1min 12.909s\n     CGroup: /system.slice/containerd.service\n             ├─ 900 /opt/kube/bin/containerd-bin/containerd\n             ├─ 1926 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id 3bf070c2b4154c57f783b03978d71fd8f0cd9b6512535faafb9afd16305ca14b -address /run/containerd/containerd.sock\n             ├─ 1970 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id 91bd69a1109bbe1edb71ed4c5b6668a10d779f2192faff9af95422c29968d53c -address /run/containerd/containerd.sock\n             ├─ 2015 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id cd9cd65d4a1042cb18ef77df2828bec0e785b99229fa529286f6108a03c773e9 -address /run/containerd/containerd.sock\n             ├─ 2207 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id ee524f81276b63d7be636b23a093ddc2915e103a57fc39d8ca7ea05b4b08df12 -address /run/containerd/containerd.sock\n             ├─ 2952 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id 5f9307410272c3ccb2819bc50e9bf566edde7c63ee5ff370bd2608f371099d39 -address /run/containerd/containerd.sock\n             ├─ 3161 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id 18ae6f5e694754910ada18fd1ae92b2fdbf44d40b639b92de0a669fe8c7244c1 -address /run/containerd/containerd.sock\n             ├─ 3358 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id 3cecf79722256e679605909bf005090a87ef709e2e37820044fd532584ee2baf -address /run/containerd/containerd.sock\n             ├─ 113129 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id bd0154ef5b0d61cc0ad5bf165f8666f251c4fda98dabf995d918fa4a3558ad8c -address /run/containerd/containerd.sock\n             ├─ 113581 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id 4aaf4fb3c477e05174818df5d79ecd2d27bf287bce99e5bc191382066fc9a0ff -address /run/containerd/containerd.sock\n             ├─ 113957 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id 4ee6625c8111d6c6614bec4eee4ff77fbb3ae0a605d3890a518cd8de51a8f841 -address /run/containerd/containerd.sock\n             ├─ 114282 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id 42c50485d3ed24c132c17be576ad9bcf8bf454b61b2e9eacf3faf406cfe1b4ce -address /run/containerd/containerd.sock\n             ├─ 114756 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id c5f8f096e3a228520c0e6995761a013287fb1bc9c835b727da07a693282575d3 -address /run/containerd/containerd.sock\n             └─ 115138 /opt/kube/bin/containerd-bin/containerd-shim-runc-v2 -namespace k8s.io -id 37a2c597231c9942f52c777f72b0beea6f72d2008462adb28441d4e0f57a4df6 -address /run/containerd/containerd.sock\n\nNov 14 17:40:56 worker-03 containerd[900]: time=\"2025-11-14T17:40:56.000+08:00\" level=warning msg=\"cleaning up after shim disconnected\" id=99c7a287af4fbaba3bb01a1920cf3e29ce61df9c78128c1768db6f08a9394dba namespace=k8s.io\nNov 14 17:40:56 worker-03 containerd[900]: time=\"2025-11-14T17:40:56.000+08:00\" level=info msg=\"cleaning up dead shim\" namespace=k8s.io\nNov 14 17:40:56 worker-03 containerd[900]: time=\"2025-11-14T17:40:56.000+08:00\" level=info msg=\"CreateContainer within sandbox \"37a2c597231c9942f52c777f72b0beea6f72d2008462adb28441d4e0f57a4df6\" for container &ContainerMetadata{Name:server,Attempt:0,}\"\nNov 14 17:40:56 worker-03 containerd[900]: time=\"2025-11-14T17:40:56.000+08:00\" level=info msg=\"CreateContainer within sandbox \"37a2c597231c9942f52c777f72b0beea6f72d2008462adb28441d4e0f57a4df6\" for &ContainerMetadata{Name:server,Attempt:0,} returns container id \"5ca27f1fc26ad5aa11c263c6341c03d7362754d893b328ae4cf61fe287cfcb4b\"\"\nNov 14 17:40:56 worker-03 containerd[900]: time=\"2025-11-14T17:40:56.000+08:00\" level=info msg=\"StartContainer for \"5ca27f1fc26ad5aa11c263c6341c03d7362754d893b328ae4cf61fe287cfcb4b\"\"\nNov 14 17:40:56 worker-03 containerd[900]: time=\"2025-11-14T17:40:56.000+08:00\" level=info msg=\"StartContainer for \"5ca27f1fc26ad5aa11c263c6341c03d7362754d893b328ae4cf61fe287cfcb4b\" returns successfully\"\nNov 14 17:40:56 worker-03 containerd[900]: time=\"2025-11-14T17:40:56.000+08:00\" level=info msg=\"CreateContainer within sandbox \"37a2c597231c9942f52c777f72b0beea6f72d2008462adb28441d4e0f57a4df6\" for container &ContainerMetadata{Name:istio-proxy,Attempt:0,}\"\nNov 14 17:40:56 worker-03 containerd[900]: time=\"2025-11-14T17:40:56.000+08:00\" level=info msg=\"CreateContainer within sandbox \"37a2c597231c9942f52c777f72b0beea6f72d2008462adb28441d4e0f57a4df6\" for &ContainerMetadata{Name:istio-proxy,Attempt:0,} returns container id \"3dfd04cedeb34558910e97f9a68027157b7d1b6431d601fc3094efaa02400fe1\"\"\nNov 14 17:40:56 worker-03 containerd[900]: time=\"2025-11-14T17:40:56.000+08:00\" level=info msg=\"StartContainer for \"3dfd04cedeb34558910e97f9a68027157b7d1b6431d601fc3094efaa02400fe1\"\"\nNov 14 17:40:56 worker-03 containerd[900]: time=\"2025-11-14T17:40:56.000+08:00\" level=info msg=\"StartContainer for \"3dfd04cedeb34558910e97f9a68027157b7d1b6431d601fc3094efaa02400fe1\" returns successfully\"\n",
-  "CheckNodeServiceStatus:{\"node_name\":\"worker-03\",\"service_name\":\"kube-proxy\"}": "Service: kube-proxy\nNode: worker-03\nStatus: ● kube-proxy.service - Kubernetes Kube-Proxy Server\n     Loaded: loaded (/etc/systemd/system/kube-proxy.service; enabled; vendor preset: enabled)\n     Active: active (running) since Fri 2025-11-14 13:25:56 CST; 1h 34min ago\n       Docs: https://github.com/GoogleCloudPlatform/kubernetes\n   Main PID: 322 (kube-proxy)\n      Tasks: 14 (limit: 18592)\n     Memory: 79.2M\n        CPU: 54.133s\n     CGroup: /system.slice/kube-proxy.service\n             └─322 /opt/kube/bin/kube-proxy --config=/var/lib/kube-proxy/kube-proxy-config.yaml\n\nNov 14 13:26:08 worker-03 kube-proxy[322]: I1114 13:26:08.000     322 config.go:199] \"Starting service config controller\"\nNov 14 13:26:08 worker-03 kube-proxy[322]: I1114 13:26:08.000     322 shared_informer.go:313] Waiting for caches to sync for service config\nNov 14 13:26:08 worker-03 kube-proxy[322]: I1114 13:26:08.000     322 config.go:105] \"Starting endpoint slice config controller\"\nNov 14 13:26:08 worker-03 kube-proxy[322]: I1114 13:26:08.000     322 shared_informer.go:313] Waiting for caches to sync for endpoint slice config\nNov 14 13:26:08 worker-03 kube-proxy[322]: I1114 13:26:08.000     322 config.go:328] \"Starting node config controller\"\nNov 14 13:26:08 worker-03 kube-proxy[322]: I1114 13:26:08.000     322 shared_informer.go:313] Waiting for caches to sync for node config\nNov 14 13:26:09 worker-03 kube-proxy[322]: I1114 13:26:09.000     322 shared_informer.go:320] Caches are synced for endpoint slice config\nNov 14 13:26:09 worker-03 kube-proxy[322]: I1114 13:26:09.000     322 shared_informer.go:320] Caches are synced for service config\nNov 14 13:26:09 worker-03 kube-proxy[322]: I1114 13:26:09.000     322 shared_informer.go:320] Caches are synced for node config\nNov 14 13:28:06 worker-03 kube-proxy[322]: I1114 13:28:06.000     322 graceful_termination.go:105] \"Removed real server from graceful delete real server list\" realServer=\"10.68.0.2:53/TCP/172.20.3.242:53\"\n"
-,
+  "CheckNodeServiceStatus:{\"node_name\":\"worker-03\",\"service_name\":\"kube-proxy\"}": "Service: kube-proxy\nNode: worker-03\nStatus: ● kube-proxy.service - Kubernetes Kube-Proxy Server\n     Loaded: loaded (/etc/systemd/system/kube-proxy.service; enabled; vendor preset: enabled)\n     Active: active (running) since Fri 2025-11-14 13:25:56 CST; 1h 34min ago\n       Docs: https://github.com/GoogleCloudPlatform/kubernetes\n   Main PID: 322 (kube-proxy)\n      Tasks: 14 (limit: 18592)\n     Memory: 79.2M\n        CPU: 54.133s\n     CGroup: /system.slice/kube-proxy.service\n             └─322 /opt/kube/bin/kube-proxy --config=/var/lib/kube-proxy/kube-proxy-config.yaml\n\nNov 14 13:26:08 worker-03 kube-proxy[322]: I1114 13:26:08.000     322 config.go:199] \"Starting service config controller\"\nNov 14 13:26:08 worker-03 kube-proxy[322]: I1114 13:26:08.000     322 shared_informer.go:313] Waiting for caches to sync for service config\nNov 14 13:26:08 worker-03 kube-proxy[322]: I1114 13:26:08.000     322 config.go:105] \"Starting endpoint slice config controller\"\nNov 14 13:26:08 worker-03 kube-proxy[322]: I1114 13:26:08.000     322 shared_informer.go:313] Waiting for caches to sync for endpoint slice config\nNov 14 13:26:08 worker-03 kube-proxy[322]: I1114 13:26:08.000     322 config.go:328] \"Starting node config controller\"\nNov 14 13:26:08 worker-03 kube-proxy[322]: I1114 13:26:08.000     322 shared_informer.go:313] Waiting for caches to sync for node config\nNov 14 13:26:09 worker-03 kube-proxy[322]: I1114 13:26:09.000     322 shared_informer.go:320] Caches are synced for endpoint slice config\nNov 14 13:26:09 worker-03 kube-proxy[322]: I1114 13:26:09.000     322 shared_informer.go:320] Caches are synced for service config\nNov 14 13:26:09 worker-03 kube-proxy[322]: I1114 13:26:09.000     322 shared_informer.go:320] Caches are synced for node config\nNov 14 13:28:06 worker-03 kube-proxy[322]: I1114 13:28:06.000     322 graceful_termination.go:105] \"Removed real server from graceful delete real server list\" realServer=\"10.68.0.2:53/TCP/172.20.3.242:53\"\n",
   "GetResources:{\"resource_type\":\"namespaces\",\"name\":\"\"}": "NAME              STATUS\nboutique          Active\ndefault           Active\nkube-node-lease   Active\nkube-public       Active\nkube-system       Active\n",
   "GetResources:{\"resource_type\":\"namespaces\",\"name\":\"\",\"output_wide\":true}": "NAME              STATUS\nboutique          Active\ndefault           Active\nkube-node-lease   Active\nkube-public       Active\nkube-system       Active\n",
   "GetResources:{\"resource_type\":\"namespaces\",\"name\":\"\",\"show_labels\":true}": "NAME              STATUS\nboutique          Active\ndefault           Active\nkube-node-lease   Active\nkube-public       Active\nkube-system       Active\n",
-  "DescribeResource:{\"resource_type\":\"namespaces\",\"name\":\"boutique\"}": "Name:         boutique\nLabels:       kubernetes.io/metadata.name=boutique\nAnnotations:  <none>\nStatus:       Active\n\nNo Resource Quotas.\nNo LimitRange resource.\n"
+  "DescribeResource:{\"resource_type\":\"namespaces\",\"name\":\"boutique\"}": "Name:         boutique\nLabels:       kubernetes.io/metadata.name=boutique\nAnnotations:  <none>\nStatus:       Active\n\nNo Resource Quotas.\nNo LimitRange resource.\n",
+  "ListCodeFiles:{\"app_name\":\"adservice\"}": {
+    "service": "adservice",
+    "root": "code/adservice",
+    "files": [
+      {
+        "path": "src/main/java/hipstershop/AdService.java",
+        "description": "gRPC ad service implementation, including ad selection by context key and fallback random ads."
+      },
+      {
+        "path": "src/main/java/hipstershop/AdServiceClient.java",
+        "description": "small standalone client used to call the ad service for manual or local testing."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"cartservice\"}": {
+    "service": "cartservice",
+    "root": "code/cartservice",
+    "files": [
+      {
+        "path": "src/Program.cs",
+        "description": "cart service process entrypoint and ASP.NET Core host startup."
+      },
+      {
+        "path": "src/Startup.cs",
+        "description": "cart service dependency injection, Redis-backed deployment wiring, optional backend selection, and gRPC endpoint registration."
+      },
+      {
+        "path": "src/cartstore/AlloyDBCartStore.cs",
+        "description": "optional cart persistence backend for AlloyDB; not used in the current Redis-backed deployment."
+      },
+      {
+        "path": "src/cartstore/ICartStore.cs",
+        "description": "cart storage interface shared by all cart persistence backends."
+      },
+      {
+        "path": "src/cartstore/RedisCartStore.cs",
+        "description": "active cart persistence implementation used in this deployment, backed by Redis or in-memory distributed cache."
+      },
+      {
+        "path": "src/cartstore/SpannerCartStore.cs",
+        "description": "optional cart persistence backend for Cloud Spanner; not used in the current Redis-backed deployment."
+      },
+      {
+        "path": "src/services/CartService.cs",
+        "description": "gRPC cart business API for adding items, reading cart contents, and emptying carts."
+      },
+      {
+        "path": "src/services/HealthCheckService.cs",
+        "description": "gRPC health check service for cart service readiness and liveness."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"checkoutservice\"}": {
+    "service": "checkoutservice",
+    "root": "code/checkoutservice",
+    "files": [
+      {
+        "path": "main.go",
+        "description": "checkout service core workflow: cart retrieval, item preparation, shipping quote, payment charge, shipping order, cart cleanup, and confirmation email."
+      },
+      {
+        "path": "money/money.go",
+        "description": "money validation and arithmetic helpers used by checkout order total calculation."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"currencyservice\"}": {
+    "service": "currencyservice",
+    "root": "code/currencyservice",
+    "files": [
+      {
+        "path": "client.js",
+        "description": "small standalone client used to call the currency service for manual or local testing."
+      },
+      {
+        "path": "server.js",
+        "description": "currency service gRPC server, supported-currency API, currency conversion logic, and health check handler."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"emailservice\"}": {
+    "service": "emailservice",
+    "root": "code/emailservice",
+    "files": [
+      {
+        "path": "email_client.py",
+        "description": "small standalone client used to send a test order confirmation through the email service."
+      },
+      {
+        "path": "email_server.py",
+        "description": "email service gRPC server, order confirmation email construction, dummy email mode, and health check handling."
+      },
+      {
+        "path": "logger.py",
+        "description": "JSON logger setup shared by the email service."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"frontend\"}": {
+    "service": "frontend",
+    "root": "code/frontend",
+    "files": [
+      {
+        "path": "deployment_details.go",
+        "description": "frontend deployment metadata helpers exposed to templates and diagnostics."
+      },
+      {
+        "path": "handlers.go",
+        "description": "HTTP request handlers for home, product, cart, checkout, currency, assistant, and ad selection flows."
+      },
+      {
+        "path": "main.go",
+        "description": "frontend process entrypoint, environment configuration, backend gRPC connections, HTTP route registration, and observability setup."
+      },
+      {
+        "path": "middleware.go",
+        "description": "frontend HTTP middleware for request logging and trace context handling."
+      },
+      {
+        "path": "money/money.go",
+        "description": "money formatting and arithmetic helpers used by frontend page rendering."
+      },
+      {
+        "path": "packaging_info.go",
+        "description": "optional packaging service integration helpers used by product pages."
+      },
+      {
+        "path": "rpc.go",
+        "description": "frontend backend RPC client wrappers for product catalog, cart, recommendation, shipping, currency, checkout, and ads."
+      },
+      {
+        "path": "validator/validator.go",
+        "description": "request payload structs and validation helpers for cart, checkout, and currency forms."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"paymentservice\"}": {
+    "service": "paymentservice",
+    "root": "code/paymentservice",
+    "files": [
+      {
+        "path": "charge.js",
+        "description": "payment charge business logic, credit card validation, accepted card checks, expiration checks, and transaction id generation."
+      },
+      {
+        "path": "index.js",
+        "description": "payment service process entrypoint and tracing/profiling initialization before starting the gRPC server."
+      },
+      {
+        "path": "logger.js",
+        "description": "JSON logger setup shared by the payment service."
+      },
+      {
+        "path": "server.js",
+        "description": "payment service gRPC server, Charge RPC handler, error mapping, and health service registration."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"productcatalogservice\"}": {
+    "service": "productcatalogservice",
+    "root": "code/productcatalogservice",
+    "files": [
+      {
+        "path": "catalog_loader.go",
+        "description": "product catalog file loading and JSON parsing into in-memory product data."
+      },
+      {
+        "path": "product_catalog.go",
+        "description": "product catalog gRPC business API for listing products, getting one product, and searching products."
+      },
+      {
+        "path": "server.go",
+        "description": "product catalog service process entrypoint, gRPC server setup, environment configuration, health checks, and observability setup."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"recommendationservice\"}": {
+    "service": "recommendationservice",
+    "root": "code/recommendationservice",
+    "files": [
+      {
+        "path": "client.py",
+        "description": "small standalone client used to call the recommendation service for manual or local testing."
+      },
+      {
+        "path": "logger.py",
+        "description": "JSON logger setup shared by the recommendation service."
+      },
+      {
+        "path": "recommendation_server.py",
+        "description": "recommendation service gRPC server, recommendation selection logic, product catalog client calls, and health check handling."
+      }
+    ]
+  },
+  "ListCodeFiles:{\"app_name\":\"shippingservice\"}": {
+    "service": "shippingservice",
+    "root": "code/shippingservice",
+    "files": [
+      {
+        "path": "main.go",
+        "description": "shipping service gRPC server, GetQuote and ShipOrder RPC handlers, health checks, and observability setup."
+      },
+      {
+        "path": "quote.go",
+        "description": "shipping quote value type and quote calculation helpers based on cart item count."
+      },
+      {
+        "path": "tracker.go",
+        "description": "shipping tracking id generation helpers."
+      }
+    ]
+  }
 }

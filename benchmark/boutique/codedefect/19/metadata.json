@@ -1,0 +1,29 @@
+{
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Application_Code_Defect",
+    "fault_object": "app/checkoutservice",
+    "root_cause": "code_missing_parameter"
+  },
+  "process": {
+    "path1": [
+      "GetResources::pods",
+      "DescribeResource::pods::shippingservice-799cbfbc76-bl72b",
+      "GetErrorLogs::shippingservice",
+      "GetErrorLogs::frontend",
+      "ListCodeFiles::checkoutservice",
+      "GetSourceCode::checkoutservice::main.go"
+    ],
+    "path2": [
+      "GetResources::pods",
+      "DescribeResource::pods::shippingservice-799cbfbc76-bl72b",
+      "GetAlerts::",
+      "GetErrorLogs::frontend",
+      "GetErrorLogs::cartservice",
+      "GetErrorLogs::shippingservice",
+      "ListCodeFiles::checkoutservice",
+      "GetSourceCode::checkoutservice::main.go"
+    ]
+  }
+}

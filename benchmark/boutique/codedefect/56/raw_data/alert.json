@@ -1,0 +1,39 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 4,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "recommendationservice",
+      "time_range": "2026-05-18 17:09:30 ~ 2026-05-18 17:12:05",
+      "status": "ABNORMAL",
+      "evidence": [
+        "AVAILABILITY_MISSING [Data Loss] | success_rate vanished"
+      ]
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 557,
+      "raw_error": "HTTPError('400 Server Error: Bad Request')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 16,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "Browse home page",
+      "entry_service": "frontend",
+      "url": "/",
+      "occurrences": 15,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    }
+  ]
+}

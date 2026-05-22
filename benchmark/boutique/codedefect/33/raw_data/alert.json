@@ -1,0 +1,22 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 2,
+  "alerts": [
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 16,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View cart",
+      "entry_service": "frontend",
+      "url": "/cart",
+      "occurrences": 10,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    }
+  ]
+}

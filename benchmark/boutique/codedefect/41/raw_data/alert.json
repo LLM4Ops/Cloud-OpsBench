@@ -1,0 +1,31 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 3,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "currencyservice",
+      "time_range": "2026-05-18 23:13:06 ~ 2026-05-18 23:15:41",
+      "status": "ABNORMAL",
+      "evidence": [
+        "TRAFFIC_ANOMALY [Inbound SURGE] | Normal=30.08pps -> Current=117.69pps (+291.3%)"
+      ]
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 20,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View cart",
+      "entry_service": "frontend",
+      "url": "/cart",
+      "occurrences": 8,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    }
+  ]
+}

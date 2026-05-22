@@ -1,0 +1,26 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 2,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "shippingservice",
+      "time_range": "2026-05-19 14:12:49 ~ 2026-05-19 14:15:24",
+      "status": "ABNORMAL",
+      "evidence": [
+        "RESOURCE_SATURATION [cpu_cfs] | Val=1.082s throttled",
+        "RESOURCE_SATURATION [cpu] | Normal=0.00 cores -> Current=0.12 cores (+9995.8%)",
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=0.44ms -> Current=784.67ms (+178233.2%) | Peak=829.39ms | p90latency: Normal=4.08ms -> Current=1345.20ms (+32862.6%) | Peak=1877.63ms"
+      ]
+    },
+    {
+      "type": "Node",
+      "name": "worker-01",
+      "time_range": "2026-05-19 14:12:49 ~ 2026-05-19 14:15:24",
+      "status": "ABNORMAL",
+      "evidence": [
+        "RESOURCE_SATURATION [cpu utilization] | Normal=4.99% -> Current=8.70% (+74.4%)"
+      ]
+    }
+  ]
+}

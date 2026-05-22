@@ -1,0 +1,25 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 2,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "currencyservice",
+      "time_range": "2026-05-19 11:26:26 ~ 2026-05-19 11:29:01",
+      "status": "ABNORMAL",
+      "evidence": [
+        "TRAFFIC_ANOMALY [Network Surge] | Inbound: Normal=32.05pps -> Current=121.88pps (+280.3%) | Outbound: Normal=31.84pps -> Current=120.70pps (+279.1%)"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "shippingservice",
+      "time_range": "2026-05-19 11:26:26 ~ 2026-05-19 11:29:01",
+      "status": "ABNORMAL",
+      "evidence": [
+        "RESOURCE_SATURATION [cpu] | Normal=0.00 cores -> Current=0.02 cores (+1800.1%)",
+        "FILESYSTEM_WRITE_SURGE [fs_write_bytes] | Normal=0.00B/s -> Current=133560.76B/s (New Spike) | Peak=281034.62B/s"
+      ]
+    }
+  ]
+}

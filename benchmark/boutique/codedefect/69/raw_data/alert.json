@@ -1,0 +1,33 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 3,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "frontend",
+      "time_range": "2026-05-18 15:26:11 ~ 2026-05-18 15:28:46",
+      "status": "ABNORMAL",
+      "evidence": [
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=20.45ms -> Current=3740.67ms (+18187.3%) | Peak=3750.00ms | p90latency: Normal=47.53ms -> Current=4748.13ms (+9890.0%) | Peak=4750.00ms"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "productcatalogservice",
+      "time_range": "2026-05-18 15:26:11 ~ 2026-05-18 15:28:46",
+      "status": "ABNORMAL",
+      "evidence": [
+        "LATENCY_DEGRADATION [Slow Response] | p90latency: Normal=2.13ms -> Current=4003.98ms (+187616.0%) | Peak=4074.47ms"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "recommendationservice",
+      "time_range": "2026-05-18 15:26:11 ~ 2026-05-18 15:28:46",
+      "status": "ABNORMAL",
+      "evidence": [
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=3.05ms -> Current=3730.77ms (+122260.4%) | Peak=3750.00ms | p90latency: Normal=4.69ms -> Current=4746.15ms (+101140.5%) | Peak=4750.00ms"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 5,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "frontend",
+      "time_range": "2026-05-19 13:10:18 ~ 2026-05-19 13:12:53",
+      "status": "ABNORMAL",
+      "evidence": [
+        "ERROR_SPIKE [Success Rate Drop] | Normal=95.2% -> Cur=38.5% (-56.7%)"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "productcatalogservice",
+      "time_range": "2026-05-19 13:10:18 ~ 2026-05-19 13:12:53",
+      "status": "ABNORMAL",
+      "evidence": [
+        "LATENCY_DEGRADATION [Slow Response] | p90latency: Normal=2.40ms -> Current=1950.00ms (+81082.3%) | Peak=3322.06ms"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "recommendationservice",
+      "time_range": "2026-05-19 13:10:18 ~ 2026-05-19 13:12:53",
+      "status": "ABNORMAL",
+      "evidence": [
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=3.38ms -> Current=2499.34ms (+73954.5%) | Peak=3958.33ms | p90latency: Normal=9.10ms -> Current=6867.93ms (+75371.8%) | Peak=8333.33ms"
+      ]
+    },
+    {
+      "request_method": "GET",
+      "business_action": "Browse home page",
+      "entry_service": "frontend",
+      "url": "/",
+      "occurrences": 483,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 468,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    }
+  ]
+}

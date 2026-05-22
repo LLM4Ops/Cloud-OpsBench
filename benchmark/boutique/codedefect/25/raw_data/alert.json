@@ -1,0 +1,23 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 2,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "emailservice",
+      "time_range": "2026-05-18 16:55:45 ~ 2026-05-18 16:58:20",
+      "status": "ABNORMAL",
+      "evidence": [
+        "AVAILABILITY_MISSING [Data Loss] | success_rate vanished"
+      ]
+    },
+    {
+      "request_method": "POST",
+      "business_action": "Checkout order",
+      "entry_service": "frontend",
+      "url": "/cart/checkout",
+      "occurrences": 179,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    }
+  ]
+}

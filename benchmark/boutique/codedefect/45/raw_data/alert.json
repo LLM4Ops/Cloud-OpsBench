@@ -1,0 +1,105 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 12,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "frontend",
+      "time_range": "2026-05-18 23:26:46 ~ 2026-05-18 23:29:21",
+      "status": "ABNORMAL",
+      "evidence": [
+        "ERROR_SPIKE [Success Rate Drop] | Normal=95.2% -> Cur=56.4% (-38.9%)"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "adservice",
+      "time_range": "2026-05-18 23:26:46 ~ 2026-05-18 23:29:21",
+      "status": "ABNORMAL",
+      "evidence": [
+        "THROUGHPUT_DROP [RPS] | Normal=1.88req/s -> Current=1.36req/s (-27.7%)",
+        "AVAILABILITY_MISSING [Data Loss] | success_rate vanished"
+      ]
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 433,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    },
+    {
+      "request_method": "POST",
+      "business_action": "Add product to cart",
+      "entry_service": "frontend",
+      "url": "/cart",
+      "occurrences": 180,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    },
+    {
+      "request_method": "POST",
+      "business_action": "Set display currency",
+      "entry_service": "frontend",
+      "url": "/setCurrency",
+      "occurrences": 175,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View cart",
+      "entry_service": "frontend",
+      "url": "/cart",
+      "occurrences": 173,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "Browse home page",
+      "entry_service": "frontend",
+      "url": "/",
+      "occurrences": 92,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 11,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "Browse home page",
+      "entry_service": "frontend",
+      "url": "/",
+      "occurrences": 5,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    },
+    {
+      "request_method": "POST",
+      "business_action": "Set display currency",
+      "entry_service": "frontend",
+      "url": "/setCurrency",
+      "occurrences": 5,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View cart",
+      "entry_service": "frontend",
+      "url": "/cart",
+      "occurrences": 2,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    },
+    {
+      "request_method": "POST",
+      "business_action": "Checkout order",
+      "entry_service": "frontend",
+      "url": "/cart/checkout",
+      "occurrences": 2,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    }
+  ]
+}

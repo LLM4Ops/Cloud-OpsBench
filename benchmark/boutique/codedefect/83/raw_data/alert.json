@@ -1,0 +1,16 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 1,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "productcatalogservice",
+      "time_range": "2026-05-19 13:37:52 ~ 2026-05-19 13:40:27",
+      "status": "ABNORMAL",
+      "evidence": [
+        "RESOURCE_SATURATION [cpu] | Normal=0.00 cores -> Current=0.02 cores (+857.6%)",
+        "FILESYSTEM_WRITE_SURGE [fs_write_bytes] | Normal=0.00B/s -> Current=130908.56B/s (New Spike) | Peak=365007.86B/s"
+      ]
+    }
+  ]
+}

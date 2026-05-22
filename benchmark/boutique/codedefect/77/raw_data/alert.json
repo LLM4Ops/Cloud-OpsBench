@@ -1,0 +1,33 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 3,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "frontend",
+      "time_range": "2026-05-18 18:45:37 ~ 2026-05-18 18:48:12",
+      "status": "ABNORMAL",
+      "evidence": [
+        "ERROR_SPIKE [Success Rate Drop] | Normal=90.5% -> Cur=66.3% (-24.2%)"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "recommendationservice",
+      "time_range": "2026-05-18 18:45:37 ~ 2026-05-18 18:48:12",
+      "status": "ABNORMAL",
+      "evidence": [
+        "THROUGHPUT_DROP [RPS] | Normal=1.34req/s -> Current=1.00req/s (-25.2%)",
+        "AVAILABILITY_MISSING [Data Loss] | success_rate vanished"
+      ]
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 561,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    }
+  ]
+}

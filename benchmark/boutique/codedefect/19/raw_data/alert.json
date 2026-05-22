@@ -1,0 +1,48 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 5,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "frontend",
+      "time_range": "2026-05-18 22:45:47 ~ 2026-05-18 22:48:22",
+      "status": "ABNORMAL",
+      "evidence": [
+        "ERROR_SPIKE [Success Rate Drop] | Normal=100.0% -> Cur=79.2% (-20.8%)"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "emailservice",
+      "time_range": "2026-05-18 22:45:47 ~ 2026-05-18 22:48:22",
+      "status": "ABNORMAL",
+      "evidence": [
+        "AVAILABILITY_MISSING [Data Loss] | success_rate vanished"
+      ]
+    },
+    {
+      "request_method": "POST",
+      "business_action": "Add product to cart",
+      "entry_service": "frontend",
+      "url": "/cart",
+      "occurrences": 187,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View cart",
+      "entry_service": "frontend",
+      "url": "/cart",
+      "occurrences": 164,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    },
+    {
+      "request_method": "POST",
+      "business_action": "Checkout order",
+      "entry_service": "frontend",
+      "url": "/cart/checkout",
+      "occurrences": 158,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    }
+  ]
+}

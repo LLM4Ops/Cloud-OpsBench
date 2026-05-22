@@ -1,0 +1,32 @@
+{
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Application_Code_Defect",
+    "fault_object": "app/frontend",
+    "root_cause": "code_missing_parameter"
+  },
+  "process": {
+    "path1": [
+      "GetResources::pods",
+      "GetResources::services",
+      "GetAlerts::",
+      "GetErrorLogs::frontend",
+      "GetErrorLogs::currencyservice",
+      "ListCodeFiles::frontend",
+      "GetSourceCode::frontend::rpc.go"
+    ],
+    "path2": [
+      "GetResources::pods",
+      "GetResources::services",
+      "GetAlerts::",
+      "GetServiceDependencies::frontend",
+      "GetResources::endpoints",
+      "GetErrorLogs::frontend",
+      "GetErrorLogs::currencyservice",
+      "GetAppYAML::frontend",
+      "ListCodeFiles::frontend",
+      "GetSourceCode::frontend::rpc.go"
+    ]
+  }
+}

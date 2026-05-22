@@ -1,0 +1,42 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 4,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "frontend",
+      "time_range": "2026-05-18 17:50:41 ~ 2026-05-18 17:53:16",
+      "status": "ABNORMAL",
+      "evidence": [
+        "RESOURCE_SATURATION [cpu_cfs] | Val=1.170s throttled",
+        "RESOURCE_SATURATION [cpu] | Normal=0.01 cores -> Current=0.13 cores (+1323.1%)",
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=20.39ms -> Current=2172.22ms (+10552.3%) | Peak=2658.90ms | p90latency: Normal=95.45ms -> Current=4313.29ms (+4418.9%) | Peak=4531.78ms"
+      ]
+    },
+    {
+      "type": "Node",
+      "name": "worker-01",
+      "time_range": "2026-05-18 17:50:41 ~ 2026-05-18 17:53:16",
+      "status": "ABNORMAL",
+      "evidence": [
+        "RESOURCE_SATURATION [cpu utilization] | Normal=4.43% -> Current=6.61% (+49.3%)"
+      ]
+    },
+    {
+      "request_method": "GET",
+      "business_action": "Browse home page",
+      "entry_service": "frontend",
+      "url": "/",
+      "occurrences": 22,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 12,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    }
+  ]
+}

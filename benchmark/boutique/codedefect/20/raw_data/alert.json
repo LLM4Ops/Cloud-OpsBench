@@ -1,0 +1,26 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 2,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "checkoutservice",
+      "time_range": "2026-05-18 16:28:01 ~ 2026-05-18 16:30:36",
+      "status": "ABNORMAL",
+      "evidence": [
+        "RESOURCE_SATURATION [cpu_cfs] | Val=1.027s throttled",
+        "RESOURCE_SATURATION [cpu] | Normal=0.00 cores -> Current=0.12 cores (+7265.9%)",
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=18.39ms -> Current=4478.97ms (+24254.2%) | Peak=6617.65ms | p90latency: Normal=29.98ms -> Current=9224.49ms (+30669.8%) | Peak=9539.68ms"
+      ]
+    },
+    {
+      "type": "Node",
+      "name": "worker-01",
+      "time_range": "2026-05-18 16:28:01 ~ 2026-05-18 16:30:36",
+      "status": "ABNORMAL",
+      "evidence": [
+        "RESOURCE_SATURATION [cpu utilization] | Normal=4.85% -> Current=7.32% (+50.9%)"
+      ]
+    }
+  ]
+}

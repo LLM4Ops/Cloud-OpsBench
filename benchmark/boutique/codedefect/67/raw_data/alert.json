@@ -1,0 +1,44 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 4,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "frontend",
+      "time_range": "2026-05-19 16:23:49 ~ 2026-05-19 16:26:24",
+      "status": "ABNORMAL",
+      "evidence": [
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=20.23ms -> Current=992.31ms (+4805.9%) | Peak=1130.10ms | p90latency: Normal=246.90ms -> Current=2470.00ms (+900.4%) | Peak=3692.31ms"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "productcatalogservice",
+      "time_range": "2026-05-19 16:23:49 ~ 2026-05-19 16:26:24",
+      "status": "ABNORMAL",
+      "evidence": [
+        "RESOURCE_SATURATION [cpu_cfs] | Val=1.118s throttled",
+        "RESOURCE_SATURATION [cpu] | Normal=0.00 cores -> Current=0.13 cores (+6055.0%)",
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=0.30ms -> Current=235.43ms (+78375.3%) | Peak=326.45ms"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "recommendationservice",
+      "time_range": "2026-05-19 16:23:49 ~ 2026-05-19 16:26:24",
+      "status": "ABNORMAL",
+      "evidence": [
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=3.36ms -> Current=767.31ms (+22729.8%) | Peak=800.48ms"
+      ]
+    },
+    {
+      "type": "Node",
+      "name": "worker-01",
+      "time_range": "2026-05-19 16:23:49 ~ 2026-05-19 16:26:24",
+      "status": "ABNORMAL",
+      "evidence": [
+        "RESOURCE_SATURATION [cpu utilization] | Normal=3.84% -> Current=6.00% (+56.4%)"
+      ]
+    }
+  ]
+}

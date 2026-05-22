@@ -1,0 +1,56 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 6,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "frontend",
+      "time_range": "2026-05-18 23:19:56 ~ 2026-05-18 23:22:31",
+      "status": "ABNORMAL",
+      "evidence": [
+        "ERROR_SPIKE [Success Rate Drop] | Normal=100.0% -> Cur=71.7% (-28.3%)"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "currencyservice",
+      "time_range": "2026-05-18 23:19:56 ~ 2026-05-18 23:22:31",
+      "status": "ABNORMAL",
+      "evidence": [
+        "TRAFFIC_ANOMALY [Network Surge] | Inbound: Normal=30.19pps -> Current=114.51pps (+279.3%) | Outbound: Normal=29.73pps -> Current=112.69pps (+279.1%)"
+      ]
+    },
+    {
+      "request_method": "POST",
+      "business_action": "Add product to cart",
+      "entry_service": "frontend",
+      "url": "/cart",
+      "occurrences": 740,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View cart",
+      "entry_service": "frontend",
+      "url": "/cart",
+      "occurrences": 365,
+      "raw_error": "HTTPError('500 Server Error: Internal Server Error')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View product detail",
+      "entry_service": "frontend",
+      "url": "/product/{id}",
+      "occurrences": 22,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    },
+    {
+      "request_method": "GET",
+      "business_action": "View cart",
+      "entry_service": "frontend",
+      "url": "/cart",
+      "occurrences": 8,
+      "raw_error": "HTTPError('503 Server Error: Service Unavailable')"
+    }
+  ]
+}

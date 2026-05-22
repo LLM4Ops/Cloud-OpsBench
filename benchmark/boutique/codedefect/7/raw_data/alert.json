@@ -1,0 +1,17 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 1,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "checkoutservice",
+      "time_range": "2026-05-19 13:52:04 ~ 2026-05-19 13:54:39",
+      "status": "ABNORMAL",
+      "evidence": [
+        "RESOURCE_SATURATION [cpu_cfs] | Val=0.408s throttled",
+        "RESOURCE_SATURATION [cpu] | Normal=0.00 cores -> Current=0.07 cores (+5260.9%)",
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=24.08ms -> Current=752.02ms (+3023.1%) | Peak=758.26ms"
+      ]
+    }
+  ]
+}

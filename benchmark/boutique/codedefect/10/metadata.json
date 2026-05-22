@@ -1,0 +1,28 @@
+{
+  "namespace": "boutique",
+  "query": "Service Performance Degradation.",
+  "result": {
+    "fault_taxonomy": "Application_Code_Defect",
+    "fault_object": "app/checkoutservice",
+    "root_cause": "code_artificial_delay"
+  },
+  "process": {
+    "path1": [
+      "GetResources::pods",
+      "GetResources::services",
+      "GetAlerts::",
+      "GetErrorLogs::frontend",
+      "GetServiceDependencies::frontend",
+      "ListCodeFiles::checkoutservice",
+      "GetSourceCode::checkoutservice::main.go"
+    ],
+    "path2": [
+      "GetResources::pods",
+      "GetResources::services",
+      "GetAlerts::",
+      "GetServiceDependencies::frontend",
+      "ListCodeFiles::checkoutservice",
+      "GetSourceCode::checkoutservice::main.go"
+    ]
+  }
+}

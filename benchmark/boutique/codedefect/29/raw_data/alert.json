@@ -1,0 +1,16 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 1,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "checkoutservice",
+      "time_range": "2026-05-19 11:05:50 ~ 2026-05-19 11:08:25",
+      "status": "ABNORMAL",
+      "evidence": [
+        "RESOURCE_SATURATION [cpu] | Normal=0.00 cores -> Current=0.01 cores (+720.3%)",
+        "FILESYSTEM_WRITE_SURGE [fs_write_bytes] | Normal=0.00B/s -> Current=13305.23B/s (New Spike) | Peak=55334.06B/s"
+      ]
+    }
+  ]
+}

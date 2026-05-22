@@ -1,0 +1,24 @@
+{
+  "status": "has_anomalies",
+  "alert_count": 2,
+  "alerts": [
+    {
+      "type": "Service",
+      "name": "frontend",
+      "time_range": "2026-05-18 18:52:31 ~ 2026-05-18 18:55:06",
+      "status": "ABNORMAL",
+      "evidence": [
+        "LATENCY_DEGRADATION [Slow Response] | p90latency: Normal=36.88ms -> Current=4370.16ms (+11751.3%) | Peak=4451.42ms"
+      ]
+    },
+    {
+      "type": "Service",
+      "name": "shippingservice",
+      "time_range": "2026-05-18 18:52:31 ~ 2026-05-18 18:55:06",
+      "status": "ABNORMAL",
+      "evidence": [
+        "LATENCY_DEGRADATION [Slow Response] | p50latency: Normal=0.44ms -> Current=3721.67ms (+847659.9%) | Peak=3750.00ms | p90latency: Normal=4.09ms -> Current=4744.33ms (+115898.4%) | Peak=4750.00ms"
+      ]
+    }
+  ]
+}

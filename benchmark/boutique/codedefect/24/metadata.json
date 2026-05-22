@@ -1,0 +1,33 @@
+{
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Application_Code_Defect",
+    "fault_object": "app/checkoutservice",
+    "root_cause": "code_wrong_return"
+  },
+  "process": {
+    "path1": [
+      "GetResources::pods",
+      "GetResources::services",
+      "GetAlerts::",
+      "GetErrorLogs::frontend",
+      "GetErrorLogs::checkoutservice",
+      "GetErrorLogs::paymentservice",
+      "ListCodeFiles::checkoutservice",
+      "GetSourceCode::checkoutservice::main.go"
+    ],
+    "path2": [
+      "GetResources::pods",
+      "GetResources::services",
+      "GetAlerts::",
+      "GetErrorLogs::frontend",
+      "GetErrorLogs::checkoutservice",
+      "GetErrorLogs::paymentservice",
+      "GetResources::endpoints",
+      "CheckServiceConnectivity::paymentservice::50051",
+      "ListCodeFiles::checkoutservice",
+      "GetSourceCode::checkoutservice::main.go"
+    ]
+  }
+}
