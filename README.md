@@ -1,8 +1,8 @@
 **Cloud-OpsBench** is a benchmark for **agentic root cause analysis (RCA)** in Kubernetes-based cloud systems. It is built around a state snapshot paradigm: instead of requiring a live cluster, each fault case stores the cluster state, alerts, logs, and tool cache needed for deterministic diagnosis and replay.
 
-The current release covers **two microservice systems**, **49 fault types**, and **656 fault cases**:
+The current release covers **two microservice systems**, **57 fault types**, and **754 fault cases**:
 
-- **Online Boutique**: 452 cases
+- **Online Boutique**: 550 cases
 - **Train-Ticket**: 204 cases
 
 ![Overview of Cloud-OpsBench](https://github.com/LLM4Ops/Cloud-OpsBench/blob/main/resource/overview.png)
@@ -34,15 +34,19 @@ Cloud-OpsBench/
 
 | System | Categories | Cases |
 | :--- | :--- | ---: |
-| Online Boutique | admission, scheduling, startup, runtime, service, performance, infrastructure | 452 |
+| Online Boutique | admission, scheduling, startup, runtime, service, performance, infrastructure, code defect | 550 |
 | Train-Ticket | startup, runtime, service, performance | 204 |
-| Total | 49 fault types | 656 |
+| Total | 57 fault types | 754 |
 
+## Updates
 
+Cloud-OpsBench is actively maintained, and we will continue adding new fault scenarios and updating released cases.
+
+- **2026-05-22**: Added 8 application code defect faults with 98 new cases for Online Boutique.
 
 ## Fault Taxonomy
 
-The benchmark currently contains **49 distinct fault types** across **656 cases**.
+The benchmark currently contains **57 distinct fault types** across **754 cases**.
 
 | Fault Category | Mechanism Description | Specific Fault Types | Difficulty | Cases |
 | :--- | :--- | :--- | :--- | ---: |
@@ -53,7 +57,8 @@ The benchmark currently contains **49 distinct fault types** across **656 cases*
 | Service Routing | Traffic routing failures between internal components. | `ServiceSelectorMismatch`, `ServicePortMappingMismatch`, `ServiceProtocolMismatch`, `ServiceEnvVarAddressMismatch`, `GatewayMisroute`, `ServiceDNSResolutionFailure` | Medium | 91 |
 | Performance | Performance degradation due to saturation. | `PodCPUOverload`, `PodNetworkDelay` | Hard | 68 |
 | Infrastructure | Outages in underlying cluster control plane or node components. | `ContainerdUnavailable`, `KubeletUnavailable`, `KubeProxyUnavailable`, `KubeSchedulerUnavailable`, `NodeNetworkDelay`, `NodeNetworkPacketLoss` | Hard | 48 |
-| Total | - | 49 distinct fault types | - | 656 |
+| Application Code Defect | Application-level code defects in key business logic. | `CodeMissingParameter`, `CodeBusyLoop`, `CodeExcessiveFileReads`, `CodeWrongReturn`, `CodeExcessiveFileWrites`, `CodeWrongArgumentOrder`, `CodeArtificialDelay`, `CodeMemoryLeak` | Hard | 98 |
+| Total | - | 57 distinct fault types | - | 754 |
 
 ## Benchmark File Structure
 
@@ -65,6 +70,7 @@ Each fault case in `benchmark/` uses a consistent directory layout.
 benchmark/<system>/<fault_category>/<case_id>/
 ├── metadata.json
 ├── tool_cache.json
+├── code/
 └── raw_data/
     ├── alert.json
     ├── k8s_states.json
@@ -76,6 +82,7 @@ benchmark/<system>/<fault_category>/<case_id>/
 
 - `metadata.json`: fault label, namespace, query, and ground-truth diagnosis.
 - `tool_cache.json`: cached outputs used to simulate diagnostic tools deterministically.
+- `code/`: trimmed core business source files for code-level diagnosis. This is implemented for Online Boutique, while Train-Ticket cases do not currently include this field.
 - `raw_data/k8s_states.json`: Kubernetes object snapshots.
 - `raw_data/logs.json`: service and container logs.
 - `raw_data/alert.json`: alert and anomaly signals from adnormal metrics and requests.
@@ -179,6 +186,8 @@ Cloud-OpsBench provides a set of diagnostic tools for interactive RCA.
 | Telemetry Analysis | `GetAlerts` | Retrieves current alert signals and abnormal metric summaries. |
 | Telemetry Analysis | `GetRecentLogs` | Returns recent raw logs for a service. |
 | Telemetry Analysis | `GetErrorLogs` | Returns grouped error-log summaries. |
+| Code Inspection | `ListCodeFiles` | Lists available source files for an application service and their brief descriptions. |
+| Code Inspection | `GetSourceCode` | Returns source code for a specific application file. |
 | Infra Diagnostics | `GetClusterConfiguration` | Returns cluster-wide node and configuration state. |
 | Infra Diagnostics | `CheckNodeServiceStatus` | Checks infrastructure component status on a node. |
 
@@ -217,3 +226,16 @@ The following tables report outcome and process metrics by system.
 - `Exact`, `InO.`, `AnyO.`: trajectory alignment with expert reasoning.
 - `Rel.`, `Cov.`: tool-use relevance and coverage.
 - `Steps`, `IAC`, `MTTI`, `RAR`: efficiency and interaction quality metrics.
+
+## Citation
+
+If you find Cloud-OpsBench useful in your research, please cite our paper:
+
+```bibtex
+@article{wang2026cloud,
+  title={Cloud-OpsBench: A Reproducible Benchmark for Agentic Root Cause Analysis in Cloud Systems},
+  author={Wang, Yilun and Yu, Guangba and Huang, Haiyu and Wang, Zirui and Huang, Yujie and Chen, Pengfei and Lyu, Michael R},
+  journal={arXiv preprint arXiv:2603.00468},
+  year={2026}
+}
+```
