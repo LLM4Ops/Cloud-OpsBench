@@ -227,15 +227,4 @@ The following tables report outcome and process metrics by system.
 - `Rel.`, `Cov.`: tool-use relevance and coverage.
 - `Steps`, `IAC`, `MTTI`, `RAR`: efficiency and interaction quality metrics.
 
-## Citation
 
-If you find Cloud-OpsBench useful in your research, please cite our paper:
-
-```bibtex
-@article{wang2026cloud,
-  title={Cloud-OpsBench: A Reproducible Benchmark for Agentic Root Cause Analysis in Cloud Systems},
-  author={Wang, Yilun and Yu, Guangba and Huang, Haiyu and Wang, Zirui and Huang, Yujie and Chen, Pengfei and Lyu, Michael R},
-  journal={arXiv preprint arXiv:2603.00468},
-  year={2026}
-}
-```
