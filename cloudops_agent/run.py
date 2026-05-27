@@ -195,7 +195,11 @@ def run_single_case(
     # 4. Initialize tools
     # -------------------------------------------------------------------
     benchmark_system = "train-ticket" if namespace == "train-ticket" else "boutique"
-    tools_list = create_k8s_tools(str(case_path), system=benchmark_system)
+    tools_list = create_k8s_tools(
+        str(case_path),
+        system=benchmark_system,
+        fault_category=fault_category,
+    )
     tool_registry = build_tool_registry(tools_list)
     tools_description = render_tools_description(tool_registry)
 
@@ -205,7 +209,10 @@ def run_single_case(
     prompt_builder = PromptBuilder(
         tools_description=tools_description,
         backstory_prompt=backstory_prompt,
-        expected_output=build_expected_output(benchmark_system),
+        expected_output=build_expected_output(
+            benchmark_system,
+            fault_category=fault_category,
+        ),
     )
     model_runner = build_model_runner(llm_conf)
     output_parser = OutputParser()

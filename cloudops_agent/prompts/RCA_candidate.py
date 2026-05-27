@@ -115,6 +115,14 @@ root_cause_list_str = """
 - db_readonly_mode (Requires Target: APP): database in read-only mode
 - gateway_misrouted (Requires Target: APP): incorrect gateway routing
 - deployment_zero_replicas (Requires Target: APP): Deployment replica count is 0
+- code_busy_loop (Requires Target: APP): application code contains a CPU-intensive busy loop
+- code_memory_leak (Requires Target: APP): application code leaks memory or retains data unexpectedly
+- code_artificial_delay (Requires Target: APP): application code introduces artificial latency or blocking delay
+- code_excessive_file_reads (Requires Target: APP): application code performs excessive file reads
+- code_excessive_file_writes (Requires Target: APP): application code performs excessive file writes
+- code_wrong_return (Requires Target: APP): application code returns an incorrect value or wrong response
+- code_missing_parameter (Requires Target: APP): application code omits a required parameter in a call/request
+- code_wrong_argument_order (Requires Target: APP): application code passes arguments in the wrong order
 """
 
 taxonomy_definitions = {
@@ -124,14 +132,30 @@ taxonomy_definitions = {
     "Startup_Fault": "Refers to failures where the Pod has been successfully scheduled to a node but fails during image pulling or container initialization, preventing the Pod from entering the Running state.",
     "Runtime_Fault": "Refers to scenarios where the application container has successfully started and entered the Running state, but exits abnormally or behaves erratically due to internal errors or external dependency failures, or Kubernetes health probes.",
     "Service_Routing_Fault": "Refers to connectivity or discovery failures caused by misconfigurations of Kubernetes networking resources that disrupt traffic routing between Pods or external clients, excluding outages caused by system-level infrastructure.",
-    "Performance_Fault": "Refers to scenarios where the application functions functionally but performance metrics degrade significantly (e.g., high latency, low throughput, resource bottlenecks), failing to meet SLOs."
+    "Performance_Fault": "Refers to scenarios where the application functions functionally but performance metrics degrade significantly (e.g., high latency, low throughput, resource bottlenecks), failing to meet SLOs.",
+}
+
+CODE_DEFECT_TAXONOMY = {
+    "Application_Code_Defect": (
+        "Refers to failures caused by defects in application source code logic, "
+        "such as wrong return values, missing parameters, wrong argument order, "
+        "artificial delays, busy loops, memory leaks, or excessive file I/O."
+    )
 }
 
 
-def build_expected_output(system: str = "train-ticket") -> str:
+def _is_code_defect_category(fault_category: str = "") -> bool:
+    return (fault_category or "").strip().lower() in {"codedefect", "code_defect", "code-defect"}
+
+
+def build_expected_output(system: str = "train-ticket", fault_category: str = "") -> str:
     system_key = system if system in SYSTEM_VALID_SERVICES else "train-ticket"
     valid_services = SYSTEM_VALID_SERVICES[system_key]
     valid_namespaces = SYSTEM_VALID_NAMESPACES[system_key]
+    active_taxonomy_definitions = dict(taxonomy_definitions)
+
+    if _is_code_defect_category(fault_category):
+        active_taxonomy_definitions.update(CODE_DEFECT_TAXONOMY)
 
     return f"""
 A final diagnostic report in **strict JSON format**.
@@ -173,7 +197,7 @@ The taxonomy and fault object should reflect your best evidence-based judgment a
 ### CONSTRAINT LISTS (Select strictly from these lists) ###
 
 **[List A: Valid Taxonomies]**
-{taxonomy_definitions}
+{active_taxonomy_definitions}
 
 **[List B: Valid Root Causes]**
 {root_cause_list_str}

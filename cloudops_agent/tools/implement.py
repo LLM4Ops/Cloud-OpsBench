@@ -16,6 +16,8 @@ BOUTIQUE = [
     "shippingservice",
 ]
 
+BOUTIQUE_CODE_SERVICES = [service for service in BOUTIQUE if service != "redis-cart"]
+
 TRAINTICKET = [
     "ts-assurance-service",
     "ts-auth-service",
@@ -268,8 +270,10 @@ class KubernetesTools:
         system_config = SYSTEM_CONFIG[system_key]
 
         self.system = system_key
+        self.case_path = case_path
         self.default_namespace = namespace or system_config["default_namespace"]
         self.app_services = set(system_config["app_services"])
+        self.code_services = set(BOUTIQUE_CODE_SERVICES if system_key == "boutique" else [])
         self.log_services = set(system_config["log_services"])
         self.connectivity_services = set(system_config["connectivity_services"])
 
@@ -309,6 +313,7 @@ class KubernetesTools:
         show_labels: bool = False,
         output_wide: bool = False,
         output_yaml: bool = False,
+        output_format: Optional[str] = None,
         label_selector: Optional[str] = None,
     ) -> dict:
         params = {
@@ -323,6 +328,8 @@ class KubernetesTools:
             params["show_labels"] = True
         if output_yaml:
             params["output_yaml"] = True
+        if output_format:
+            params["output"] = output_format
         if label_selector:
             params["label_selector"] = label_selector
         return params
@@ -354,6 +361,15 @@ class KubernetesTools:
                 label_selector=label_selector,
             )
             keys.append(_build_cache_key("GetResources", params))
+            if output_yaml:
+                legacy_yaml_params = self._build_get_resources_params(
+                    resource_type_norm=resource_type_norm,
+                    namespace=ns,
+                    name=name,
+                    output_format="yaml",
+                    label_selector=label_selector,
+                )
+                keys.append(_build_cache_key("GetResources", legacy_yaml_params))
         return keys
 
     def _describe_resource_candidate_keys(
@@ -377,6 +393,11 @@ class KubernetesTools:
                 params["namespace"] = ns
             keys.append(_build_cache_key("DescribeResource", params))
         return keys
+
+    def _get_code_file_listing(self, app_name: str):
+        params = {"app_name": app_name}
+        command_key = _build_cache_key("ListCodeFiles", params)
+        return self.tool_cache.get(command_key), command_key
 
     def _resolve_selector_matched_names(
         self,
@@ -582,12 +603,8 @@ class KubernetesTools:
             )
         if output_yaml and resource_type_norm not in YAML_SNAPSHOT_RESOURCES:
             return (
-                f"Error: output_yaml is only supported for single named resources of types "
+                f"Error: output_yaml is only supported for list or named resources of types "
                 f"{sorted(YAML_SNAPSHOT_RESOURCES)}."
-            )
-        if output_yaml and not name:
-            raise ValueError(
-                "Error: 'output_yaml' requires a specific resource 'name'; list queries are not supported."
             )
 
         ideal_namespace = None if is_cluster_scoped else namespace
@@ -637,6 +654,71 @@ class KubernetesTools:
         except Exception as e:
             failed_key = primary_key if 'primary_key' in locals() else "GetResources_v2 lookup"
             return f"An unexpected error occurred during snapshot lookup for '{failed_key}': {e}"
+
+    def ListCodeFiles(self, app_name: str) -> str:
+        if not app_name:
+            raise ValueError("'ListCodeFiles' command requires a specific 'app_name'.")
+        if self.system != "boutique":
+            raise ValueError("ListCodeFiles is only available for boutique.")
+        if app_name not in self.code_services:
+            allowed = sorted(self.code_services)
+            raise ValueError(
+                f"ListCodeFiles does not support service '{app_name}' for {self.system}. "
+                f"Allowed: {allowed}"
+            )
+
+        listing, _ = self._get_code_file_listing(app_name)
+        if listing is None:
+            return f"Error: Code file list for '{app_name}' is not recorded."
+        return json.dumps(listing, ensure_ascii=False, indent=2)
+
+    def GetSourceCode(self, app_name: str, file_path: str) -> str:
+        if not app_name:
+            raise ValueError("'GetSourceCode' command requires a specific 'app_name'.")
+        if not file_path:
+            raise ValueError("'GetSourceCode' command requires a specific 'file_path'.")
+        if self.system != "boutique":
+            raise ValueError("GetSourceCode is only available for boutique.")
+        if app_name not in self.code_services:
+            allowed = sorted(self.code_services)
+            raise ValueError(
+                f"GetSourceCode does not support service '{app_name}' for {self.system}. "
+                f"Allowed: {allowed}"
+            )
+
+        listing, _ = self._get_code_file_listing(app_name)
+        if not isinstance(listing, dict):
+            return f"Error: Code file list for '{app_name}' is not recorded."
+
+        listed_paths = {
+            str(item.get("path", ""))
+            for item in listing.get("files", [])
+            if isinstance(item, dict) and item.get("path")
+        }
+        if file_path not in listed_paths:
+            return (
+                "Error: file_path must exactly match a path returned by "
+                f"ListCodeFiles(app_name='{app_name}')."
+            )
+
+        normalized_file_path = os.path.normpath(file_path)
+        if os.path.isabs(normalized_file_path) or normalized_file_path.startswith(".."):
+            return "Error: absolute paths and parent-directory traversal are not accepted."
+
+        service_root = os.path.abspath(os.path.join(self.case_path, "code", app_name))
+        source_path = os.path.abspath(os.path.join(service_root, normalized_file_path))
+        if not source_path.startswith(service_root + os.sep) and source_path != service_root:
+            return "Error: file_path resolves outside the selected service code directory."
+
+        try:
+            with open(source_path, "r", encoding="utf-8") as f:
+                return f.read()
+        except FileNotFoundError:
+            return f"Error: Source file '{file_path}' for '{app_name}' is not found in this case."
+        except UnicodeDecodeError:
+            return f"Error: Source file '{file_path}' for '{app_name}' is not valid UTF-8 text."
+        except Exception as e:
+            return f"An unexpected error occurred while reading source file '{file_path}': {e}"
     
  
     def DescribeResource(
