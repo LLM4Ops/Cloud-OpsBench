@@ -1,0 +1,502 @@
+{
+  "case_id": "trainticket/runtime/1",
+  "namespace": "train-ticket",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Runtime_Fault",
+    "fault_object": "app/tsdb-mysql",
+    "root_cause": "db_connection_exhaustion"
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "role": "entry_pod_health_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "CrashLoopBackOff"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-notification-service-675d7d65b4-tvp4l"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-notification-service-675d7d65b4-tvp4l"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-order-other-service-77f574b58b-xw7b9"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-order-other-service-77f574b58b-xw7b9"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-payment-service-76d7d44b5b-j9rzl"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-payment-service-76d7d44b5b-j9rzl"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-price-service-69f84bfbc4-pmv24"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-price-service-69f84bfbc4-pmv24"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-route-service-84fdb67598-xgt8w"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-route-service-84fdb67598-xgt8w"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-security-service-64cb5fb74d-zhmsc"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-security-service-64cb5fb74d-zhmsc"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-station-food-service-68497bf65b-g2xqr"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-station-food-service-68497bf65b-g2xqr"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-station-service-fd984464d-lwh7v"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-station-service-fd984464d-lwh7v"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-train-food-service-54754ff6f6-2fh9z"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-train-food-service-54754ff6f6-2fh9z"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-train-service-79b45885dd-29dh7"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-train-service-79b45885dd-29dh7"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-travel-service-55fd6fc94d-mdnbc"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-travel-service-55fd6fc94d-mdnbc"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-travel2-service-c56664fd-r2zj6"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-travel2-service-c56664fd-r2zj6"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-user-service-b795844f6-nw5zk"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-user-service-b795844f6-nw5zk"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-wait-order-service-79c76dff8d-c4lb7"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-wait-order-service-79c76dff8d-c4lb7"
+          }
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "role": "first_level_runtime_semantic_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-notification-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-order-other-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-payment-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-price-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-route-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-security-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-station-food-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-station-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-train-food-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-train-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-travel-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-travel2-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-user-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-wait-order-service"
+          }
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "database_side_root_cause_confirmation",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "tsdb-mysql-0"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "event",
+              "events"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "tsdb-mysql"
+            },
+            {
+              "kind": "literal",
+              "value": "Too many connections"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M0",
+      "to": "M1",
+      "relation": "precedes"
+    },
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M0",
+      "M1",
+      "M2"
+    ]
+  }
+}

@@ -1,0 +1,236 @@
+{
+  "case_id": "boutique/infrastructure/32",
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Infrastructure_Fault",
+    "fault_object": "node/worker-01",
+    "root_cause": "kubelet_unavailable"
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "role": "primary_node_scoped_availability_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pods",
+              "pod"
+            ],
+            "output_wide": true
+          },
+          "evidence_patterns": [
+            {
+              "kind": "regex",
+              "value": "(?m)^\\S+\\s+0/1\\s+(?:ContainerCreating|Pending)\\s+\\S+\\s+\\S+\\s+<none>",
+              "flags": [
+                "multiline"
+              ]
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "regex",
+              "value": "(?m)^\\S+\\s+(?:<none>\\s+)?\\d+[smhd](?:\\d+[smhd])*\\b",
+              "flags": [
+                "multiline"
+              ]
+            }
+          ]
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint"
+            ],
+            "name": "adservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint"
+            ],
+            "name": "currencyservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint"
+            ],
+            "name": "frontend"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint"
+            ],
+            "name": "frontend-external"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint"
+            ],
+            "name": "productcatalogservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint"
+            ],
+            "name": "shippingservice"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "node_status_transition_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "nodes",
+              "node"
+            ],
+            "name": "worker-01"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "nodes",
+              "node"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "regex",
+              "value": "(?m)^worker\\-01\\s+NotReady\\b",
+              "flags": [
+                "multiline"
+              ]
+            }
+          ]
+        },
+        {
+          "tool_name": "GetClusterConfiguration",
+          "arguments": {},
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "default",
+            "resource_type": [
+              "events",
+              "event"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "worker-01"
+            },
+            {
+              "kind": "literal",
+              "value": "NodeNotReady"
+            }
+          ]
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pods",
+              "pod"
+            ],
+            "name": "checkoutservice-59664766bc-lmm4p"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "root_cause_service_status",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "CheckNodeServiceStatus",
+          "arguments": {
+            "node_name": "worker-01",
+            "service_name": "kubelet"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  }
+}

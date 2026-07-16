@@ -1,0 +1,152 @@
+{
+  "case_id": "trainticket/runtime/27",
+  "namespace": "train-ticket",
+  "query": "Partial Service Unreachability.",
+  "result": {
+    "fault_taxonomy": "Runtime_Fault",
+    "fault_object": "app/ts-seat-service",
+    "root_cause": "deployment_zero_replicas"
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "role": "entry_service_endpoint_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "endpoint",
+              "endpoints"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "endpoint",
+              "endpoints"
+            ],
+            "name": "ts-seat-service"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "endpoint",
+              "endpoints"
+            ],
+            "name": "ts-seat-service"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "service",
+              "services"
+            ],
+            "name": "ts-seat-service"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "CheckServiceConnectivity",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-seat-service",
+            "port": 18898
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "role": "root_cause_zero_replicas_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "deployment",
+              "deployments"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "deployment",
+              "deployments"
+            ],
+            "name": "ts-seat-service"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "deployment",
+              "deployments"
+            ],
+            "name": "ts-seat-service"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "replicaset",
+              "replicasets"
+            ],
+            "name": "ts-seat-service-5fc7c67c7f"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "replicaset",
+              "replicasets"
+            ],
+            "name": "ts-seat-service-5fc7c67c7f"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M0",
+      "to": "M1",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M0",
+      "M1"
+    ]
+  }
+}

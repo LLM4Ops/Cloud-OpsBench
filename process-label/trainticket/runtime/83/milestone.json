@@ -1,0 +1,100 @@
+{
+  "case_id": "trainticket/runtime/83",
+  "namespace": "train-ticket",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Runtime_Fault",
+    "fault_object": "app/ts-food-service",
+    "root_cause": "service_sidecar_port_conflict"
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "role": "entry_pod_health_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-food-service-5744cc6666-5gs7t"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "role": "sidecar_context_and_container_failure_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-food-service-5744cc6666-5gs7t"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "root_cause_semantic_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-food-service"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetRecentLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-food-service"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M0",
+      "to": "M1",
+      "relation": "precedes"
+    },
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M0",
+      "M1",
+      "M2"
+    ]
+  }
+}

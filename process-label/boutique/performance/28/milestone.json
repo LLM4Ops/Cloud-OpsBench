@@ -1,0 +1,121 @@
+{
+  "case_id": "boutique/performance/28",
+  "namespace": "boutique",
+  "query": "Service latency increased significantly",
+  "result": {
+    "fault_taxonomy": "Performance_Fault",
+    "fault_object": "node/worker-02",
+    "root_cause": "node_network_packet_loss"
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "role": "primary_metric_anomaly_and_root_cause_signal",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAlerts",
+          "arguments": {},
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "k8s_object_health_and_node_placement_context",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pods",
+              "pod"
+            ],
+            "output_wide": true
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "nodes",
+              "node"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "nodes",
+              "node"
+            ],
+            "name": "worker-02"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "services",
+              "service"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "replicasets",
+              "replicaset",
+              "rs"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetClusterConfiguration",
+          "arguments": {},
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [],
+  "completion_formula": {
+    "all": [
+      "M1",
+      "M2"
+    ]
+  }
+}

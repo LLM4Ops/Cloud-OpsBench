@@ -1,23 +1,10 @@
 {
   "namespace": "boutique",
   "query": "Partial Service Unreachability.",
+  "difficulty": "easy",
   "result": {
     "fault_taxonomy": "Scheduling_Fault",
     "fault_object": "app/emailservice",
     "root_cause": "taint_toleration_mismatch"
-  },
-  "process": {
-    "path1": [
-      "GetResources::pods",
-      "DescribeResource::pods::emailservice",
-      "GetAppYAML::emailservice",
-      "GetResources::nodes",
-      "GetClusterConfiguration::"
-    ],
-    "path2": [
-      "GetResources::pods",
-      "DescribeResource::pods::emailservice",
-      "GetClusterConfiguration::"
-    ]
   }
 }

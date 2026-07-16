@@ -1,0 +1,109 @@
+{
+  "case_id": "boutique/startup/6",
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Startup_Fault",
+    "fault_object": "app/redis-cart",
+    "root_cause": "image_registry_dns_failure"
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "role": "initial_image_pull_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "redis-cart"
+            },
+            {
+              "kind": "regex",
+              "value": "ErrImagePull|ImagePullBackOff"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "label_selector": "app=redis-cart"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "redis-cart"
+            },
+            {
+              "kind": "regex",
+              "value": "ErrImagePull|ImagePullBackOff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "image_pull_failure_reason",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "redis-cart-7cfcd8578b-pbb9c"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "root_cause_configuration",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAppYAML",
+          "arguments": {
+            "app_name": "redis-cart"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  }
+}

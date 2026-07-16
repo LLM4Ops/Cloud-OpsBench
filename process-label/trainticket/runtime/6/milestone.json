@@ -1,0 +1,360 @@
+{
+  "case_id": "trainticket/runtime/6",
+  "namespace": "train-ticket",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Runtime_Fault",
+    "fault_object": "app/tsdb-mysql",
+    "root_cause": "db_readonly_mode"
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "role": "entry_business_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAlerts",
+          "arguments": {}
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "role": "first_level_root_cause_semantic_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-payment-service"
+          }
+        },
+        {
+          "tool_name": "GetRecentLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-payment-service"
+          }
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-order-service"
+          }
+        },
+        {
+          "tool_name": "GetRecentLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-order-service"
+          }
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "affected_backend_object_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "service",
+              "services"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "tsdb-mysql-leader"
+            },
+            {
+              "kind": "literal",
+              "value": "3306/TCP"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "endpoint",
+              "endpoints"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "tsdb-mysql-leader"
+            },
+            {
+              "kind": "literal",
+              "value": ":3306"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "service",
+              "services"
+            ],
+            "name": "tsdb-mysql"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "service",
+              "services"
+            ],
+            "name": "tsdb-mysql"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "service",
+              "services"
+            ],
+            "name": "tsdb-mysql-leader"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "service",
+              "services"
+            ],
+            "name": "tsdb-mysql-leader"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "service",
+              "services"
+            ],
+            "name": "tsdb-mysql-follower"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "service",
+              "services"
+            ],
+            "name": "tsdb-mysql-follower"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "endpoint",
+              "endpoints"
+            ],
+            "name": "tsdb-mysql"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "endpoint",
+              "endpoints"
+            ],
+            "name": "tsdb-mysql"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "endpoint",
+              "endpoints"
+            ],
+            "name": "tsdb-mysql-leader"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "endpoint",
+              "endpoints"
+            ],
+            "name": "tsdb-mysql-leader"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "endpoint",
+              "endpoints"
+            ],
+            "name": "tsdb-mysql-follower"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "endpoint",
+              "endpoints"
+            ],
+            "name": "tsdb-mysql-follower"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "tsdb-mysql-0"
+            },
+            {
+              "kind": "literal",
+              "value": "tsdb-mysql-1"
+            },
+            {
+              "kind": "literal",
+              "value": "tsdb-mysql-2"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "tsdb-mysql-0"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "tsdb-mysql-0"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "tsdb-mysql-1"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "tsdb-mysql-1"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "tsdb-mysql-2"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "tsdb-mysql-2"
+          }
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "statefulset",
+              "statefulsets"
+            ],
+            "name": "tsdb-mysql"
+          }
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "statefulset",
+              "statefulsets"
+            ],
+            "name": "tsdb-mysql"
+          }
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M0",
+      "to": "M1",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M0",
+      "M1",
+      "M2"
+    ]
+  }
+}

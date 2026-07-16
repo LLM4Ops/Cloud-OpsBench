@@ -1,33 +1,10 @@
 {
   "namespace": "boutique",
   "query": "Service Availability Disruption.",
+  "difficulty": "hard",
   "result": {
     "fault_taxonomy": "Application_Code_Defect",
     "fault_object": "app/checkoutservice",
     "root_cause": "code_wrong_argument_order"
-  },
-  "process": {
-    "path1": [
-      "GetResources::pods",
-      "DescribeResource::pods::checkoutservice-7c8866657f-db778",
-      "GetAlerts::",
-      "GetErrorLogs::frontend",
-      "GetErrorLogs::checkoutservice",
-      "GetErrorLogs::cartservice",
-      "ListCodeFiles::checkoutservice",
-      "GetSourceCode::checkoutservice::main.go"
-    ],
-    "path2": [
-      "GetResources::pods",
-      "DescribeResource::pods::checkoutservice-7c8866657f-db778",
-      "GetAlerts::",
-      "GetErrorLogs::frontend",
-      "GetServiceDependencies::frontend",
-      "GetErrorLogs::checkoutservice",
-      "GetErrorLogs::cartservice",
-      "GetAppYAML::checkoutservice",
-      "ListCodeFiles::checkoutservice",
-      "GetSourceCode::checkoutservice::main.go"
-    ]
   }
 }

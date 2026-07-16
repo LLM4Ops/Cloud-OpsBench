@@ -1,0 +1,345 @@
+{
+  "case_id": "boutique/admission/26",
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Admission_Fault",
+    "fault_object": "namespace/boutique",
+    "root_cause": "namespace_memory_quota_exceeded"
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "role": "initial_service_level_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "boutique",
+            "service_name": "frontend"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "CheckServiceConnectivity",
+          "arguments": {
+            "namespace": "boutique",
+            "service_name": "emailservice",
+            "port": 5000
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "Connection Failed"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint",
+              "ep"
+            ],
+            "name": "emailservice"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "emailservice"
+            },
+            {
+              "kind": "literal",
+              "value": "<none>"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint",
+              "ep"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "emailservice"
+            },
+            {
+              "kind": "literal",
+              "value": "<none>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "role": "workload_creation_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment",
+              "deploy"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "emailservice"
+            },
+            {
+              "kind": "regex",
+              "value": "\\bemailservice\\b\\s+0/\\d+"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "label_selector": "app=emailservice"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "regex",
+              "value": "^\\s*$"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "replicasets",
+              "replicaset",
+              "rs"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "emailservice-6d4d7cd4dc"
+            },
+            {
+              "kind": "regex",
+              "value": "\\bemailservice\\-6d4d7cd4dc\\b\\s+\\d+\\s+0\\s+0\\b"
+            }
+          ]
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment",
+              "deploy"
+            ],
+            "name": "emailservice"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "Name:                   emailservice"
+            },
+            {
+              "kind": "literal",
+              "value": "ReplicaFailure   True    FailedCreate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "admission_denial_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "replicasets",
+              "replicaset",
+              "rs"
+            ],
+            "name": "emailservice-6d4d7cd4dc"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "emailservice-6d4d7cd4dc"
+            },
+            {
+              "kind": "literal",
+              "value": "FailedCreate"
+            },
+            {
+              "kind": "literal",
+              "value": "exceeded quota: memory-request-quota"
+            },
+            {
+              "kind": "literal",
+              "value": "requests.memory"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "events",
+              "event"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "emailservice"
+            },
+            {
+              "kind": "literal",
+              "value": "FailedCreate"
+            },
+            {
+              "kind": "literal",
+              "value": "exceeded quota: memory-request-quota"
+            },
+            {
+              "kind": "literal",
+              "value": "requests.memory"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "root_cause_quota_state",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "resourcequota",
+              "resourcequotas",
+              "quota",
+              "quotas"
+            ],
+            "name": "memory-request-quota"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "memory-request-quota"
+            },
+            {
+              "kind": "literal",
+              "value": "requests.memory"
+            },
+            {
+              "kind": "regex",
+              "value": "requests\\.memory:\\s*\\S+/\\S+"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "resourcequota",
+              "resourcequotas",
+              "quota",
+              "quotas"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "memory-request-quota"
+            },
+            {
+              "kind": "literal",
+              "value": "requests.memory"
+            },
+            {
+              "kind": "regex",
+              "value": "requests\\.memory:\\s*\\S+/\\S+"
+            }
+          ]
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "resourcequota",
+              "resourcequotas",
+              "quota",
+              "quotas"
+            ],
+            "name": "memory-request-quota"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "memory-request-quota"
+            },
+            {
+              "kind": "literal",
+              "value": "requests.memory"
+            },
+            {
+              "kind": "regex",
+              "value": "requests\\.memory\\s+\\S+\\s+\\S+"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M0",
+      "to": "M1",
+      "relation": "precedes"
+    },
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M0",
+      "M1",
+      "M2",
+      "M3"
+    ]
+  }
+}

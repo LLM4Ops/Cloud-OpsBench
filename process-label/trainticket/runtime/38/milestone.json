@@ -1,0 +1,143 @@
+{
+  "case_id": "trainticket/runtime/38",
+  "namespace": "train-ticket",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Runtime_Fault",
+    "fault_object": "app/ts-food-delivery-service",
+    "root_cause": "mysql_invalid_credentials"
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "role": "entry_pod_health_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-food-delivery-service-d7f948cf4-q5jjp"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-food-delivery-service-d7f948cf4-q5jjp"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "role": "first_level_runtime_semantic_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-food-delivery-service"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetRecentLogs",
+          "arguments": {
+            "service_name": "ts-food-delivery-service",
+            "namespace": "train-ticket"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "configuration_reference_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAppYAML",
+          "arguments": {
+            "app_name": "ts-food-delivery-service"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "root_cause_secret_value_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "secret",
+              "secrets"
+            ],
+            "name": "ts-food-delivery-mysql"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "secret",
+              "secrets"
+            ],
+            "name": "ts-food-delivery-mysql"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M0",
+      "to": "M1",
+      "relation": "precedes"
+    },
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M1",
+      "to": "M3",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M0",
+      "M1",
+      "M2",
+      "M3"
+    ]
+  }
+}

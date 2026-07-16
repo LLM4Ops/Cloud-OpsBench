@@ -59,7 +59,6 @@ class CaseState:
 
     final_answer: Optional[str] = None
     stop_reason: Optional[str] = None
-    ground_truth: Optional[Dict[str, Any]] = None
 
     history: List[StepRecord] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
@@ -76,7 +75,6 @@ class CaseState:
             "finished": self.finished,
             "final_answer": self.final_answer,
             "stop_reason": self.stop_reason,
-            "ground_truth": self.ground_truth,
             "metadata": self.metadata,
             "steps": [step.to_dict() for step in self.history],
         }
@@ -88,7 +86,6 @@ def init_case_state(
     question: str,
     case_path: Optional[str] = None,
     max_steps: int = 10,
-    ground_truth: Optional[Dict[str, Any]] = None,
     metadata: Optional[Dict[str, Any]] = None,
 ) -> CaseState:
     """
@@ -100,7 +97,6 @@ def init_case_state(
         question: Diagnosis question shown to the agent.
         case_path: Path to the underlying snapshot/case data.
         max_steps: Maximum ReAct steps allowed.
-        ground_truth: Optional gold diagnosis result for the case.
         metadata: Optional extra metadata for analysis.
 
     Returns:
@@ -112,7 +108,6 @@ def init_case_state(
         question=question,
         case_path=case_path,
         max_steps=max_steps,
-        ground_truth=ground_truth,
         metadata=metadata or {},
     )
 

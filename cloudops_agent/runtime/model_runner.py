@@ -94,8 +94,7 @@ class ModelRunner:
                 ],
                 temperature=self.temperature,
                 max_tokens=self.max_tokens,
-                extra_body={"enable_thinking": False},
-                # stream=True
+                extra_body={"enable_thinking": False} #only for qwen\deepseek
             )
             latency = time.perf_counter() - start_time
             print('----------',response)

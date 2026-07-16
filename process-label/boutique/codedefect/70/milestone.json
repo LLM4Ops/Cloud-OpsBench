@@ -1,0 +1,120 @@
+{
+  "case_id": "boutique/codedefect/70",
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Application_Code_Defect",
+    "fault_object": "app/productcatalogservice",
+    "root_cause": "code_memory_leak"
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "role": "primary_pod_crash_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pods",
+              "pod"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "productcatalogservice"
+            },
+            {
+              "kind": "regex",
+              "value": "CrashLoopBackOff|OOMKilled|Exit Code:\\s*137"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pods",
+              "pod"
+            ],
+            "name": "productcatalogservice-8458b87d48-7r7l6"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "oomkilled_runtime_confirmation",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pods",
+              "pod"
+            ],
+            "name": "productcatalogservice-8458b87d48-7r7l6"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "code_scope_localization",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "ListCodeFiles",
+          "arguments": {
+            "app_name": "productcatalogservice"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M4",
+      "role": "root_cause_code_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetSourceCode",
+          "arguments": {
+            "app_name": "productcatalogservice",
+            "file_path": "catalog_loader.go"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    },
+    {
+      "from": "M3",
+      "to": "M4",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ]
+  }
+}

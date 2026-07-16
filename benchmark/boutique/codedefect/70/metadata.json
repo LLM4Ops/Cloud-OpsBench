@@ -1,29 +1,10 @@
 {
   "namespace": "boutique",
   "query": "Service Availability Disruption.",
+  "difficulty": "hard",
   "result": {
     "fault_taxonomy": "Application_Code_Defect",
     "fault_object": "app/productcatalogservice",
     "root_cause": "code_memory_leak"
-  },
-  "process": {
-    "path1": [
-      "GetResources::pods",
-      "DescribeResource::pods::productcatalogservice-8458b87d48-7r7l6",
-      "GetAlerts::",
-      "GetRecentLogs::productcatalogservice",
-      "GetErrorLogs::productcatalogservice",
-      "GetAppYAML::productcatalogservice",
-      "ListCodeFiles::productcatalogservice",
-      "GetSourceCode::productcatalogservice::catalog_loader.go"
-    ],
-    "path2": [
-      "GetResources::pods",
-      "DescribeResource::pods::productcatalogservice-8458b87d48-7r7l6",
-      "GetAlerts::",
-      "GetAppYAML::productcatalogservice",
-      "ListCodeFiles::productcatalogservice",
-      "GetSourceCode::productcatalogservice::catalog_loader.go"
-    ]
   }
 }

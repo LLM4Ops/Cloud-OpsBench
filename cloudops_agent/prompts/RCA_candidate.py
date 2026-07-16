@@ -94,7 +94,7 @@ root_cause_list_str = """
 - pvc_capacity_mismatch (Requires Target: APP): PVC capacity mismatch
 - pv_binding_occupied (Requires Target: APP): PV binding already occupied
 - volume_mount_permission_denied (Requires Target: APP): volume mount permission denied
-- oom_killed (Requires Target: APP): process killed due to out-of-memory
+- container_memory_limit_too_low (Requires Target: APP): process killed due to low memory configuration
 - liveness_probe_incorrect_protocol (Requires Target: APP): incorrect liveness probe protocol
 - liveness_probe_incorrect_port (Requires Target: APP): incorrect liveness probe port
 - liveness_probe_incorrect_timing (Requires Target: APP): incorrect liveness probe timing configuration
@@ -125,37 +125,10 @@ root_cause_list_str = """
 - code_wrong_argument_order (Requires Target: APP): application code passes arguments in the wrong order
 """
 
-taxonomy_definitions = {
-    "Admission_Fault": "Refers to failures caused by the Admission Controller rejecting the request (e.g., due to policy or resourcequota constraints) after it is received by the API Server but before it is persisted to etcd",
-    "Scheduling_Fault": "Refers to failures where a Pod has passed admission and is written to etcd, but the kube-scheduler cannot assign a suitable node, causing it to remain in a Pending state for a long time.",
-    "Infrastructure_Fault": "Refers to failures arising from the underlying cluster resources or critical Kubernetes system components, which occur independently of user business applications and configurations.",
-    "Startup_Fault": "Refers to failures where the Pod has been successfully scheduled to a node but fails during image pulling or container initialization, preventing the Pod from entering the Running state.",
-    "Runtime_Fault": "Refers to scenarios where the application container has successfully started and entered the Running state, but exits abnormally or behaves erratically due to internal errors or external dependency failures, or Kubernetes health probes.",
-    "Service_Routing_Fault": "Refers to connectivity or discovery failures caused by misconfigurations of Kubernetes networking resources that disrupt traffic routing between Pods or external clients, excluding outages caused by system-level infrastructure.",
-    "Performance_Fault": "Refers to scenarios where the application functions functionally but performance metrics degrade significantly (e.g., high latency, low throughput, resource bottlenecks), failing to meet SLOs.",
-}
-
-CODE_DEFECT_TAXONOMY = {
-    "Application_Code_Defect": (
-        "Refers to failures caused by defects in application source code logic, "
-        "such as wrong return values, missing parameters, wrong argument order, "
-        "artificial delays, busy loops, memory leaks, or excessive file I/O."
-    )
-}
-
-
-def _is_code_defect_category(fault_category: str = "") -> bool:
-    return (fault_category or "").strip().lower() in {"codedefect", "code_defect", "code-defect"}
-
-
-def build_expected_output(system: str = "train-ticket", fault_category: str = "") -> str:
+def build_expected_output(system: str = "train-ticket") -> str:
     system_key = system if system in SYSTEM_VALID_SERVICES else "train-ticket"
     valid_services = SYSTEM_VALID_SERVICES[system_key]
     valid_namespaces = SYSTEM_VALID_NAMESPACES[system_key]
-    active_taxonomy_definitions = dict(taxonomy_definitions)
-
-    if _is_code_defect_category(fault_category):
-        active_taxonomy_definitions.update(CODE_DEFECT_TAXONOMY)
 
     return f"""
 A final diagnostic report in **strict JSON format**.
@@ -167,16 +140,11 @@ Based on the analyzed evidence, your **primary goal (Main Task)** is to identify
 **Main Task (Core Diagnosis):**
 1. **The Root Cause**: Specify exactly what went wrong.
 2. **The Victim Object**: Identify where that fault actually resides. The victim object must be one of: node / app / namespace.
-   Here, `APP` refers to the affected **application-level business service unit** (e.g., `adservice`, `cartservice`, `frontend`).
+   Here, `APP` refers to an affected **application-level business service unit** from the system-specific resource list below.
    **Constraint:** The object's type must match the `(Requires Target: ...)` tag defined next to your chosen root cause.
-
-**Auxiliary Task (Supplementary Label):**
-3. **The Category (Taxonomy)**: Map the fault to exactly ONE category based on the **Origin Phase** (where the error originated), NOT just the observed symptom. This is an auxiliary field and is NOT the central objective of your diagnosis.
 
 Important:
 - A valid diagnosis is centered on jointly identifying **both the root cause and the victim object**.
-- The taxonomy is a secondary, higher-level categorization and should simply be inferred from the best available evidence once the root cause and victim object are sufficiently established.
-- Do NOT delay finalization merely to repeatedly verify or deduce the taxonomy if the core targets (root cause and victim object) already have strong evidence support.
 
 ### OBJECT SEMANTICS ###
 This abstraction is used because, in our benchmarked microservice systems, the Kubernetes Service / Deployment / Pod instances associated with the same business service are tightly coupled and usually correspond to the same application-level fault subject.
@@ -184,62 +152,53 @@ Therefore, `app/<name>` should be interpreted as the affected business service u
 
 ### FINALIZATION RULE ###
 Once you have sufficient evidence for a specific root cause and victim object (the Main Task) that together explain the reported symptom, you should finalize the diagnosis.
-You do not need exhaustive verification of every structured field, especially the auxiliary taxonomy field, before outputting the JSON result.
-The taxonomy and fault object should reflect your best evidence-based judgment at the time of finalization.
+The fault object and root cause should reflect your best evidence-based judgment at the time of finalization.
 
 ### RANKING STRATEGY ###
-- We evaluate performance based on **Top-3 predictions** of the core diagnosis (root cause + victim object).
+- Return **Top-3 predictions** to preserve the benchmark output format; the primary benchmark metrics use Rank 1.
 - **Rank 1** must be your most confident conclusion supported by the strongest evidence.
 - **Rank 2 and Rank 3** should be plausible alternatives or next-best explanations based on the evidence already collected.
-- Do NOT perform extra low-information-gain tool calls merely to improve Rank 2, Rank 3, or the auxiliary taxonomy field.
+- Do NOT perform extra low-information-gain tool calls merely to improve Rank 2 or Rank 3.
 - If Rank 1 is already strongly supported, finalize rather than repeatedly confirming the same evidence.
 
 ### CONSTRAINT LISTS (Select strictly from these lists) ###
 
-**[List A: Valid Taxonomies]**
-{active_taxonomy_definitions}
-
-**[List B: Valid Root Causes]**
+**[List A: Valid Root Causes]**
 {root_cause_list_str}
 
-**[List C: Valid Resource Names]**
+**[List B: Valid Resource Names]**
 - Nodes: {VALID_NODES}
 - APP: {valid_services}
 - Namespaces: {valid_namespaces}
 
 ### OUTPUT FORMAT ###
 Construct the JSON using the values selected above.
-For `fault_object`, combine the `Kind` (determined by you: node/app/namespace) with the `Name` selected from List C.
+For `fault_object`, combine the `Kind` (determined by you: node/app/namespace) with the `Name` selected from List B.
 Format: `Kind/Name` (e.g., `node/worker-01`).
 
 - `top_3_predictions`: a list of 3 diagnosis results.
 - Rank 2 and Rank 3 are alternative hypotheses, not evidence that requires separate exhaustive validation.
 
-```json
 {{
   "key_evidence_summary": "... (Concise summary of the key evidence supporting the diagnosis)",
   "top_3_predictions": [
     {{
       "rank": 1,
-      "fault_taxonomy": "... (Select from List A)",
-      "fault_object": "... (Kind + Name from List C)",
-      "root_cause": "... (Select from List B)"
+      "fault_object": "... (Kind + Name from List B)",
+      "root_cause": "... (Select from List A)"
     }},
     {{
       "rank": 2,
-      "fault_taxonomy": "... (Select from List A)",
-      "fault_object": "... (Kind + Name from List C)",
-      "root_cause": "... (Select from List B)"
+      "fault_object": "... (Kind + Name from List B)",
+      "root_cause": "... (Select from List A)"
     }},
     {{
       "rank": 3,
-      "fault_taxonomy": "... (Select from List A)",
-      "fault_object": "... (Kind + Name from List C)",
-      "root_cause": "... (Select from List B)"
+      "fault_object": "... (Kind + Name from List B)",
+      "root_cause": "... (Select from List A)"
     }}
   ]
 }}
-```
 """
 
 
@@ -251,7 +210,7 @@ You are a professional Kubernetes operations engineer with extensive experience 
 
 **Instructions:**
 1. You have access to a set of diagnostic tools. You must independently decide which tools to use and the execution order based on your findings.
-2. Do NOT guess or assume the system state. Every conclusion must be backed by concrete output from a tool.
+2. Do NOT guess or assume the system state. Your Rank-1 conclusion must be backed by concrete output from a tool; Rank 2 and Rank 3 should be plausible alternatives consistent with the collected evidence.
 3. If a tool returns no anomalies, discard that hypothesis and pivot to a different investigation path. Do not speculate without proof.
 4. Provide a clear reasoning chain that connects the initial symptom to the final root cause, supported by the evidence you collected.
 
@@ -268,8 +227,6 @@ You are a professional Kubernetes operations engineer with extensive experience 
   Action Input: {}
 
 2. The "Action Input" field is mandatory for every tool call.
-
-IMPORTANT: When classifying the fault stage in your final response, you MUST strictly follow the definition in [List A: Valid Taxonomies].
 
 Begin your investigation now.
 """

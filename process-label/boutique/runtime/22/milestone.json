@@ -1,0 +1,209 @@
+{
+  "case_id": "boutique/runtime/22",
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Runtime_Fault",
+    "fault_object": "app/adservice",
+    "root_cause": "container_memory_limit_too_low"
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "role": "first_level_oom_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "namespace": "boutique"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "adservice"
+            },
+            {
+              "kind": "regex",
+              "value": "0/1\\s+(ContainerCreating|CrashLoopBackOff|Pending)|CrashLoopBackOff|ContainerCreating"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "adservice-74c7f4c787-8g8cs",
+            "namespace": "boutique"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "namespace": "boutique",
+            "label_selector": "app=adservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "resource_type": [
+              "deploy",
+              "deployment",
+              "deployments"
+            ],
+            "namespace": "boutique"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "adservice"
+            },
+            {
+              "kind": "regex",
+              "value": "0/1|AVAILABLE"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "resource_type": [
+              "deploy",
+              "deployment",
+              "deployments"
+            ],
+            "name": "adservice",
+            "namespace": "boutique"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "resource_type": [
+              "deploy",
+              "deployment",
+              "deployments"
+            ],
+            "namespace": "boutique",
+            "label_selector": "app=adservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "resource_type": [
+              "event",
+              "events"
+            ],
+            "namespace": "boutique"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "regex",
+              "value": "OOM-killed|memory limit too low|FailedCreatePodSandBox|Back-off"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "boutique",
+            "service_name": "adservice"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "pod_level_oom_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "adservice-74c7f4c787-8g8cs",
+            "namespace": "boutique"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "root_cause_memory_limit_configuration",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAppYAML",
+          "arguments": {
+            "app_name": "adservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "resource_type": [
+              "deploy",
+              "deployment",
+              "deployments"
+            ],
+            "name": "adservice",
+            "namespace": "boutique"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "resource_type": [
+              "rs",
+              "replicaset",
+              "replicasets"
+            ],
+            "name": "adservice-74c7f4c787",
+            "namespace": "boutique"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  }
+}

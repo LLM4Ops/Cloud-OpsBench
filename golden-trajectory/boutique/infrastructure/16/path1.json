@@ -1,9 +1,8 @@
 {
   "statistics": {
-    "valid_tool_call_count": 8,
-    "total_trace_steps": 8,
+    "valid_tool_call_count": 7,
+    "total_trace_steps": 7,
     "history_called_tool_names": [
-      "GetResources",
       "GetResources",
       "GetResources",
       "GetResources",
@@ -23,11 +22,6 @@
       "tool_name": "GetResources",
       "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: 'svc', name: None, show_labels: False, output_wide: False, label_selector: None}",
       "output": "NAME                    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE\nadservice               ClusterIP   10.68.243.118   <none>        9555/TCP       75s\ncartservice             ClusterIP   10.68.139.239   <none>        7070/TCP       76s\ncheckoutservice         ClusterIP   10.68.58.191    <none>        5050/TCP       75s\ncurrencyservice         ClusterIP   10.68.68.151    <none>        7000/TCP       76s\nemailservice            ClusterIP   10.68.119.66    <none>        5000/TCP       76s\nfrontend                ClusterIP   10.68.2.200     <none>        80/TCP         75s\nfrontend-external       NodePort    10.68.110.238   <none>        80:30080/TCP   75s\npaymentservice          ClusterIP   10.68.144.190   <none>        50051/TCP      75s\nproductcatalogservice   ClusterIP   10.68.159.111   <none>        3550/TCP       76s\nrecommendationservice   ClusterIP   10.68.6.53      <none>        8080/TCP       77s\nredis-cart              ClusterIP   10.68.13.137    <none>        6379/TCP       75s\nshippingservice         ClusterIP   10.68.73.83     <none>        50051/TCP      76s\n"
-    },
-    {
-      "tool_name": "GetResources",
-      "calling": "tool_name='GetResources' arguments={namespace: 'boutique', resource_type: '', name: 'x', show_labels: False, output_wide: False, label_selector: None}",
-      "output": "Error: Unknown resource type ''"
     },
     {
       "tool_name": "GetResources",

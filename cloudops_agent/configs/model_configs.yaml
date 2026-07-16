@@ -13,5 +13,3 @@ diagnosis:
   fault_category: "codedefect" # ["service",'admission','startup','runtime','performance','scheduling','infrastructure','codedefect']
   dataset_root: "/root/Cloud-OpsBench" # file root:Cloud-OpsBench
   save_root: "/root/trajectory/"  # save diagnosis trajectory and results
-  prompt_strategy: "base" # ["base","icl","cot","rag"]
-

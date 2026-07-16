@@ -1,32 +1,10 @@
 {
   "namespace": "boutique",
   "query": "Service Availability Disruption.",
+  "difficulty": "hard",
   "result": {
     "fault_taxonomy": "Application_Code_Defect",
     "fault_object": "app/productcatalogservice",
     "root_cause": "code_missing_parameter"
-  },
-  "process": {
-    "path1": [
-      "GetResources::pods",
-      "GetResources::services",
-      "GetAlerts::",
-      "GetErrorLogs::frontend",
-      "GetErrorLogs::cartservice",
-      "GetServiceDependencies::frontend",
-      "ListCodeFiles::productcatalogservice",
-      "GetSourceCode::productcatalogservice::product_catalog.go"
-    ],
-    "path2": [
-      "GetResources::pods",
-      "GetResources::services",
-      "GetAlerts::",
-      "GetServiceDependencies::frontend",
-      "GetResources::endpoints",
-      "GetErrorLogs::frontend",
-      "GetErrorLogs::cartservice",
-      "ListCodeFiles::productcatalogservice",
-      "GetSourceCode::productcatalogservice::product_catalog.go"
-    ]
   }
 }

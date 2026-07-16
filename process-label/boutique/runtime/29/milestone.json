@@ -1,0 +1,193 @@
+{
+  "case_id": "boutique/runtime/29",
+  "namespace": "boutique",
+  "query": "Partial Service Unreachability.",
+  "result": {
+    "fault_taxonomy": "Runtime_Fault",
+    "fault_object": "app/redis-cart",
+    "root_cause": "container_memory_limit_too_low"
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "role": "first_level_oom_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "namespace": "boutique"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "redis-cart"
+            },
+            {
+              "kind": "regex",
+              "value": "0/1\\s+(ContainerCreating|CrashLoopBackOff|Pending)|CrashLoopBackOff|ContainerCreating"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "redis-cart-754cf58cb4-42f8g",
+            "namespace": "boutique"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "namespace": "boutique",
+            "label_selector": "app=redis-cart"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "resource_type": [
+              "deploy",
+              "deployment",
+              "deployments"
+            ],
+            "namespace": "boutique"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "redis-cart"
+            },
+            {
+              "kind": "regex",
+              "value": "0/1|AVAILABLE"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "resource_type": [
+              "deploy",
+              "deployment",
+              "deployments"
+            ],
+            "name": "redis-cart",
+            "namespace": "boutique"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "resource_type": [
+              "deploy",
+              "deployment",
+              "deployments"
+            ],
+            "namespace": "boutique",
+            "label_selector": "app=redis-cart"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "boutique",
+            "service_name": "redis-cart"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "pod_level_oom_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "redis-cart-754cf58cb4-42f8g",
+            "namespace": "boutique"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "root_cause_memory_limit_configuration",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAppYAML",
+          "arguments": {
+            "app_name": "redis-cart"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "resource_type": [
+              "deploy",
+              "deployment",
+              "deployments"
+            ],
+            "name": "redis-cart",
+            "namespace": "boutique"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "resource_type": [
+              "rs",
+              "replicaset",
+              "replicasets"
+            ],
+            "name": "redis-cart-754cf58cb4",
+            "namespace": "boutique"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  }
+}

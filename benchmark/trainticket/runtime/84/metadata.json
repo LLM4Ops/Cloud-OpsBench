@@ -1,25 +1,10 @@
 {
   "namespace": "train-ticket",
   "query": "Partial Service Unreachability.",
+  "difficulty": "easy",
   "result": {
     "fault_taxonomy": "Runtime_Fault",
     "fault_object": "app/ts-gateway-service",
     "root_cause": "service_sidecar_port_conflict"
-  },
-  "process": {
-    "path1": [
-      "GetResources::pods",
-      "DescribeResource::pods::ts-gateway-service",
-      "GetAlerts::",
-      "GetErrorLogs::ts-gateway-service",
-      "GetResources::endpoints"
-    ],
-    "path2": [
-      "GetResources::pods",
-      "DescribeResource::pods::ts-gateway-service",
-      "GetErrorLogs::ts-gateway-service",
-      "GetResources::services",
-      "GetResources::endpoints"
-    ]
   }
 }

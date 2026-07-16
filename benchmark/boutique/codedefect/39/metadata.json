@@ -1,29 +1,10 @@
 {
   "namespace": "boutique",
   "query": "Service Availability Disruption.",
+  "difficulty": "hard",
   "result": {
     "fault_taxonomy": "Application_Code_Defect",
     "fault_object": "app/frontend",
     "root_cause": "code_memory_leak"
-  },
-  "process": {
-    "path1": [
-      "GetResources::pods",
-      "DescribeResource::pods::frontend-7b49cb6446-6lt6c",
-      "GetAlerts::",
-      "GetRecentLogs::frontend",
-      "GetErrorLogs::frontend",
-      "GetAppYAML::frontend",
-      "ListCodeFiles::frontend",
-      "GetSourceCode::frontend::handlers.go"
-    ],
-    "path2": [
-      "GetResources::pods",
-      "DescribeResource::pods::frontend-7b49cb6446-6lt6c",
-      "GetAlerts::",
-      "GetAppYAML::frontend",
-      "ListCodeFiles::frontend",
-      "GetSourceCode::frontend::handlers.go"
-    ]
   }
 }

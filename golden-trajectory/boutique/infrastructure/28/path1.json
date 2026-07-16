@@ -1,13 +1,12 @@
 {
   "statistics": {
-    "valid_tool_call_count": 11,
-    "total_trace_steps": 11,
+    "valid_tool_call_count": 10,
+    "total_trace_steps": 10,
     "history_called_tool_names": [
       "GetResources",
       "DescribeResource",
       "GetClusterConfiguration",
       "GetRecentLogs",
-      "GetResources",
       "GetResources",
       "GetResources",
       "GetResources",

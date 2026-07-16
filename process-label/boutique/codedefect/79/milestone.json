@@ -1,0 +1,89 @@
+{
+  "case_id": "boutique/codedefect/79",
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Application_Code_Defect",
+    "fault_object": "app/productcatalogservice",
+    "root_cause": "code_wrong_return"
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "role": "entry_business_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAlerts",
+          "arguments": {},
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "role": "primary_business_error_log",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "boutique",
+            "service_name": "frontend"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "code_scope_localization",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "ListCodeFiles",
+          "arguments": {
+            "app_name": "productcatalogservice"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "root_cause_code_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetSourceCode",
+          "arguments": {
+            "app_name": "productcatalogservice",
+            "file_path": "product_catalog.go"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M0",
+      "to": "M1",
+      "relation": "precedes"
+    },
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M0",
+      "M1",
+      "M2",
+      "M3"
+    ]
+  }
+}

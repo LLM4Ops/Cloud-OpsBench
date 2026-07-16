@@ -1,30 +1,10 @@
 {
   "namespace": "boutique",
   "query": "Service Performance Degradation.",
+  "difficulty": "hard",
   "result": {
     "fault_taxonomy": "Application_Code_Defect",
     "fault_object": "app/shippingservice",
     "root_cause": "code_excessive_file_reads"
-  },
-  "process": {
-    "path1": [
-      "GetResources::pods",
-      "DescribeResource::pods::shippingservice-7b5c459cdd-7fwff",
-      "GetAlerts::",
-      "GetRecentLogs::shippingservice",
-      "GetErrorLogs::shippingservice",
-      "GetAppYAML::shippingservice",
-      "ListCodeFiles::shippingservice",
-      "GetSourceCode::shippingservice::quote.go"
-    ],
-    "path2": [
-      "GetResources::pods",
-      "DescribeResource::pods::shippingservice-7b5c459cdd-7fwff",
-      "GetAlerts::",
-      "GetErrorLogs::frontend",
-      "GetAppYAML::shippingservice",
-      "ListCodeFiles::shippingservice",
-      "GetSourceCode::shippingservice::quote.go"
-    ]
   }
 }

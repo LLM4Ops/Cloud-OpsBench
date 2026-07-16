@@ -1,0 +1,259 @@
+{
+  "case_id": "boutique/service/51",
+  "namespace": "boutique",
+  "query": "Partial Service Unreachability.",
+  "result": {
+    "fault_taxonomy": "Service_Routing_Fault",
+    "fault_object": "app/paymentservice",
+    "root_cause": "service_selector_mismatch"
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "role": "service_routing_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "boutique",
+            "service_name": "frontend"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "CheckServiceConnectivity",
+          "arguments": {
+            "namespace": "boutique",
+            "service_name": "paymentservice",
+            "port": 50051
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint",
+              "ep"
+            ],
+            "name": "paymentservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint",
+              "ep"
+            ],
+            "name": "paymentservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint",
+              "ep"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "paymentservice"
+            },
+            {
+              "kind": "literal",
+              "value": "<none>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M2a",
+      "role": "root_cause_configuration",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAppYAML",
+          "arguments": {
+            "app_name": "paymentservice"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2b",
+      "role": "service_selector_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "services",
+              "service",
+              "svc"
+            ],
+            "name": "paymentservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "services",
+              "service",
+              "svc"
+            ],
+            "name": "paymentservice",
+            "output_wide": true
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "services",
+              "service",
+              "svc"
+            ],
+            "output_wide": true
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2c",
+      "role": "backend_label_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment",
+              "deploy"
+            ],
+            "name": "paymentservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment",
+              "deploy"
+            ],
+            "name": "paymentservice",
+            "show_labels": true
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment",
+              "deploy"
+            ],
+            "name": "paymentservice",
+            "output_wide": true
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment",
+              "deploy"
+            ],
+            "show_labels": true
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment",
+              "deploy"
+            ],
+            "output_wide": true
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pods",
+              "pod"
+            ],
+            "show_labels": true
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M1",
+      "to": "M2a",
+      "relation": "precedes"
+    },
+    {
+      "from": "M1",
+      "to": "M2b",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2b",
+      "to": "M2c",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M1",
+      {
+        "any": [
+          "M2a",
+          {
+            "all": [
+              "M2b",
+              "M2c"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

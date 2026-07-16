@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -17,7 +18,6 @@ if str(AGENT_ROOT) not in sys.path:
 # -------------------------------------------------------------------
 from prompts.config_utils import load_config
 from prompts.RCA_candidate import agent_prompt, build_expected_output
-from prompts.prompt_optimization import get_cot_prompt, get_icl_prompt, get_rag_prompt
 from tools.definition import create_k8s_tools
 from tools.registry import build_tool_registry, render_tools_description
 
@@ -67,30 +67,16 @@ def load_metadata(meta_path: Path) -> Dict[str, Any]:
         return json.load(f)
 
 
-def build_prompt_backstory(
-    prompt_strategy: str,
-    workspace_path: str,
-    fault_category: str,
-    fault_path: str,
-    system: str,
-) -> str:
-    """
-    Build the system/backstory prompt according to the configured prompt strategy.
-    """
-    if prompt_strategy == "base":
-        return agent_prompt
-    elif prompt_strategy == "cot":
-        return get_cot_prompt()
-    elif prompt_strategy == "rag":
-        return get_rag_prompt()
-    elif prompt_strategy == "icl":
-        normalized_system = normalize_system_name(system)
-        workspace_root = Path(workspace_path)
-        dataset_root = workspace_root.parent.parent
-        demo_path = dataset_root / "golden-trajectory" / normalized_system / fault_category
-        return get_icl_prompt(str(demo_path), fault_path)
-    else:
-        raise ValueError(f"Unknown prompt_strategy: {prompt_strategy}")
+def is_completed_trace(trace_path: Path) -> bool:
+    """Return whether a trace records a completed or budget-exhausted run."""
+    if not trace_path.exists():
+        return False
+    try:
+        with open(trace_path, "r", encoding="utf-8") as f:
+            trace = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return False
+    return trace.get("stop_reason") in {"final_answer", "max_steps"}
 
 
 def build_model_runner(llm_conf: Dict[str, Any]) -> ModelRunner:
@@ -140,11 +126,9 @@ def run_single_case(
     workspace_path: str,
     save_path: str,
     fault_category: str,
-    prompt_eng: str,
     model_name: str,
     max_iterations: int,
     llm_conf: Dict[str, Any],
-    backstory_prompt: str,
 ) -> None:
     """
     Run one single case end-to-end.
@@ -162,16 +146,16 @@ def run_single_case(
     if not meta_path.exists():
         raise FileNotFoundError(f"metadata.json not found: {meta_path}")
 
-    diag_root = Path(save_path) / f"{model_name}_{prompt_eng}" / fault_category
+    diag_root = Path(save_path) / model_name / fault_category
     diag_case_path = diag_root / case_name
     diag_case_path.mkdir(parents=True, exist_ok=True)
 
     trace_dir = str(diag_case_path)
-    result_path = diag_case_path / "result_raw.json"
+    trace_path = diag_case_path / f"{case_name}.json"
 
-    # If final result already exists, skip rerun
-    if result_path.exists():
-        print(f"[SKIP] Case already has result_raw.json: {case_name}")
+    # Skip only completed traces; an interrupted partial trace should be rerun.
+    if is_completed_trace(trace_path):
+        print(f"[SKIP] Case already has a completed trace: {case_name}")
         return
 
     # -------------------------------------------------------------------
@@ -208,11 +192,8 @@ def run_single_case(
     # -------------------------------------------------------------------
     prompt_builder = PromptBuilder(
         tools_description=tools_description,
-        backstory_prompt=backstory_prompt,
-        expected_output=build_expected_output(
-            benchmark_system,
-            fault_category=fault_category,
-        ),
+        backstory_prompt=agent_prompt,
+        expected_output=build_expected_output(benchmark_system),
     )
     model_runner = build_model_runner(llm_conf)
     output_parser = OutputParser()
@@ -236,14 +217,13 @@ def run_single_case(
         question=full_question,
         case_path=str(case_path),
         max_steps=max_iterations,
-        ground_truth=result if isinstance(result, dict) else {"raw_result": result},
         metadata={
             "namespace": namespace,
             "query": query,
             "result": result,
             "fault_category": fault_category,
-            "prompt_strategy": prompt_eng,
             "model_name": model_name,
+            "run_started_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         },
     )
 
@@ -253,19 +233,7 @@ def run_single_case(
     final_state = runtime.run_case(state)
 
     # -------------------------------------------------------------------
-    # 8. Save final raw result
-    # -------------------------------------------------------------------
-    result_payload = {
-        "Completed": str(final_state.final_answer or ""),
-        "finished": final_state.finished,
-        "stop_reason": final_state.stop_reason,
-        "steps_used": len(final_state.history),
-    }
-    with open(result_path, "w", encoding="utf-8") as f:
-        json.dump(result_payload, f, ensure_ascii=False, indent=2)
-
-    # -------------------------------------------------------------------
-    # 9. Print summary
+    # 8. Print summary
     # -------------------------------------------------------------------
     trace_path = trace_logger.get_trace_path(final_state)
 
@@ -274,14 +242,12 @@ def run_single_case(
     print("=" * 80)
     print(f"Model         : {model_name}")
     print(f"Fault Category: {fault_category}")
-    print(f"Prompt Strat. : {prompt_eng}")
     print(f"Case Name     : {case_name}")
     print(f"Case Path     : {case_path}")
     print(f"Finished      : {final_state.finished}")
     print(f"Stop Reason   : {final_state.stop_reason}")
     print(f"Steps Used    : {len(final_state.history)}")
     print(f"Trace Path    : {trace_path}")
-    print(f"Result Path   : {result_path}")
     print("-" * 80)
     print("Final Answer:")
     print(final_state.final_answer or "[No final answer produced]")
@@ -301,9 +267,7 @@ def main() -> None:
     workspace_path = resolve_workspace_path(diag_conf, normalized_system)
     save_path = resolve_save_path(diag_conf, normalized_system)
     fault_category = diag_conf["fault_category"]
-    prompt_eng = diag_conf["prompt_strategy"]
     max_iterations = diag_conf["max_iterations"]
-    system = normalized_system
 
     # fault_root = Path(workspace_path) / "benchmark" / fault_category
     fault_root = workspace_path / fault_category
@@ -311,18 +275,7 @@ def main() -> None:
         raise FileNotFoundError(f"Fault root not found: {fault_root}")
 
     # -------------------------------------------------------------------
-    # 2. Build shared prompt backstory once
-    # -------------------------------------------------------------------
-    backstory_prompt = build_prompt_backstory(
-        prompt_strategy=prompt_eng,
-        workspace_path=str(workspace_path),
-        fault_category=fault_category,
-        fault_path=str(fault_root),
-        system=system,
-    )
-
-    # -------------------------------------------------------------------
-    # 3. Resolve case list
+    # 2. Resolve case list
     # -------------------------------------------------------------------
     case_names = resolve_case_names(fault_root, diag_conf)
     # case_names = case_names[:MAX_CASES_TO_RUN]
@@ -330,7 +283,6 @@ def main() -> None:
     print("✅ Configuration loading completed")
     print(f"Model          : {model_name}")
     print(f"Fault category : {fault_category}")
-    print(f"Prompt strategy: {prompt_eng}")
     print(f"Workspace path : {workspace_path}")
     print(f"Save path      : {save_path}")
     print(f"Max iterations : {max_iterations}")
@@ -339,7 +291,7 @@ def main() -> None:
     print(f"Cases          : {case_names}")
 
     # -------------------------------------------------------------------
-    # 4. Run all selected cases
+    # 3. Run all selected cases
     # -------------------------------------------------------------------
     for idx, case_name in enumerate(case_names, start=1):
         print(f"\n[RUN] ({idx}/{len(case_names)}) case={case_name}")
@@ -349,11 +301,9 @@ def main() -> None:
                 workspace_path=str(workspace_path),
                 save_path=str(save_path),
                 fault_category=fault_category,
-                prompt_eng=prompt_eng,
                 model_name=model_name,
                 max_iterations=max_iterations,
                 llm_conf=llm_conf,
-                backstory_prompt=backstory_prompt,
             )
         except Exception as e:
             print(f"[ERROR] case={case_name} failed: {e}")

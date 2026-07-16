@@ -1,21 +1,10 @@
 {
   "namespace": "boutique",
   "query": "Service abnormal restart.",
+  "difficulty": "easy",
   "result": {
     "fault_taxonomy": "Runtime_Fault",
     "fault_object": "app/currencyservice",
     "root_cause": "liveness_probe_incorrect_port"
-  },
-  "process": {
-    "path1": [
-      "GetResources::pods",
-      "DescribeResource::pods::currencyservice",
-      "GetAppYAML::currencyservice"
-    ],
-    "path2": [
-      "GetResources::pods",
-      "DescribeResource::pods::currencyservice",
-      "GetAppYAML::currencyservice"
-    ]
   }
 }

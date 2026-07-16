@@ -1,23 +1,10 @@
 {
   "namespace": "boutique",
   "query": "Partial Service Unreachability.",
+  "difficulty": "easy",
   "result": {
     "fault_taxonomy": "Scheduling_Fault",
     "fault_object": "app/adservice",
     "root_cause": "taint_toleration_mismatch"
-  },
-  "process": {
-    "path1": [
-      "GetResources::pods",
-      "DescribeResource::pods::adservice",
-      "GetAppYAML::adservice",
-      "GetClusterConfiguration::"
-    ],
-    "path2": [
-      "GetResources::pods",
-      "DescribeResource::pods::adservice",
-      "GetClusterConfiguration::",
-      "GetAppYAML::adservice"
-    ]
   }
 }

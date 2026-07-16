@@ -1,0 +1,121 @@
+{
+  "case_id": "boutique/scheduling/113",
+  "namespace": "boutique",
+  "query": "Partial Service Unreachability.",
+  "result": {
+    "fault_taxonomy": "Scheduling_Fault",
+    "fault_object": "app/cartservice",
+    "root_cause": "pod_anti_affinity_conflict"
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "role": "primary_scheduling_symptom_and_placement_context",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "output_wide": true
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "cartservice"
+            },
+            {
+              "kind": "literal",
+              "value": "Pending"
+            },
+            {
+              "kind": "literal",
+              "value": "cartservice"
+            },
+            {
+              "kind": "literal",
+              "value": "Running"
+            },
+            {
+              "kind": "literal",
+              "value": "worker-01"
+            },
+            {
+              "kind": "literal",
+              "value": "worker-02"
+            },
+            {
+              "kind": "literal",
+              "value": "worker-03"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "scheduler_reason",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "cartservice-7dd764f9cc-dvz9s"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "cartservice-7dd764f9cc-rdjtn"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "constraint_policy_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAppYAML",
+          "arguments": {
+            "app_name": "cartservice"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  }
+}

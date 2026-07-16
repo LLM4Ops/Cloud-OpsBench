@@ -1,0 +1,239 @@
+{
+  "case_id": "trainticket/runtime/74",
+  "namespace": "train-ticket",
+  "query": "Partial Service Unreachability.",
+  "result": {
+    "fault_taxonomy": "Runtime_Fault",
+    "fault_object": "app/ts-train-food-service",
+    "root_cause": "mysql_invalid_port"
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "role": "entry_pod_health_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-train-food-service-54754ff6f6-phsqh"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "ts-train-food-service-54754ff6f6-phsqh"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "role": "first_level_runtime_semantic_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-train-food-service"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetRecentLogs",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "ts-train-food-service"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "configuration_reference_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAppYAML",
+          "arguments": {
+            "app_name": "ts-train-food-service"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "root_cause_secret_port_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "secret",
+              "secrets"
+            ],
+            "name": "ts-train-food-mysql"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "secret",
+              "secrets"
+            ],
+            "name": "ts-train-food-mysql"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M4",
+      "role": "actual_db_service_port_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "service",
+              "services"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "service",
+              "services"
+            ],
+            "name": "tsdb-mysql-leader"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "service",
+              "services"
+            ],
+            "name": "tsdb-mysql-leader"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "endpoint",
+              "endpoints"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "endpoint",
+              "endpoints"
+            ],
+            "name": "tsdb-mysql-leader"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "train-ticket",
+            "resource_type": [
+              "endpoint",
+              "endpoints"
+            ],
+            "name": "tsdb-mysql-leader"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "CheckServiceConnectivity",
+          "arguments": {
+            "namespace": "train-ticket",
+            "service_name": "tsdb-mysql-leader",
+            "port": 3306
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M0",
+      "to": "M1",
+      "relation": "precedes"
+    },
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M1",
+      "to": "M3",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M4",
+      "relation": "precedes"
+    },
+    {
+      "from": "M3",
+      "to": "M4",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M0",
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ]
+  }
+}

@@ -1,0 +1,234 @@
+{
+  "case_id": "boutique/admission/5",
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Admission_Fault",
+    "fault_object": "app/emailservice",
+    "root_cause": "missing_service_account"
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "role": "initial_service_level_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "boutique",
+            "service_name": "frontend"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "CheckServiceConnectivity",
+          "arguments": {
+            "namespace": "boutique",
+            "service_name": "emailservice",
+            "port": 5000
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint",
+              "ep"
+            ],
+            "name": "emailservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint",
+              "ep"
+            ]
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "role": "primary_workload_creation_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment",
+              "deploy"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment",
+              "deploy"
+            ],
+            "label_selector": "app=emailservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pods",
+              "pod"
+            ],
+            "label_selector": "app=emailservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment",
+              "deploy"
+            ],
+            "name": "emailservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "replicasets",
+              "replicaset",
+              "rs"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "replicasets",
+              "replicaset",
+              "rs"
+            ],
+            "name": "emailservice-69777f4f8b"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "admission_denial",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "replicasets",
+              "replicaset",
+              "rs"
+            ],
+            "name": "emailservice-69777f4f8b"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "events",
+              "event"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment",
+              "deploy"
+            ],
+            "name": "emailservice"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "root_cause_configuration_confirmation",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAppYAML",
+          "arguments": {
+            "app_name": "emailservice"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "serviceaccounts",
+              "serviceaccount",
+              "sa"
+            ]
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M0",
+      "to": "M1",
+      "relation": "precedes"
+    },
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M0",
+      "M1",
+      "M2",
+      "M3"
+    ]
+  }
+}

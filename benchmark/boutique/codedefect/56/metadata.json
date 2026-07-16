@@ -1,31 +1,10 @@
 {
   "namespace": "boutique",
   "query": "Service Availability Disruption.",
+  "difficulty": "hard",
   "result": {
     "fault_taxonomy": "Application_Code_Defect",
     "fault_object": "app/frontend",
     "root_cause": "code_wrong_return"
-  },
-  "process": {
-    "path1": [
-      "GetResources::pods",
-      "GetResources::services",
-      "GetAlerts::",
-      "GetErrorLogs::frontend",
-      "GetRecentLogs::frontend",
-      "GetAppYAML::frontend",
-      "ListCodeFiles::frontend",
-      "GetSourceCode::frontend::handlers.go"
-    ],
-    "path2": [
-      "GetResources::pods",
-      "GetResources::services",
-      "GetAlerts::",
-      "GetErrorLogs::frontend",
-      "GetServiceDependencies::frontend",
-      "GetResources::endpoints",
-      "ListCodeFiles::frontend",
-      "GetSourceCode::frontend::handlers.go"
-    ]
   }
 }

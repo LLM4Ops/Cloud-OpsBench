@@ -245,12 +245,17 @@ class OutputParser:
         - fenced JSON block: ```json { ... } ```
         - Thought: ... followed by a fenced JSON block
         - Thought: ... followed by a raw JSON object
+        - an invalid tool-call prefix followed by a final diagnosis JSON object
         """
         stripped = text.strip()
 
         fence_match = self.JSON_BLOCK_PATTERN.search(stripped)
         if fence_match:
             return fence_match.group(1).strip()
+
+        diagnostic_json = self._extract_last_diagnostic_json(stripped)
+        if diagnostic_json is not None:
+            return diagnostic_json
 
         json_start = stripped.find("{")
         json_end = stripped.rfind("}")
@@ -260,6 +265,23 @@ class OutputParser:
                 return candidate
 
         return stripped
+
+    def _extract_last_diagnostic_json(self, text: str) -> Optional[str]:
+        """Return the last independently parseable final-diagnosis object."""
+        decoder = json.JSONDecoder()
+        candidates = []
+
+        for match in re.finditer(r"\{", text):
+            start = match.start()
+            try:
+                parsed, length = decoder.raw_decode(text[start:])
+            except json.JSONDecodeError:
+                continue
+
+            if isinstance(parsed, dict) and "top_3_predictions" in parsed:
+                candidates.append(text[start : start + length].strip())
+
+        return candidates[-1] if candidates else None
 
     def _extract_thought(self, text: str) -> Optional[str]:
         """

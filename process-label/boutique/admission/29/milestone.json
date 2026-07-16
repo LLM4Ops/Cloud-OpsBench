@@ -1,0 +1,345 @@
+{
+  "case_id": "boutique/admission/29",
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Admission_Fault",
+    "fault_object": "namespace/boutique",
+    "root_cause": "namespace_memory_quota_exceeded"
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "role": "initial_service_level_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetErrorLogs",
+          "arguments": {
+            "namespace": "boutique",
+            "service_name": "frontend"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "CheckServiceConnectivity",
+          "arguments": {
+            "namespace": "boutique",
+            "service_name": "productcatalogservice",
+            "port": 3550
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "Connection Failed"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint",
+              "ep"
+            ],
+            "name": "productcatalogservice"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "productcatalogservice"
+            },
+            {
+              "kind": "literal",
+              "value": "<none>"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "endpoints",
+              "endpoint",
+              "ep"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "productcatalogservice"
+            },
+            {
+              "kind": "literal",
+              "value": "<none>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "role": "workload_creation_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment",
+              "deploy"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "productcatalogservice"
+            },
+            {
+              "kind": "regex",
+              "value": "\\bproductcatalogservice\\b\\s+0/\\d+"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "label_selector": "app=productcatalogservice"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "regex",
+              "value": "^\\s*$"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "replicasets",
+              "replicaset",
+              "rs"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "productcatalogservice-5f876f76c9"
+            },
+            {
+              "kind": "regex",
+              "value": "\\bproductcatalogservice\\-5f876f76c9\\b\\s+\\d+\\s+0\\s+0\\b"
+            }
+          ]
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "deployments",
+              "deployment",
+              "deploy"
+            ],
+            "name": "productcatalogservice"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "Name:                   productcatalogservice"
+            },
+            {
+              "kind": "literal",
+              "value": "ReplicaFailure   True    FailedCreate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "admission_denial_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "replicasets",
+              "replicaset",
+              "rs"
+            ],
+            "name": "productcatalogservice-5f876f76c9"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "productcatalogservice-5f876f76c9"
+            },
+            {
+              "kind": "literal",
+              "value": "FailedCreate"
+            },
+            {
+              "kind": "literal",
+              "value": "exceeded quota: memory-request-quota"
+            },
+            {
+              "kind": "literal",
+              "value": "requests.memory"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "events",
+              "event"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "productcatalogservice"
+            },
+            {
+              "kind": "literal",
+              "value": "FailedCreate"
+            },
+            {
+              "kind": "literal",
+              "value": "exceeded quota: memory-request-quota"
+            },
+            {
+              "kind": "literal",
+              "value": "requests.memory"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "root_cause_quota_state",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "resourcequota",
+              "resourcequotas",
+              "quota",
+              "quotas"
+            ],
+            "name": "memory-request-quota"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "memory-request-quota"
+            },
+            {
+              "kind": "literal",
+              "value": "requests.memory"
+            },
+            {
+              "kind": "regex",
+              "value": "requests\\.memory:\\s*\\S+/\\S+"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "resourcequota",
+              "resourcequotas",
+              "quota",
+              "quotas"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "memory-request-quota"
+            },
+            {
+              "kind": "literal",
+              "value": "requests.memory"
+            },
+            {
+              "kind": "regex",
+              "value": "requests\\.memory:\\s*\\S+/\\S+"
+            }
+          ]
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "resourcequota",
+              "resourcequotas",
+              "quota",
+              "quotas"
+            ],
+            "name": "memory-request-quota"
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "memory-request-quota"
+            },
+            {
+              "kind": "literal",
+              "value": "requests.memory"
+            },
+            {
+              "kind": "regex",
+              "value": "requests\\.memory\\s+\\S+\\s+\\S+"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M0",
+      "to": "M1",
+      "relation": "precedes"
+    },
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M0",
+      "M1",
+      "M2",
+      "M3"
+    ]
+  }
+}

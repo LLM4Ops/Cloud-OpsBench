@@ -1,0 +1,69 @@
+{
+  "case_id": "boutique/codedefect/85",
+  "namespace": "boutique",
+  "query": "Service Performance Degradation.",
+  "result": {
+    "fault_taxonomy": "Application_Code_Defect",
+    "fault_object": "app/shippingservice",
+    "root_cause": "code_busy_loop"
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "role": "primary_performance_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAlerts",
+          "arguments": {},
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "code_scope_localization",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "ListCodeFiles",
+          "arguments": {
+            "app_name": "shippingservice"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "root_cause_code_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetSourceCode",
+          "arguments": {
+            "app_name": "shippingservice",
+            "file_path": "quote.go"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  }
+}

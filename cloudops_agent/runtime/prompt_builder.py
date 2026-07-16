@@ -28,7 +28,7 @@ class PromptBuilder:
         """
         Args:
             tools_description: Human-readable tool descriptions.
-            backstory_prompt: Main diagnosis policy prompt (e.g. agent_prompt / cot / rag / icl).
+            backstory_prompt: Main diagnosis policy prompt.
             expected_output: Final answer specification, usually strict JSON instructions.
         """
         self.tools_description = tools_description
@@ -69,7 +69,7 @@ class PromptBuilder:
 
     def _build_backstory_section(self) -> str:
         """
-        Main diagnosis policy prompt, such as agent_prompt / CoT prompt / RAG prompt / ICL prompt.
+        Main diagnosis policy prompt.
         """
         if not self.backstory_prompt:
             return ""
@@ -161,6 +161,13 @@ class PromptBuilder:
         return "\n".join(parts)
 
     def _build_current_step_instruction(self, state: CaseState) -> str:
+        if state.current_step + 1 >= state.max_steps:
+            return (
+                "## Output Protocol\n"
+                "This is the final allowed step. You MUST now stop calling tools and output "
+                "the final diagnosis JSON only, using the best evidence collected so far."
+            )
+
         return (
             "## Output Protocol\n"
             "At this step, follow these rules strictly:\n\n"
@@ -181,29 +188,24 @@ class PromptBuilder:
             "7. Do NOT continue re-checking the same evidence once the root cause is already clear.\n"
             "8. Do NOT mix tool-call format with final JSON output.\n\n"
             "When stopping, the output must be JSON only, for example:\n"
-            "```json\n"
             "{\n"
             '  "key_evidence_summary": "...",\n'
             '  "top_3_predictions": [\n'
             "    {\n"
             '      "rank": 1,\n'
-            '      "fault_taxonomy": "...",\n'
             '      "fault_object": "...",\n'
             '      "root_cause": "..."\n'
             "    },\n"
             "    {\n"
             '      "rank": 2,\n'
-            '      "fault_taxonomy": "...",\n'
             '      "fault_object": "...",\n'
             '      "root_cause": "..."\n'
             "    },\n"
             "    {\n"
             '      "rank": 3,\n'
-            '      "fault_taxonomy": "...",\n'
             '      "fault_object": "...",\n'
             '      "root_cause": "..."\n'
             "    }\n"
             "  ]\n"
             "}\n"
-            "```\n"
         )

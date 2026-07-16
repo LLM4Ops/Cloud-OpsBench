@@ -1,0 +1,162 @@
+{
+  "case_id": "boutique/scheduling/60",
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Scheduling_Fault",
+    "fault_object": "app/frontend",
+    "root_cause": "node_affinity_mismatch"
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "role": "primary_scheduling_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "frontend"
+            },
+            {
+              "kind": "literal",
+              "value": "Pending"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "frontend-6499cbd48d-5859c"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "label_selector": "app=frontend"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "scheduler_reason",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "frontend-6499cbd48d-5859c"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "constraint_policy_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAppYAML",
+          "arguments": {
+            "app_name": "frontend"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M4",
+      "role": "root_cause_node_label_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "node",
+              "nodes"
+            ],
+            "show_labels": true
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "LABELS"
+            },
+            {
+              "kind": "literal",
+              "value": "worker-01"
+            },
+            {
+              "kind": "literal",
+              "value": "worker-02"
+            },
+            {
+              "kind": "literal",
+              "value": "worker-03"
+            },
+            {
+              "kind": "literal",
+              "value": "env=dev"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetClusterConfiguration",
+          "arguments": {},
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M4",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ]
+  }
+}

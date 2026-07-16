@@ -1,0 +1,214 @@
+{
+  "case_id": "boutique/scheduling/129",
+  "namespace": "boutique",
+  "query": "Partial Service Unreachability.",
+  "result": {
+    "fault_taxonomy": "Scheduling_Fault",
+    "fault_object": "app/redis-cart",
+    "root_cause": "pvc_access_mode_mismatch"
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "role": "primary_scheduling_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "redis-cart"
+            },
+            {
+              "kind": "literal",
+              "value": "Pending"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "redis-cart-68db7b6f97-fqzcz"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "label_selector": "app=redis-cart"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "scheduler_reason",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pod",
+              "pods"
+            ],
+            "name": "redis-cart-68db7b6f97-fqzcz"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "pvc_binding_state",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pvc",
+              "persistentvolumeclaim",
+              "persistentvolumeclaims"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "redis-cart-pvc"
+            },
+            {
+              "kind": "literal",
+              "value": "Pending"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pvc",
+              "persistentvolumeclaim",
+              "persistentvolumeclaims"
+            ],
+            "name": "redis-cart-pvc"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pvc",
+              "persistentvolumeclaim",
+              "persistentvolumeclaims"
+            ],
+            "name": "redis-cart-pvc"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M4",
+      "role": "root_cause_access_mode_discriminator",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetAppYAML",
+          "arguments": {
+            "app_name": "redis-cart"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pv",
+              "persistentvolume",
+              "persistentvolumes"
+            ]
+          },
+          "evidence_patterns": [
+            {
+              "kind": "literal",
+              "value": "redis-cart-pv"
+            }
+          ]
+        },
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pv",
+              "persistentvolume",
+              "persistentvolumes"
+            ],
+            "name": "redis-cart-pv"
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pv",
+              "persistentvolume",
+              "persistentvolumes"
+            ],
+            "name": "redis-cart-pv"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    },
+    {
+      "from": "M3",
+      "to": "M4",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ]
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "case_id": "boutique/infrastructure/19",
+  "namespace": "boutique",
+  "query": "Service Availability Disruption.",
+  "result": {
+    "fault_taxonomy": "Infrastructure_Fault",
+    "fault_object": "node/master",
+    "root_cause": "kube_scheduler_unavailable"
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "role": "primary_unscheduled_workload_symptom",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pods",
+              "pod"
+            ],
+            "output_wide": true
+          },
+          "evidence_patterns": [
+            {
+              "kind": "regex",
+              "value": "(?m)^\\S+\\s+0/1\\s+Pending\\s+\\S+\\s+\\S+\\s+<none>\\s+<none>\\b",
+              "flags": [
+                "multiline"
+              ]
+            }
+          ]
+        },
+        {
+          "tool_name": "DescribeResource",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "pods",
+              "pod"
+            ],
+            "name": "adservice-64ddc5c766-skqvc"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "role": "scheduler_layer_transition_or_exclusion_evidence",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "GetResources",
+          "arguments": {
+            "namespace": "boutique",
+            "resource_type": [
+              "nodes",
+              "node"
+            ]
+          },
+          "evidence_patterns": []
+        },
+        {
+          "tool_name": "GetClusterConfiguration",
+          "arguments": {},
+          "evidence_patterns": []
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "role": "root_cause_service_status",
+      "admissible_tool_uses": [
+        {
+          "tool_name": "CheckNodeServiceStatus",
+          "arguments": {
+            "node_name": "master",
+            "service_name": "kube-scheduler"
+          },
+          "evidence_patterns": []
+        }
+      ]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "from": "M1",
+      "to": "M2",
+      "relation": "precedes"
+    },
+    {
+      "from": "M2",
+      "to": "M3",
+      "relation": "precedes"
+    }
+  ],
+  "completion_formula": {
+    "all": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  }
+}
