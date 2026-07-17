@@ -10,7 +10,8 @@ The current release covers **two microservice systems**, **57 fault types**, and
 ## Key Features
 
 - **Agentic RCA benchmark**: designed for multi-step diagnosis with tool use, not static classification.
-- **Deterministic replay**: each case is stored as an immutable snapshot.
+- **No live cluster required**: benchmark cases can be run directly from the released artifacts without deploying Kubernetes clusters or microservice systems.
+- **Deterministic replay**: each case is stored as an immutable snapshot, avoiding runtime system noise and preserving faithful diagnostic results across repeated runs.
 - **Full-stack fault coverage**: includes admission, scheduling, startup, runtime, service routing, performance, and infrastructure faults.
 - **Milestone-based process evaluation**: evaluates whether an agent acquires the required diagnostic evidence through `process-label/` annotations.
 
@@ -28,7 +29,7 @@ Cloud-OpsBench/
 │   ├── boutique/
 │   └── trainticket/
 ├── cloudops_agent/
-├── diagnostic_evidence/
+│   └── evaluation_utils/
 └── resource/
 ```
 
@@ -108,7 +109,7 @@ process-label/<system>/<fault_category>/<case_id>/
 
 Each file specifies the diagnostic milestones, admissible supporting evidence, and any required ordering between milestones. An agent receives process credit by establishing the corresponding milestones during its diagnostic trajectory.
 
-The matching and process-scoring implementation is provided in `diagnostic_evidence/`.
+The matching and process-scoring implementation is provided in `cloudops_agent/evaluation_utils/`.
 
 ## Auxiliary Expert Trajectories
 

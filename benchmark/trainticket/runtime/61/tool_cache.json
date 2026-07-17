@@ -1600,40 +1600,43 @@
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-execute-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-food-delivery-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-food-service\"}": {
-    "app": [
-      "2026-03-12T13:32:32.722137042+08:00 2026-03-12 13:32:32.721 ERROR 1 --- [io-18856-exec-1] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1235]",
-      "2026-03-12T13:32:32.722156026+08:00 2026-03-12 13:32:32.721 ERROR 1 --- [io-18856-exec-3] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1234]",
-      "2026-03-12T13:32:32.722173661+08:00 2026-03-12 13:32:32.721 ERROR 1 --- [io-18856-exec-2] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1234]",
-      "2026-03-12T13:33:16.073792873+08:00 2026-03-12 13:33:16.073 ERROR 1 --- [o-18856-exec-10] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1234]",
-      "2026-03-12T13:33:17.046329553+08:00 2026-03-12 13:33:17.046 ERROR 1 --- [io-18856-exec-9] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1234]",
-      "2026-03-12T13:33:17.241910298+08:00 2026-03-12 13:33:17.241 ERROR 1 --- [io-18856-exec-4] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1234]",
-      "2026-03-12T13:33:18.285907501+08:00 2026-03-12 13:33:18.285 ERROR 1 --- [io-18856-exec-3] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: D1345]",
-      "2026-03-12T13:33:19.240799742+08:00 2026-03-12 13:33:19.240 ERROR 1 --- [io-18856-exec-1] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1235]",
-      "2026-03-12T13:33:19.464496470+08:00 2026-03-12 13:33:19.464 ERROR 1 --- [io-18856-exec-5] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1237]",
-      "2026-03-12T13:33:24.786678366+08:00 2026-03-12 13:33:24.786 ERROR 1 --- [io-18856-exec-6] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1235]",
-      "2026-03-12T13:33:28.804051544+08:00 2026-03-12 13:33:28.803 ERROR 1 --- [io-18856-exec-8] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1236]",
-      "2026-03-12T13:33:29.026712601+08:00 2026-03-12 13:33:29.026 ERROR 1 --- [io-18856-exec-4] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1234]",
-      "2026-03-12T13:33:29.027505800+08:00 2026-03-12 13:33:29.027 ERROR 1 --- [io-18856-exec-9] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1235]",
-      "2026-03-12T13:33:29.027518667+08:00 2026-03-12 13:33:29.027 ERROR 1 --- [o-18856-exec-10] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1236]",
-      "2026-03-12T13:33:29.139856595+08:00 2026-03-12 13:33:29.139 ERROR 1 --- [io-18856-exec-3] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1237]",
-      "2026-03-12T13:33:29.986424634+08:00 2026-03-12 13:33:29.986 ERROR 1 --- [io-18856-exec-2] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1234]",
-      "2026-03-12T13:33:30.324645804+08:00 2026-03-12 13:33:30.324 ERROR 1 --- [io-18856-exec-5] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1237]",
-      "2026-03-12T13:33:30.324711256+08:00 2026-03-12 13:33:30.324 ERROR 1 --- [io-18856-exec-1] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1234]",
-      "2026-03-12T13:33:30.435383391+08:00 2026-03-12 13:33:30.435 ERROR 1 --- [io-18856-exec-6] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1234]",
-      "2026-03-12T13:33:30.536114581+08:00 2026-03-12 13:33:30.535 ERROR 1 --- [io-18856-exec-7] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1235]",
-      "2026-03-12T13:33:31.637973467+08:00 2026-03-12 13:33:31.637 ERROR 1 --- [io-18856-exec-4] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1235]",
-      "2026-03-12T13:33:31.640339808+08:00 2026-03-12 13:33:31.640 ERROR 1 --- [io-18856-exec-8] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1234]",
-      "2026-03-12T13:33:31.738552587+08:00 2026-03-12 13:33:31.738 ERROR 1 --- [io-18856-exec-9] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1234]",
-      "2026-03-12T13:33:31.770847708+08:00 2026-03-12 13:33:31.770 ERROR 1 --- [o-18856-exec-10] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1234]",
-      "2026-03-12T13:33:32.880334848+08:00 2026-03-12 13:33:32.880 ERROR 1 --- [io-18856-exec-3] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1234]",
-      "2026-03-12T13:33:33.072080292+08:00 2026-03-12 13:33:33.071 ERROR 1 --- [io-18856-exec-2] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1237]",
-      "2026-03-12T13:33:33.176018031+08:00 2026-03-12 13:33:33.175 ERROR 1 --- [io-18856-exec-1] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1236]",
-      "2026-03-12T13:33:33.188187692+08:00 2026-03-12 13:33:33.187 ERROR 1 --- [io-18856-exec-5] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1234]",
-      "2026-03-12T13:33:34.221597966+08:00 2026-03-12 13:33:34.221 ERROR 1 --- [io-18856-exec-4] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: D1345]",
-      "2026-03-12T13:33:34.416531547+08:00 2026-03-12 13:33:34.416 ERROR 1 --- [io-18856-exec-8] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1234]",
-      "2026-03-12T13:33:34.422724673+08:00 2026-03-12 13:33:34.422 ERROR 1 --- [io-18856-exec-9] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1236]",
-      "2026-03-12T13:33:34.523444939+08:00 2026-03-12 13:33:34.523 ERROR 1 --- [o-18856-exec-10] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: D1345]"
-    ]
+    "app": {
+      "total_log_count": 193,
+      "total_errors": 32,
+      "total_error_ratio": 0.1658,
+      "patterns": [
+        {
+          "count": 10,
+          "ratio": 0.0518,
+          "sample": "2026-03-12T13:32:32.722137042+08:00 2026-03-12 13:32:32.721 ERROR 1 --- [io-18856-exec-1] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1235]"
+        },
+        {
+          "count": 7,
+          "ratio": 0.0363,
+          "sample": "2026-03-12T13:32:32.722156026+08:00 2026-03-12 13:32:32.721 ERROR 1 --- [io-18856-exec-3] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1234]"
+        },
+        {
+          "count": 6,
+          "ratio": 0.0311,
+          "sample": "2026-03-12T13:33:18.285907501+08:00 2026-03-12 13:33:18.285 ERROR 1 --- [io-18856-exec-3] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: D1345]"
+        },
+        {
+          "count": 5,
+          "ratio": 0.0259,
+          "sample": "2026-03-12T13:33:19.240799742+08:00 2026-03-12 13:33:19.240 ERROR 1 --- [io-18856-exec-1] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1235]"
+        },
+        {
+          "count": 2,
+          "ratio": 0.0104,
+          "sample": "2026-03-12T13:33:16.073792873+08:00 2026-03-12 13:33:16.073 ERROR 1 --- [o-18856-exec-10] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1234]"
+        },
+        {
+          "count": 2,
+          "ratio": 0.0104,
+          "sample": "2026-03-12T13:33:29.027518667+08:00 2026-03-12 13:33:29.027 ERROR 1 --- [o-18856-exec-10] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1236]"
+        }
+      ]
+    }
   },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-gateway-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-inside-payment-service\"}": {
@@ -1741,39 +1744,28 @@
   },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-travel-plan-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-travel-service\"}": {
-    "app": [
-      "2026-03-12T13:30:31.554960188+08:00 2026-03-12 13:30:31.554 ERROR 1 --- [           main] travel.service.TravelServiceImpl         : [create][Create trip error][Trip already exists][TripId: G1234]",
-      "2026-03-12T13:30:31.617995640+08:00 2026-03-12 13:30:31.617 ERROR 1 --- [           main] travel.service.TravelServiceImpl         : [create][Create trip error][Trip already exists][TripId: G1235]",
-      "2026-03-12T13:30:31.620593813+08:00 2026-03-12 13:30:31.620 ERROR 1 --- [           main] travel.service.TravelServiceImpl         : [create][Create trip error][Trip already exists][TripId: G1236]",
-      "2026-03-12T13:30:31.622754829+08:00 2026-03-12 13:30:31.622 ERROR 1 --- [           main] travel.service.TravelServiceImpl         : [create][Create trip error][Trip already exists][TripId: G1237]",
-      "2026-03-12T13:30:31.624461422+08:00 2026-03-12 13:30:31.624 ERROR 1 --- [           main] travel.service.TravelServiceImpl         : [create][Create trip error][Trip already exists][TripId: D1345]",
-      "2026-03-12T13:33:23.543252874+08:00 2026-03-12 13:33:23.543  WARN 1 --- [io-12346-exec-3] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: taiyuan,end: beijing,time: 2026-03-11]",
-      "2026-03-12T13:33:27.736979547+08:00 2026-03-12 13:33:27.736  WARN 1 --- [io-12346-exec-7] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: suzhou,end: taiyuan,time: 2026-03-12]",
-      "2026-03-12T13:33:27.817864413+08:00 2026-03-12 13:33:27.817  WARN 1 --- [o-12346-exec-10] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: suzhou,end: nanjing,time: 2026-03-12]",
-      "2026-03-12T13:33:27.818669514+08:00 2026-03-12 13:33:27.818  WARN 1 --- [io-12346-exec-5] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: suzhou,end: beijing,time: 2026-03-12]",
-      "2026-03-12T13:33:27.818683160+08:00 2026-03-12 13:33:27.818  WARN 1 --- [io-12346-exec-8] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: wuxi,end: suzhou,time: 2026-03-15]",
-      "2026-03-12T13:33:28.017827593+08:00 2026-03-12 13:33:28.017  WARN 1 --- [io-12346-exec-3] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: wuxi,end: beijing,time: 2026-03-18]",
-      "2026-03-12T13:33:28.921213377+08:00 2026-03-12 13:33:28.921  WARN 1 --- [io-12346-exec-5] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: shanghai,end: beijing,time: 2026-03-11]",
-      "2026-03-12T13:33:29.216917957+08:00 2026-03-12 13:33:29.216  WARN 1 --- [io-12346-exec-6] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: taiyuan,end: wuxi,time: 2026-03-15]",
-      "2026-03-12T13:33:29.230754002+08:00 2026-03-12 13:33:29.230  WARN 1 --- [io-12346-exec-3] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: taiyuan,end: shanghai,time: 2026-03-11]",
-      "2026-03-12T13:33:29.265023329+08:00 2026-03-12 13:33:29.264  WARN 1 --- [io-12346-exec-2] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: wuxi,end: nanjing,time: 2026-03-18]",
-      "2026-03-12T13:33:29.318141743+08:00 2026-03-12 13:33:29.318  WARN 1 --- [io-12346-exec-5] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: shanghai,end: nanjing,time: 2026-03-11]",
-      "2026-03-12T13:33:30.516021908+08:00 2026-03-12 13:33:30.515  WARN 1 --- [o-12346-exec-10] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: taiyuan,end: beijing,time: 2026-03-15]",
-      "2026-03-12T13:33:30.519491742+08:00 2026-03-12 13:33:30.519  WARN 1 --- [io-12346-exec-9] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: beijing,end: shanghai,time: 2026-03-11]",
-      "2026-03-12T13:33:30.616489176+08:00 2026-03-12 13:33:30.616  WARN 1 --- [io-12346-exec-1] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: shanghai,end: suzhou,time: 2026-03-12]",
-      "2026-03-12T13:33:30.671418445+08:00 2026-03-12 13:33:30.671  WARN 1 --- [io-12346-exec-2] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: shanghai,end: taiyuan,time: 2026-03-15]",
-      "2026-03-12T13:33:31.824311587+08:00 2026-03-12 13:33:31.824  WARN 1 --- [io-12346-exec-1] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: beijing,end: wuxi,time: 2026-03-11]",
-      "2026-03-12T13:33:32.018168733+08:00 2026-03-12 13:33:32.018  WARN 1 --- [io-12346-exec-4] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: taiyuan,end: shanghai,time: 2026-03-15]",
-      "2026-03-12T13:33:32.119261239+08:00 2026-03-12 13:33:32.119  WARN 1 --- [io-12346-exec-3] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: suzhou,end: nanjing,time: 2026-03-18]",
-      "2026-03-12T13:33:32.131011571+08:00 2026-03-12 13:33:32.130  WARN 1 --- [io-12346-exec-7] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: nanjing,end: taiyuan,time: 2026-03-15]",
-      "2026-03-12T13:33:33.016680203+08:00 2026-03-12 13:33:33.016  WARN 1 --- [o-12346-exec-10] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: nanjing,end: beijing,time: 2026-03-12]",
-      "2026-03-12T13:33:33.167755951+08:00 2026-03-12 13:33:33.167  WARN 1 --- [io-12346-exec-2] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: shanghai,end: nanjing,time: 2026-03-18]",
-      "2026-03-12T13:33:33.241953601+08:00 2026-03-12 13:33:33.241  WARN 1 --- [io-12346-exec-1] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: wuxi,end: beijing,time: 2026-03-11]",
-      "2026-03-12T13:33:33.324508663+08:00 2026-03-12 13:33:33.324  WARN 1 --- [io-12346-exec-4] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: suzhou,end: wuxi,time: 2026-03-18]",
-      "2026-03-12T13:33:34.317488478+08:00 2026-03-12 13:33:34.317  WARN 1 --- [io-12346-exec-1] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: shanghai,end: beijing,time: 2026-03-11]",
-      "2026-03-12T13:33:34.553632578+08:00 2026-03-12 13:33:34.553  WARN 1 --- [io-12346-exec-1] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: beijing,end: nanjing,time: 2026-03-12]",
-      "2026-03-12T13:33:34.625821377+08:00 2026-03-12 13:33:34.625  WARN 1 --- [io-12346-exec-9] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: wuxi,end: nanjing,time: 2026-03-12]"
-    ]
+    "app": {
+      "total_log_count": 641,
+      "total_errors": 31,
+      "total_error_ratio": 0.0484,
+      "patterns": [
+        {
+          "count": 23,
+          "ratio": 0.0359,
+          "sample": "2026-03-12T13:33:23.543252874+08:00 2026-03-12 13:33:23.543  WARN 1 --- [io-12346-exec-3] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: taiyuan,end: beijing,time: 2026-03-11]"
+        },
+        {
+          "count": 5,
+          "ratio": 0.0078,
+          "sample": "2026-03-12T13:30:31.554960188+08:00 2026-03-12 13:30:31.554 ERROR 1 --- [           main] travel.service.TravelServiceImpl         : [create][Create trip error][Trip already exists][TripId: G1234]"
+        },
+        {
+          "count": 3,
+          "ratio": 0.0047,
+          "sample": "2026-03-12T13:33:27.817864413+08:00 2026-03-12 13:33:27.817  WARN 1 --- [o-12346-exec-10] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: suzhou,end: nanjing,time: 2026-03-12]"
+        }
+      ]
+    }
   },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-travel2-service\"}": {
     "app": [
@@ -1790,88 +1782,18 @@
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-voucher-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-wait-order-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"tsdb-mysql\"}": {
-    "app": [
-      "2026-03-12T10:37:34.510575512+08:00 2026-03-12T10:37:34.510445+08:00 17100 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:37:38.284791766+08:00 2026-03-12T10:37:38.284675+08:00 17101 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:38:05.192910125+08:00 2026-03-12T10:38:05.192786+08:00 17108 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:38:08.111396707+08:00 2026-03-12T10:38:08.111260+08:00 17109 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:38:49.310397623+08:00 2026-03-12T10:38:49.310246+08:00 17118 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:38:52.483865998+08:00 2026-03-12T10:38:52.483753+08:00 17121 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:39:43.890992745+08:00 2026-03-12T10:39:43.890868+08:00 17132 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:39:47.182719688+08:00 2026-03-12T10:39:47.182600+08:00 17133 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T11:28:29.364790119+08:00 2026-03-12T11:28:29.364668+08:00 18200 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:28:33.192504866+08:00 2026-03-12T11:28:33.192375+08:00 18203 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:29:02.020962313+08:00 2026-03-12T11:29:02.020801+08:00 18211 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:29:05.426326672+08:00 2026-03-12T11:29:05.426243+08:00 18212 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:29:43.119070206+08:00 2026-03-12T11:29:43.118936+08:00 18222 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:29:46.838463912+08:00 2026-03-12T11:29:46.838372+08:00 18223 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:30:40.338148789+08:00 2026-03-12T11:30:40.338054+08:00 18234 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:30:44.532176963+08:00 2026-03-12T11:30:44.532054+08:00 18237 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:32:00.932647323+08:00 2026-03-12T11:32:00.932491+08:00 18254 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:32:05.216386337+08:00 2026-03-12T11:32:05.216262+08:00 18255 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:33:55.535610256+08:00 2026-03-12T11:33:55.535495+08:00 18278 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:33:58.931428078+08:00 2026-03-12T11:33:58.931332+08:00 18279 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:37:08.725669054+08:00 2026-03-12T11:37:08.725541+08:00 18318 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:37:11.858290511+08:00 2026-03-12T11:37:11.858207+08:00 18321 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:40:10.588054595+08:00 2026-03-12T11:40:10.587750+08:00 18590 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:40:15.031851996+08:00 2026-03-12T11:40:15.031733+08:00 18591 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:40:42.941129108+08:00 2026-03-12T11:40:42.941010+08:00 18598 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:40:46.162078970+08:00 2026-03-12T11:40:46.161966+08:00 18599 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:41:23.332306275+08:00 2026-03-12T11:41:23.332164+08:00 18608 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:41:26.734177363+08:00 2026-03-12T11:41:26.734051+08:00 18609 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:42:21.060446715+08:00 2026-03-12T11:42:21.060326+08:00 18622 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:42:24.649095537+08:00 2026-03-12T11:42:24.648977+08:00 18623 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:43:35.548257678+08:00 2026-03-12T11:43:35.548142+08:00 18638 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:43:40.228034824+08:00 2026-03-12T11:43:40.227961+08:00 18641 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:45:34.826852511+08:00 2026-03-12T11:45:34.826709+08:00 18664 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:45:38.049410870+08:00 2026-03-12T11:45:38.049266+08:00 18665 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:48:47.829874962+08:00 2026-03-12T11:48:47.829746+08:00 18704 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:48:51.323429003+08:00 2026-03-12T11:48:51.323313+08:00 18707 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T12:03:11.971169061+08:00 2026-03-12T12:03:11.967737+08:00 19123 [Note] Access denied for user 'ts'@'172.20.3.10' (using password: YES)",
-      "2026-03-12T12:03:14.343886613+08:00 2026-03-12T12:03:14.343751+08:00 19124 [Note] Access denied for user 'ts'@'172.20.3.10' (using password: YES)",
-      "2026-03-12T12:03:32.009345086+08:00 2026-03-12T12:03:32.009213+08:00 19213 [Note] Access denied for user 'ts'@'172.20.3.10' (using password: YES)",
-      "2026-03-12T12:03:56.907390222+08:00 2026-03-12T12:03:56.907278+08:00 19374 [Note] Access denied for user 'ts'@'172.20.3.10' (using password: YES)",
-      "2026-03-12T12:04:48.885995393+08:00 2026-03-12T12:04:48.885866+08:00 19385 [Note] Access denied for user 'ts'@'172.20.3.10' (using password: YES)",
-      "2026-03-12T12:06:10.896145074+08:00 2026-03-12T12:06:10.896018+08:00 19404 [Note] Access denied for user 'ts'@'172.20.3.10' (using password: YES)",
-      "2026-03-12T12:09:02.904965546+08:00 2026-03-12T12:09:02.904856+08:00 19439 [Note] Access denied for user 'ts'@'172.20.3.10' (using password: YES)",
-      "2026-03-12T12:14:06.986036219+08:00 2026-03-12T12:14:06.985915+08:00 19500 [Note] Access denied for user 'ts'@'172.20.3.10' (using password: YES)",
-      "2026-03-12T12:29:11.458350504+08:00 2026-03-12T12:29:11.458222+08:00 20136 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:29:15.769793049+08:00 2026-03-12T12:29:15.769700+08:00 20158 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:29:43.934038939+08:00 2026-03-12T12:29:43.933902+08:00 20165 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:29:47.437096327+08:00 2026-03-12T12:29:47.436979+08:00 20166 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:30:24.837851527+08:00 2026-03-12T12:30:24.837710+08:00 20175 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:30:28.725434658+08:00 2026-03-12T12:30:28.725335+08:00 20176 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:31:21.421250297+08:00 2026-03-12T12:31:21.421106+08:00 20189 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:31:24.920344878+08:00 2026-03-12T12:31:24.920240+08:00 20190 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:32:39.632522406+08:00 2026-03-12T12:32:39.632411+08:00 20205 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:32:43.517854558+08:00 2026-03-12T12:32:43.517751+08:00 20208 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:34:29.727996497+08:00 2026-03-12T12:34:29.727872+08:00 20229 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:34:33.322335031+08:00 2026-03-12T12:34:33.322236+08:00 20232 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:37:45.729200503+08:00 2026-03-12T12:37:45.729083+08:00 20271 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:37:48.842670425+08:00 2026-03-12T12:37:48.842562+08:00 20272 [Note] Access denied for user 'ts'@'172.20.1.60' (using password: YES)",
-      "2026-03-12T12:53:54.130122329+08:00 2026-03-12T12:53:54.129978+08:00 20931 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T12:53:57.688608456+08:00 2026-03-12T12:53:57.688402+08:00 20932 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T12:54:25.031165806+08:00 2026-03-12T12:54:25.031037+08:00 20939 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T12:54:29.136198717+08:00 2026-03-12T12:54:29.136105+08:00 20940 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T12:55:08.835862419+08:00 2026-03-12T12:55:08.835741+08:00 20950 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T12:55:12.524016334+08:00 2026-03-12T12:55:12.523907+08:00 20954 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T12:56:02.130847445+08:00 2026-03-12T12:56:02.130712+08:00 20966 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T12:56:05.638895370+08:00 2026-03-12T12:56:05.638778+08:00 20967 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T12:57:23.418536806+08:00 2026-03-12T12:57:23.418413+08:00 20988 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T12:57:27.119838947+08:00 2026-03-12T12:57:27.119739+08:00 20989 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T12:59:13.124873461+08:00 2026-03-12T12:59:13.124753+08:00 21015 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T12:59:16.520551296+08:00 2026-03-12T12:59:16.520463+08:00 21016 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T13:02:26.624552824+08:00 2026-03-12T13:02:26.624405+08:00 21055 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T13:02:30.934833597+08:00 2026-03-12T13:02:30.934705+08:00 21058 [Note] Access denied for user 'ts'@'172.20.1.165' (using password: YES)",
-      "2026-03-12T13:05:35.755759255+08:00 2026-03-12T13:05:35.746207+08:00 21096 [Note] Access denied for user 'ts'@'172.20.2.103' (using password: YES)",
-      "2026-03-12T13:05:38.262122692+08:00 2026-03-12T13:05:38.261978+08:00 21097 [Note] Access denied for user 'ts'@'172.20.2.103' (using password: YES)",
-      "2026-03-12T13:05:53.623855297+08:00 2026-03-12T13:05:53.623733+08:00 21153 [Note] Access denied for user 'ts'@'172.20.2.103' (using password: YES)",
-      "2026-03-12T13:06:20.460974621+08:00 2026-03-12T13:06:20.460098+08:00 21349 [Note] Access denied for user 'ts'@'172.20.2.103' (using password: YES)",
-      "2026-03-12T13:07:14.532739659+08:00 2026-03-12T13:07:14.532619+08:00 21360 [Note] Access denied for user 'ts'@'172.20.2.103' (using password: YES)",
-      "2026-03-12T13:08:41.358530810+08:00 2026-03-12T13:08:41.358404+08:00 21379 [Note] Access denied for user 'ts'@'172.20.2.103' (using password: YES)",
-      "2026-03-12T13:11:26.426018231+08:00 2026-03-12T13:11:26.425916+08:00 21412 [Note] Access denied for user 'ts'@'172.20.2.103' (using password: YES)",
-      "2026-03-12T13:16:33.435407864+08:00 2026-03-12T13:16:33.435272+08:00 21475 [Note] Access denied for user 'ts'@'172.20.2.103' (using password: YES)"
-    ]
+    "app": {
+      "total_log_count": 1974,
+      "total_errors": 80,
+      "total_error_ratio": 0.0405,
+      "patterns": [
+        {
+          "count": 80,
+          "ratio": 0.0405,
+          "sample": "2026-03-12T10:37:34.510575512+08:00 2026-03-12T10:37:34.510445+08:00 17100 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)"
+        }
+      ]
+    }
   },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"nacos\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"nacosdb-mysql\"}": [],

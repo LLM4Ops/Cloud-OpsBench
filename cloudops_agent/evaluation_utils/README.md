@@ -21,7 +21,7 @@ Useful entry points:
 Q enumeration:
 
 ```bash
-python3 -m diagnostic_evidence.cli enumerate-q \
+python3 -m cloudops_agent.evaluation_utils.cli enumerate-q \
   --annotations process-label/boutique/infrastructure/2/milestone.json \
   --tool-cache benchmark/boutique/infrastructure/2/tool_cache.json \
   --mode strict

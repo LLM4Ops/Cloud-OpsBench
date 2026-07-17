@@ -1870,7 +1870,18 @@
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-execute-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-food-delivery-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-food-service\"}": [],
-  "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-gateway-service\"}": [],
+  "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-gateway-service\"}": {
+    "istio-proxy": [
+      "2026-03-19T14:10:39.749318Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.3.215:15020->172.20.3.74:42110: write: broken pipe",
+      "2026-03-19T14:10:54.669365Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.3.215:15020->172.20.3.74:48118: write: broken pipe",
+      "2026-03-19T14:11:09.630286Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.3.215:15020->172.20.3.74:60374: write: broken pipe",
+      "2026-03-19T14:11:24.681339Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.3.215:15020->172.20.3.74:47118: write: broken pipe",
+      "2026-03-19T14:11:39.653638Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.3.215:15020->172.20.3.74:56634: write: broken pipe",
+      "2026-03-19T14:11:54.945565Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.3.215:15020->172.20.3.74:40846: write: broken pipe",
+      "2026-03-19T14:12:09.674906Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.3.215:15020->172.20.3.74:59150: write: broken pipe",
+      "2026-03-19T14:12:24.663857Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.3.215:15020->172.20.3.74:49810: write: broken pipe"
+    ]
+  },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-inside-payment-service\"}": {
     "app": [
       "2026-03-19T22:09:50.260653962+08:00 2026-03-19 14:09:50.260 ERROR 1 --- [io-18673-exec-3] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 Internal Server Error: \"{\"timestamp\":\"2026-03-19T14:09:50.255+00:00\",\"status\":500,\"error\":\"Internal Server Error\",\"path\":\"/api/v1/paymentservice/payment\"}\"] with root cause\n2026-03-19T22:09:50.260672309+08:00 ",

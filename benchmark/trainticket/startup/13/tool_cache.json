@@ -1590,51 +1590,48 @@
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-execute-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-food-delivery-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-food-service\"}": {
-    "app": [
-      "2026-03-12T01:40:41.429481929+08:00 2026-03-12 01:40:41.429 ERROR 1 --- [io-18856-exec-1] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1234]",
-      "2026-03-12T01:40:41.429502607+08:00 2026-03-12 01:40:41.429 ERROR 1 --- [io-18856-exec-4] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1236]",
-      "2026-03-12T01:40:41.429521128+08:00 2026-03-12 01:40:41.429 ERROR 1 --- [io-18856-exec-2] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1234]",
-      "2026-03-12T01:41:25.113488267+08:00 2026-03-12 01:41:25.113 ERROR 1 --- [io-18856-exec-9] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: D1345]",
-      "2026-03-12T01:41:26.308973133+08:00 2026-03-12 01:41:26.308 ERROR 1 --- [io-18856-exec-3] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1234]",
-      "2026-03-12T01:41:26.309998188+08:00 2026-03-12 01:41:26.309 ERROR 1 --- [o-18856-exec-10] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1236]",
-      "2026-03-12T01:41:27.095429875+08:00 2026-03-12 01:41:27.095 ERROR 1 --- [io-18856-exec-4] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1234]",
-      "2026-03-12T01:41:28.163622670+08:00 2026-03-12 01:41:28.163 ERROR 1 --- [io-18856-exec-1] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1234]",
-      "2026-03-12T01:41:28.203341893+08:00 2026-03-12 01:41:28.203 ERROR 1 --- [io-18856-exec-5] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: D1345]",
-      "2026-03-12T01:41:33.707080203+08:00 2026-03-12 01:41:33.706 ERROR 1 --- [io-18856-exec-7] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1236]",
-      "2026-03-12T01:41:33.902094862+08:00 2026-03-12 01:41:33.901 ERROR 1 --- [io-18856-exec-8] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1236]",
-      "2026-03-12T01:41:37.606440800+08:00 2026-03-12 01:41:37.606 ERROR 1 --- [io-18856-exec-6] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1235]",
-      "2026-03-12T01:41:37.727277538+08:00 2026-03-12 01:41:37.727 ERROR 1 --- [io-18856-exec-3] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1234]",
-      "2026-03-12T01:41:37.728105011+08:00 2026-03-12 01:41:37.727 ERROR 1 --- [io-18856-exec-9] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1236]",
-      "2026-03-12T01:41:37.730165722+08:00 2026-03-12 01:41:37.729 ERROR 1 --- [o-18856-exec-10] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1236]",
-      "2026-03-12T01:41:37.806253607+08:00 2026-03-12 01:41:37.806 ERROR 1 --- [io-18856-exec-2] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1237]",
-      "2026-03-12T01:41:37.824167933+08:00 2026-03-12 01:41:37.823 ERROR 1 --- [io-18856-exec-1] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1234]",
-      "2026-03-12T01:41:38.888734345+08:00 2026-03-12 01:41:38.888 ERROR 1 --- [io-18856-exec-5] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1237]",
-      "2026-03-12T01:41:39.003909401+08:00 2026-03-12 01:41:39.003 ERROR 1 --- [io-18856-exec-7] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1234]",
-      "2026-03-12T01:41:39.101848522+08:00 2026-03-12 01:41:39.101 ERROR 1 --- [io-18856-exec-8] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1235]",
-      "2026-03-12T01:41:39.289672899+08:00 2026-03-12 01:41:39.289 ERROR 1 --- [io-18856-exec-6] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1234]",
-      "2026-03-12T01:41:39.289792419+08:00 2026-03-12 01:41:39.289 ERROR 1 --- [io-18856-exec-3] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1236]",
-      "2026-03-12T01:41:39.289876372+08:00 2026-03-12 01:41:39.289 ERROR 1 --- [io-18856-exec-4] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1234]",
-      "2026-03-12T01:41:40.045614359+08:00 2026-03-12 01:41:40.045 ERROR 1 --- [io-18856-exec-9] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1236]",
-      "2026-03-12T01:41:40.248877900+08:00 2026-03-12 01:41:40.248 ERROR 1 --- [o-18856-exec-10] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1234]",
-      "2026-03-12T01:41:40.384902384+08:00 2026-03-12 01:41:40.384 ERROR 1 --- [io-18856-exec-2] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1234]",
-      "2026-03-12T01:41:40.554126624+08:00 2026-03-12 01:41:40.553 ERROR 1 --- [io-18856-exec-1] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1234]",
-      "2026-03-12T01:41:40.655684746+08:00 2026-03-12 01:41:40.655 ERROR 1 --- [io-18856-exec-5] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: D1345]",
-      "2026-03-12T01:41:40.655699536+08:00 2026-03-12 01:41:40.655 ERROR 1 --- [io-18856-exec-7] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1234]",
-      "2026-03-12T01:41:41.250718067+08:00 2026-03-12 01:41:41.250 ERROR 1 --- [io-18856-exec-8] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1236]",
-      "2026-03-12T01:41:41.434680636+08:00 2026-03-12 01:41:41.434 ERROR 1 --- [io-18856-exec-4] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1234]",
-      "2026-03-12T01:41:41.531911855+08:00 2026-03-12 01:41:41.531 ERROR 1 --- [io-18856-exec-6] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1237]",
-      "2026-03-12T01:41:41.671998571+08:00 2026-03-12 01:41:41.671 ERROR 1 --- [io-18856-exec-3] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1234]",
-      "2026-03-12T01:41:41.833886054+08:00 2026-03-12 01:41:41.833 ERROR 1 --- [io-18856-exec-9] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1237]",
-      "2026-03-12T01:41:41.869082801+08:00 2026-03-12 01:41:41.868 ERROR 1 --- [o-18856-exec-10] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1235]",
-      "2026-03-12T01:41:42.407473762+08:00 2026-03-12 01:41:42.407 ERROR 1 --- [io-18856-exec-2] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1237]",
-      "2026-03-12T01:41:42.602252956+08:00 2026-03-12 01:41:42.602 ERROR 1 --- [io-18856-exec-1] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1235]",
-      "2026-03-12T01:41:42.677023010+08:00 2026-03-12 01:41:42.676 ERROR 1 --- [io-18856-exec-7] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1236]",
-      "2026-03-12T01:41:42.861376615+08:00 2026-03-12 01:41:42.861 ERROR 1 --- [io-18856-exec-5] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1237]",
-      "2026-03-12T01:41:42.999373943+08:00 2026-03-12 01:41:42.999 ERROR 1 --- [io-18856-exec-8] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1236]",
-      "2026-03-12T01:41:42.999714059+08:00 2026-03-12 01:41:42.999 ERROR 1 --- [io-18856-exec-4] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: D1345]",
-      "2026-03-12T01:41:43.550931920+08:00 2026-03-12 01:41:43.550 ERROR 1 --- [io-18856-exec-6] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1235]",
-      "2026-03-12T01:41:43.774041777+08:00 2026-03-12 01:41:43.773 ERROR 1 --- [io-18856-exec-3] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1234]"
-    ]
+    "app": {
+      "total_log_count": 223,
+      "total_errors": 43,
+      "total_error_ratio": 0.1928,
+      "patterns": [
+        {
+          "count": 14,
+          "ratio": 0.0628,
+          "sample": "2026-03-12T01:40:41.429481929+08:00 2026-03-12 01:40:41.429 ERROR 1 --- [io-18856-exec-1] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1234]"
+        },
+        {
+          "count": 11,
+          "ratio": 0.0493,
+          "sample": "2026-03-12T01:41:28.203341893+08:00 2026-03-12 01:41:28.203 ERROR 1 --- [io-18856-exec-5] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: D1345]"
+        },
+        {
+          "count": 9,
+          "ratio": 0.0404,
+          "sample": "2026-03-12T01:40:41.429502607+08:00 2026-03-12 01:40:41.429 ERROR 1 --- [io-18856-exec-4] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-15, tripId: G1236]"
+        },
+        {
+          "count": 5,
+          "ratio": 0.0224,
+          "sample": "2026-03-12T01:41:39.003909401+08:00 2026-03-12 01:41:39.003 ERROR 1 --- [io-18856-exec-7] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1234]"
+        },
+        {
+          "count": 2,
+          "ratio": 0.009,
+          "sample": "2026-03-12T01:41:26.309998188+08:00 2026-03-12 01:41:26.309 ERROR 1 --- [o-18856-exec-10] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-12, tripId: G1236]"
+        },
+        {
+          "count": 1,
+          "ratio": 0.0045,
+          "sample": "2026-03-12T01:41:37.730165722+08:00 2026-03-12 01:41:37.729 ERROR 1 --- [o-18856-exec-10] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-18, tripId: G1236]"
+        },
+        {
+          "count": 1,
+          "ratio": 0.0045,
+          "sample": "2026-03-12T01:41:41.869082801+08:00 2026-03-12 01:41:41.868 ERROR 1 --- [o-18856-exec-10] foodsearch.service.FoodServiceImpl       : [getAllFood][Get the Get Food Request Failed!][foodStoresListResult is null][date: 2026-03-11, tripId: G1235]"
+        }
+      ]
+    }
   },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-gateway-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-inside-payment-service\"}": {
@@ -1654,48 +1651,33 @@
   },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-preserve-other-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-preserve-service\"}": {
-    "app": [
-      "2026-03-12T01:41:32.616543794+08:00 2026-03-12 01:41:32.615 ERROR 1 --- [o-14568-exec-10] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:32.783366318+08:00 2026-03-12 01:41:32.783 ERROR 1 --- [io-14568-exec-2] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:36.521442363+08:00 2026-03-12 01:41:36.521 ERROR 1 --- [io-14568-exec-3] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: D1345, message: getTickets failed]",
-      "2026-03-12T01:41:36.521462722+08:00 2026-03-12 01:41:36.521 ERROR 1 --- [io-14568-exec-8] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1236, message: getTickets failed]",
-      "2026-03-12T01:41:36.521465358+08:00 2026-03-12 01:41:36.521 ERROR 1 --- [io-14568-exec-9] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:36.522224647+08:00 2026-03-12 01:41:36.522 ERROR 1 --- [io-14568-exec-7] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: D1345, message: getTickets failed]",
-      "2026-03-12T01:41:36.582447057+08:00 2026-03-12 01:41:36.582 ERROR 1 --- [io-14568-exec-4] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1236, message: getTickets failed]",
-      "2026-03-12T01:41:36.585892309+08:00 2026-03-12 01:41:36.585 ERROR 1 --- [io-14568-exec-5] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1236, message: getTickets failed]",
-      "2026-03-12T01:41:37.785834420+08:00 2026-03-12 01:41:37.785 ERROR 1 --- [io-14568-exec-1] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1235, message: getTickets failed]",
-      "2026-03-12T01:41:37.884509551+08:00 2026-03-12 01:41:37.884 ERROR 1 --- [o-14568-exec-10] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1236, message: getTickets failed]",
-      "2026-03-12T01:41:37.944286849+08:00 2026-03-12 01:41:37.943 ERROR 1 --- [io-14568-exec-3] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1237, message: getTickets failed]",
-      "2026-03-12T01:41:38.030221336+08:00 2026-03-12 01:41:38.030 ERROR 1 --- [io-14568-exec-2] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1236, message: getTickets failed]",
-      "2026-03-12T01:41:38.030235727+08:00 2026-03-12 01:41:38.030 ERROR 1 --- [io-14568-exec-8] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:38.052201726+08:00 2026-03-12 01:41:38.052 ERROR 1 --- [io-14568-exec-7] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:38.986848167+08:00 2026-03-12 01:41:38.986 ERROR 1 --- [io-14568-exec-9] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1237, message: getTickets failed]",
-      "2026-03-12T01:41:39.185335934+08:00 2026-03-12 01:41:39.185 ERROR 1 --- [io-14568-exec-4] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:39.327915742+08:00 2026-03-12 01:41:39.327 ERROR 1 --- [io-14568-exec-5] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1235, message: getTickets failed]",
-      "2026-03-12T01:41:39.487007873+08:00 2026-03-12 01:41:39.486 ERROR 1 --- [o-14568-exec-10] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:39.548373431+08:00 2026-03-12 01:41:39.548 ERROR 1 --- [io-14568-exec-6] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:39.548385509+08:00 2026-03-12 01:41:39.548 ERROR 1 --- [io-14568-exec-1] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1236, message: getTickets failed]",
-      "2026-03-12T01:41:40.193387689+08:00 2026-03-12 01:41:40.193 ERROR 1 --- [io-14568-exec-3] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1236, message: getTickets failed]",
-      "2026-03-12T01:41:40.383635125+08:00 2026-03-12 01:41:40.383 ERROR 1 --- [io-14568-exec-2] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:40.479735945+08:00 2026-03-12 01:41:40.479 ERROR 1 --- [io-14568-exec-8] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:40.616273726+08:00 2026-03-12 01:41:40.616 ERROR 1 --- [io-14568-exec-7] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:40.782265276+08:00 2026-03-12 01:41:40.782 ERROR 1 --- [io-14568-exec-4] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:40.817806432+08:00 2026-03-12 01:41:40.817 ERROR 1 --- [io-14568-exec-9] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: D1345, message: getTickets failed]",
-      "2026-03-12T01:41:41.355120588+08:00 2026-03-12 01:41:41.354 ERROR 1 --- [io-14568-exec-5] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1236, message: getTickets failed]",
-      "2026-03-12T01:41:41.525877112+08:00 2026-03-12 01:41:41.525 ERROR 1 --- [o-14568-exec-10] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:41.621444030+08:00 2026-03-12 01:41:41.621 ERROR 1 --- [io-14568-exec-1] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1237, message: getTickets failed]",
-      "2026-03-12T01:41:41.771585853+08:00 2026-03-12 01:41:41.771 ERROR 1 --- [io-14568-exec-6] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]",
-      "2026-03-12T01:41:41.888024652+08:00 2026-03-12 01:41:41.887 ERROR 1 --- [io-14568-exec-3] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1237, message: getTickets failed]",
-      "2026-03-12T01:41:41.926758395+08:00 2026-03-12 01:41:41.926 ERROR 1 --- [io-14568-exec-2] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1235, message: getTickets failed]",
-      "2026-03-12T01:41:42.497056051+08:00 2026-03-12 01:41:42.496 ERROR 1 --- [io-14568-exec-8] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1237, message: getTickets failed]",
-      "2026-03-12T01:41:42.691973212+08:00 2026-03-12 01:41:42.691 ERROR 1 --- [io-14568-exec-7] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1235, message: getTickets failed]",
-      "2026-03-12T01:41:42.966709157+08:00 2026-03-12 01:41:42.966 ERROR 1 --- [io-14568-exec-4] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : \"{\"timestamp\":\"2026-03-11T17:41:42.949+00:00\",\"status\":500,\"error\":\"Internal Server Error\",\"path\":\"/api/v1/travelservice/trip_detail\"}\"] with root cause\n2026-03-12T01:41:42.966719689+08:00 ",
-      "2026-03-12T01:41:42.966722591+08:00 org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : \"{\"timestamp\":\"2026-03-11T17:41:42.949+00:00\",\"status\":500,\"error\":\"Internal Server Error\",\"path\":\"/api/v1/travelservice/trip_detail\"}\"\n2026-03-12T01:41:42.966725757+08:00 \tat org.springframework.web.client.HttpServerErrorException.create(HttpServerErrorException.java:100) ~[spring-web-5.3.31.jar!/:5.3.31]\n2026-03-12T01:41:42.966728223+08:00 \tat org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:170) ~[spring-web-5.3.31.jar!/:5.3.31]\n2026-03-12T01:41:42.966730388+08:00 \tat org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:122) ~[spring-web-5.3.31.jar!/:5.3.31]\n2026-03-12T01:41:42.966732559+08:00 \tat org.springframework.web.client.ResponseErrorHandler.handleError(ResponseErrorHandler.java:63) ~[spring-web-5.3.31.jar!/:5.3.31]",
-      "2026-03-12T01:41:43.083023042+08:00 2026-03-12 01:41:43.082 ERROR 1 --- [io-14568-exec-9] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1237, message: getTickets failed]",
-      "2026-03-12T01:41:43.116547437+08:00 2026-03-12 01:41:43.116 ERROR 1 --- [o-14568-exec-10] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: D1345, message: getTickets failed]",
-      "2026-03-12T01:41:43.145205238+08:00 2026-03-12 01:41:43.145 ERROR 1 --- [io-14568-exec-5] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1236, message: getTickets failed]",
-      "2026-03-12T01:41:43.660155977+08:00 2026-03-12 01:41:43.659 ERROR 1 --- [io-14568-exec-1] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1235, message: getTickets failed]"
-    ]
+    "app": {
+      "total_log_count": 461,
+      "total_errors": 40,
+      "total_error_ratio": 0.0868,
+      "patterns": [
+        {
+          "count": 33,
+          "ratio": 0.0716,
+          "sample": "2026-03-12T01:41:32.783366318+08:00 2026-03-12 01:41:32.783 ERROR 1 --- [io-14568-exec-2] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]"
+        },
+        {
+          "count": 5,
+          "ratio": 0.0108,
+          "sample": "2026-03-12T01:41:32.616543794+08:00 2026-03-12 01:41:32.615 ERROR 1 --- [o-14568-exec-10] preserve.service.PreserveServiceImpl     : [preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: G1234, message: getTickets failed]"
+        },
+        {
+          "count": 1,
+          "ratio": 0.0022,
+          "sample": "2026-03-12T01:41:42.966709157+08:00 2026-03-12 01:41:42.966 ERROR 1 --- [io-14568-exec-4] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : \"{\"timestamp\":\"2026-03-11T17:41:42.949+00:00\",\"status\":500,\"error\":\"Internal Server Error\",\"path\":\"/api/v1/travelservice/trip_detail\"}\"] with root cause\n2026-03-12T01:41:42.966719689+08:00 "
+        },
+        {
+          "count": 1,
+          "ratio": 0.0022,
+          "sample": "2026-03-12T01:41:42.966722591+08:00 org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : \"{\"timestamp\":\"2026-03-11T17:41:42.949+00:00\",\"status\":500,\"error\":\"Internal Server Error\",\"path\":\"/api/v1/travelservice/trip_detail\"}\"\n2026-03-12T01:41:42.966725757+08:00 \tat org.springframework.web.client.HttpServerErrorException.create(HttpServerErrorException.java:100) ~[spring-web-5.3.31.jar!/:5.3.31]\n2026-03-12T01:41:42.966728223+08:00 \tat org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:170) ~[spring-web-5.3.31.jar!/:5.3.31]\n2026-03-12T01:41:42.966730388+08:00 \tat org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:122) ~[spring-web-5.3.31.jar!/:5.3.31]\n2026-03-12T01:41:42.966732559+08:00 \tat org.springframework.web.client.ResponseErrorHandler.handleError(ResponseErrorHandler.java:63) ~[spring-web-5.3.31.jar!/:5.3.31]"
+        }
+      ]
+    }
   },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-price-service\"}": {
     "app": [
@@ -1760,53 +1742,43 @@
   },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-travel-plan-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-travel-service\"}": {
-    "app": [
-      "2026-03-12T01:38:41.284667934+08:00 2026-03-12 01:38:41.284 ERROR 1 --- [           main] travel.service.TravelServiceImpl         : [create][Create trip error][Trip already exists][TripId: G1234]",
-      "2026-03-12T01:38:41.287229806+08:00 2026-03-12 01:38:41.287 ERROR 1 --- [           main] travel.service.TravelServiceImpl         : [create][Create trip error][Trip already exists][TripId: G1235]",
-      "2026-03-12T01:38:41.289136014+08:00 2026-03-12 01:38:41.289 ERROR 1 --- [           main] travel.service.TravelServiceImpl         : [create][Create trip error][Trip already exists][TripId: G1236]",
-      "2026-03-12T01:38:41.290484732+08:00 2026-03-12 01:38:41.290 ERROR 1 --- [           main] travel.service.TravelServiceImpl         : [create][Create trip error][Trip already exists][TripId: G1237]",
-      "2026-03-12T01:38:41.292076737+08:00 2026-03-12 01:38:41.291 ERROR 1 --- [           main] travel.service.TravelServiceImpl         : [create][Create trip error][Trip already exists][TripId: D1345]",
-      "2026-03-12T01:41:32.528747348+08:00 2026-03-12 01:41:32.528  WARN 1 --- [io-12346-exec-8] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: wuxi,end: suzhou,time: 2026-03-11]",
-      "2026-03-12T01:41:32.689905510+08:00 2026-03-12 01:41:32.689  WARN 1 --- [io-12346-exec-3] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: beijing,end: shanghai,time: 2026-03-11]",
-      "2026-03-12T01:41:36.519748096+08:00 2026-03-12 01:41:36.519  WARN 1 --- [io-12346-exec-1] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: taiyuan,end: beijing,time: 2026-03-18]",
-      "2026-03-12T01:41:36.519752809+08:00 2026-03-12 01:41:36.519  WARN 1 --- [io-12346-exec-5] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: suzhou,end: taiyuan,time: 2026-03-15]",
-      "2026-03-12T01:41:36.519797588+08:00 2026-03-12 01:41:36.519  WARN 1 --- [io-12346-exec-9] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: taiyuan,end: wuxi,time: 2026-03-12]",
-      "2026-03-12T01:41:36.520165426+08:00 2026-03-12 01:41:36.520  WARN 1 --- [io-12346-exec-6] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: nanjing,end: shanghai,time: 2026-03-18]",
-      "2026-03-12T01:41:36.520170140+08:00 2026-03-12 01:41:36.519  WARN 1 --- [io-12346-exec-2] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: nanjing,end: beijing,time: 2026-03-15]",
-      "2026-03-12T01:41:36.583707785+08:00 2026-03-12 01:41:36.583  WARN 1 --- [io-12346-exec-8] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: suzhou,end: nanjing,time: 2026-03-11]",
-      "2026-03-12T01:41:37.784365312+08:00 2026-03-12 01:41:37.784  WARN 1 --- [io-12346-exec-8] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: shanghai,end: suzhou,time: 2026-03-11]",
-      "2026-03-12T01:41:37.882819127+08:00 2026-03-12 01:41:37.882  WARN 1 --- [io-12346-exec-7] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: shanghai,end: taiyuan,time: 2026-03-11]",
-      "2026-03-12T01:41:37.942802646+08:00 2026-03-12 01:41:37.942  WARN 1 --- [io-12346-exec-5] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: suzhou,end: beijing,time: 2026-03-11]",
-      "2026-03-12T01:41:38.028872066+08:00 2026-03-12 01:41:38.028  WARN 1 --- [io-12346-exec-2] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: shanghai,end: nanjing,time: 2026-03-18]",
-      "2026-03-12T01:41:38.028874345+08:00 2026-03-12 01:41:38.028  WARN 1 --- [io-12346-exec-6] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: shanghai,end: nanjing,time: 2026-03-18]",
-      "2026-03-12T01:41:38.051253842+08:00 2026-03-12 01:41:38.051  WARN 1 --- [io-12346-exec-9] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: nanjing,end: taiyuan,time: 2026-03-11]",
-      "2026-03-12T01:41:38.985585691+08:00 2026-03-12 01:41:38.985  WARN 1 --- [io-12346-exec-5] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: taiyuan,end: shanghai,time: 2026-03-11]",
-      "2026-03-12T01:41:39.182706934+08:00 2026-03-12 01:41:39.182  WARN 1 --- [io-12346-exec-8] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: shanghai,end: suzhou,time: 2026-03-12]",
-      "2026-03-12T01:41:39.326364250+08:00 2026-03-12 01:41:39.326  WARN 1 --- [io-12346-exec-4] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: beijing,end: wuxi,time: 2026-03-15]",
-      "2026-03-12T01:41:39.485505040+08:00 2026-03-12 01:41:39.485  WARN 1 --- [o-12346-exec-10] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: taiyuan,end: suzhou,time: 2026-03-11]",
-      "2026-03-12T01:41:39.546940135+08:00 2026-03-12 01:41:39.546  WARN 1 --- [io-12346-exec-2] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: beijing,end: suzhou,time: 2026-03-15]",
-      "2026-03-12T01:41:39.546942257+08:00 2026-03-12 01:41:39.546  WARN 1 --- [io-12346-exec-7] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: wuxi,end: nanjing,time: 2026-03-12]",
-      "2026-03-12T01:41:40.191990176+08:00 2026-03-12 01:41:40.191  WARN 1 --- [io-12346-exec-9] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: nanjing,end: wuxi,time: 2026-03-15]",
-      "2026-03-12T01:41:40.382240740+08:00 2026-03-12 01:41:40.382  WARN 1 --- [o-12346-exec-10] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: taiyuan,end: wuxi,time: 2026-03-12]",
-      "2026-03-12T01:41:40.478355982+08:00 2026-03-12 01:41:40.478  WARN 1 --- [io-12346-exec-4] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: suzhou,end: wuxi,time: 2026-03-12]",
-      "2026-03-12T01:41:40.615239740+08:00 2026-03-12 01:41:40.615  WARN 1 --- [io-12346-exec-3] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: suzhou,end: beijing,time: 2026-03-11]",
-      "2026-03-12T01:41:40.751862276+08:00 2026-03-12 01:41:40.751  WARN 1 --- [o-12346-exec-10] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: nanjing,end: beijing,time: 2026-03-18]",
-      "2026-03-12T01:41:40.816549083+08:00 2026-03-12 01:41:40.816  WARN 1 --- [io-12346-exec-6] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: nanjing,end: suzhou,time: 2026-03-18]",
-      "2026-03-12T01:41:41.353947820+08:00 2026-03-12 01:41:41.353  WARN 1 --- [io-12346-exec-6] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: nanjing,end: beijing,time: 2026-03-18]",
-      "2026-03-12T01:41:41.524736231+08:00 2026-03-12 01:41:41.524  WARN 1 --- [io-12346-exec-8] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: beijing,end: wuxi,time: 2026-03-12]",
-      "2026-03-12T01:41:41.620090950+08:00 2026-03-12 01:41:41.619  WARN 1 --- [io-12346-exec-1] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: nanjing,end: suzhou,time: 2026-03-18]",
-      "2026-03-12T01:41:41.770373409+08:00 2026-03-12 01:41:41.770  WARN 1 --- [io-12346-exec-6] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: shanghai,end: beijing,time: 2026-03-15]",
-      "2026-03-12T01:41:41.887152486+08:00 2026-03-12 01:41:41.887  WARN 1 --- [io-12346-exec-3] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: wuxi,end: beijing,time: 2026-03-11]",
-      "2026-03-12T01:41:41.926418125+08:00 2026-03-12 01:41:41.925  WARN 1 --- [io-12346-exec-9] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: wuxi,end: beijing,time: 2026-03-11]",
-      "2026-03-12T01:41:42.495930509+08:00 2026-03-12 01:41:42.495  WARN 1 --- [io-12346-exec-6] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: beijing,end: shanghai,time: 2026-03-18]",
-      "2026-03-12T01:41:42.690866182+08:00 2026-03-12 01:41:42.690  WARN 1 --- [io-12346-exec-5] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: suzhou,end: taiyuan,time: 2026-03-12]",
-      "2026-03-12T01:41:42.935514234+08:00 2026-03-12 01:41:42.934 ERROR 1 --- [io-12346-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : \"{\"timestamp\":\"2026-03-11T17:41:42.842+00:00\",\"status\":500,\"error\":\"Internal Server Error\",\"path\":\"/api/v1/basicservice/basic/travel\"}\"] with root cause\n2026-03-12T01:41:42.935523936+08:00 ",
-      "2026-03-12T01:41:42.935528688+08:00 org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : \"{\"timestamp\":\"2026-03-11T17:41:42.842+00:00\",\"status\":500,\"error\":\"Internal Server Error\",\"path\":\"/api/v1/basicservice/basic/travel\"}\"\n2026-03-12T01:41:42.935531445+08:00 \tat org.springframework.web.client.HttpServerErrorException.create(HttpServerErrorException.java:100) ~[spring-web-5.3.31.jar!/:5.3.31]\n2026-03-12T01:41:42.935533897+08:00 \tat org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:170) ~[spring-web-5.3.31.jar!/:5.3.31]\n2026-03-12T01:41:42.935536023+08:00 \tat org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:122) ~[spring-web-5.3.31.jar!/:5.3.31]\n2026-03-12T01:41:42.935538094+08:00 \tat org.springframework.web.client.ResponseErrorHandler.handleError(ResponseErrorHandler.java:63) ~[spring-web-5.3.31.jar!/:5.3.31]",
-      "2026-03-12T01:41:43.041392474+08:00 2026-03-12 01:41:43.041  WARN 1 --- [io-12346-exec-4] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: taiyuan,end: shanghai,time: 2026-03-18]",
-      "2026-03-12T01:41:43.085814395+08:00 2026-03-12 01:41:43.085  WARN 1 --- [io-12346-exec-7] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: wuxi,end: nanjing,time: 2026-03-11]",
-      "2026-03-12T01:41:43.144048965+08:00 2026-03-12 01:41:43.143  WARN 1 --- [o-12346-exec-11] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: wuxi,end: shanghai,time: 2026-03-18]",
-      "2026-03-12T01:41:43.658671430+08:00 2026-03-12 01:41:43.658  WARN 1 --- [io-12346-exec-8] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: beijing,end: nanjing,time: 2026-03-15]"
-    ]
+    "app": {
+      "total_log_count": 848,
+      "total_errors": 45,
+      "total_error_ratio": 0.0531,
+      "patterns": [
+        {
+          "count": 34,
+          "ratio": 0.0401,
+          "sample": "2026-03-12T01:41:32.528747348+08:00 2026-03-12 01:41:32.528  WARN 1 --- [io-12346-exec-8] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: wuxi,end: suzhou,time: 2026-03-11]"
+        },
+        {
+          "count": 5,
+          "ratio": 0.0059,
+          "sample": "2026-03-12T01:38:41.284667934+08:00 2026-03-12 01:38:41.284 ERROR 1 --- [           main] travel.service.TravelServiceImpl         : [create][Create trip error][Trip already exists][TripId: G1234]"
+        },
+        {
+          "count": 3,
+          "ratio": 0.0035,
+          "sample": "2026-03-12T01:41:39.485505040+08:00 2026-03-12 01:41:39.485  WARN 1 --- [o-12346-exec-10] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: taiyuan,end: suzhou,time: 2026-03-11]"
+        },
+        {
+          "count": 1,
+          "ratio": 0.0012,
+          "sample": "2026-03-12T01:41:42.935514234+08:00 2026-03-12 01:41:42.934 ERROR 1 --- [io-12346-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : \"{\"timestamp\":\"2026-03-11T17:41:42.842+00:00\",\"status\":500,\"error\":\"Internal Server Error\",\"path\":\"/api/v1/basicservice/basic/travel\"}\"] with root cause\n2026-03-12T01:41:42.935523936+08:00 "
+        },
+        {
+          "count": 1,
+          "ratio": 0.0012,
+          "sample": "2026-03-12T01:41:42.935528688+08:00 org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : \"{\"timestamp\":\"2026-03-11T17:41:42.842+00:00\",\"status\":500,\"error\":\"Internal Server Error\",\"path\":\"/api/v1/basicservice/basic/travel\"}\"\n2026-03-12T01:41:42.935531445+08:00 \tat org.springframework.web.client.HttpServerErrorException.create(HttpServerErrorException.java:100) ~[spring-web-5.3.31.jar!/:5.3.31]\n2026-03-12T01:41:42.935533897+08:00 \tat org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:170) ~[spring-web-5.3.31.jar!/:5.3.31]\n2026-03-12T01:41:42.935536023+08:00 \tat org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:122) ~[spring-web-5.3.31.jar!/:5.3.31]\n2026-03-12T01:41:42.935538094+08:00 \tat org.springframework.web.client.ResponseErrorHandler.handleError(ResponseErrorHandler.java:63) ~[spring-web-5.3.31.jar!/:5.3.31]"
+        },
+        {
+          "count": 1,
+          "ratio": 0.0012,
+          "sample": "2026-03-12T01:41:43.144048965+08:00 2026-03-12 01:41:43.143  WARN 1 --- [o-12346-exec-11] travel.service.TravelServiceImpl         : [getTripAllDetailInfo][Get trip detail error][Tickets not found][start: wuxi,end: shanghai,time: 2026-03-18]"
+        }
+      ]
+    }
   },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-travel2-service\"}": {
     "app": [

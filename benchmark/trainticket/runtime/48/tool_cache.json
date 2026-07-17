@@ -1709,44 +1709,18 @@
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-voucher-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-wait-order-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"tsdb-mysql\"}": {
-    "app": [
-      "2026-03-12T10:37:34.510575512+08:00 2026-03-12T10:37:34.510445+08:00 17100 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:37:38.284791766+08:00 2026-03-12T10:37:38.284675+08:00 17101 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:38:05.192910125+08:00 2026-03-12T10:38:05.192786+08:00 17108 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:38:08.111396707+08:00 2026-03-12T10:38:08.111260+08:00 17109 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:38:49.310397623+08:00 2026-03-12T10:38:49.310246+08:00 17118 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:38:52.483865998+08:00 2026-03-12T10:38:52.483753+08:00 17121 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:39:43.890992745+08:00 2026-03-12T10:39:43.890868+08:00 17132 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T10:39:47.182719688+08:00 2026-03-12T10:39:47.182600+08:00 17133 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)",
-      "2026-03-12T11:28:29.364790119+08:00 2026-03-12T11:28:29.364668+08:00 18200 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:28:33.192504866+08:00 2026-03-12T11:28:33.192375+08:00 18203 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:29:02.020962313+08:00 2026-03-12T11:29:02.020801+08:00 18211 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:29:05.426326672+08:00 2026-03-12T11:29:05.426243+08:00 18212 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:29:43.119070206+08:00 2026-03-12T11:29:43.118936+08:00 18222 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:29:46.838463912+08:00 2026-03-12T11:29:46.838372+08:00 18223 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:30:40.338148789+08:00 2026-03-12T11:30:40.338054+08:00 18234 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:30:44.532176963+08:00 2026-03-12T11:30:44.532054+08:00 18237 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:32:00.932647323+08:00 2026-03-12T11:32:00.932491+08:00 18254 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:32:05.216386337+08:00 2026-03-12T11:32:05.216262+08:00 18255 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:33:55.535610256+08:00 2026-03-12T11:33:55.535495+08:00 18278 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:33:58.931428078+08:00 2026-03-12T11:33:58.931332+08:00 18279 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:37:08.725669054+08:00 2026-03-12T11:37:08.725541+08:00 18318 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:37:11.858290511+08:00 2026-03-12T11:37:11.858207+08:00 18321 [Note] Access denied for user 'ts'@'172.20.1.36' (using password: YES)",
-      "2026-03-12T11:40:10.588054595+08:00 2026-03-12T11:40:10.587750+08:00 18590 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:40:15.031851996+08:00 2026-03-12T11:40:15.031733+08:00 18591 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:40:42.941129108+08:00 2026-03-12T11:40:42.941010+08:00 18598 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:40:46.162078970+08:00 2026-03-12T11:40:46.161966+08:00 18599 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:41:23.332306275+08:00 2026-03-12T11:41:23.332164+08:00 18608 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:41:26.734177363+08:00 2026-03-12T11:41:26.734051+08:00 18609 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:42:21.060446715+08:00 2026-03-12T11:42:21.060326+08:00 18622 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:42:24.649095537+08:00 2026-03-12T11:42:24.648977+08:00 18623 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:43:35.548257678+08:00 2026-03-12T11:43:35.548142+08:00 18638 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:43:40.228034824+08:00 2026-03-12T11:43:40.227961+08:00 18641 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:45:34.826852511+08:00 2026-03-12T11:45:34.826709+08:00 18664 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:45:38.049410870+08:00 2026-03-12T11:45:38.049266+08:00 18665 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:48:47.829874962+08:00 2026-03-12T11:48:47.829746+08:00 18704 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)",
-      "2026-03-12T11:48:51.323429003+08:00 2026-03-12T11:48:51.323313+08:00 18707 [Note] Access denied for user 'ts'@'172.20.2.207' (using password: YES)"
-    ]
+    "app": {
+      "total_log_count": 1651,
+      "total_errors": 36,
+      "total_error_ratio": 0.0218,
+      "patterns": [
+        {
+          "count": 36,
+          "ratio": 0.0218,
+          "sample": "2026-03-12T10:37:34.510575512+08:00 2026-03-12T10:37:34.510445+08:00 17100 [Note] Access denied for user 'ts'@'172.20.3.34' (using password: YES)"
+        }
+      ]
+    }
   },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"nacos\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"nacosdb-mysql\"}": [],

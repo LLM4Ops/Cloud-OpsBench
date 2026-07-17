@@ -1713,25 +1713,23 @@
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-food-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-gateway-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-inside-payment-service\"}": {
-    "app": [
-      "2026-03-19T22:27:05.770535337+08:00 2026-03-19 14:27:05.770 ERROR 1 --- [io-18673-exec-8] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id9f36a5f9-527f-49f6-b66a-c4692b63866f",
-      "2026-03-19T22:27:19.736719503+08:00 2026-03-19 14:27:19.736 ERROR 1 --- [io-18673-exec-9] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id95947b40-b425-407c-abd2-00d5fd3c9fe0",
-      "2026-03-19T22:27:20.639523609+08:00 2026-03-19 14:27:20.639 ERROR 1 --- [o-18673-exec-11] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id95947b40-b425-407c-abd2-00d5fd3c9fe0",
-      "2026-03-19T22:27:22.096681476+08:00 2026-03-19 14:27:22.096 ERROR 1 --- [io-18673-exec-5] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id95947b40-b425-407c-abd2-00d5fd3c9fe0",
-      "2026-03-19T22:27:22.493931798+08:00 2026-03-19 14:27:22.493 ERROR 1 --- [io-18673-exec-3] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id95947b40-b425-407c-abd2-00d5fd3c9fe0",
-      "2026-03-19T22:27:22.938732456+08:00 2026-03-19 14:27:22.938 ERROR 1 --- [io-18673-exec-6] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id95947b40-b425-407c-abd2-00d5fd3c9fe0",
-      "2026-03-19T22:27:42.880994176+08:00 2026-03-19 14:27:42.880 ERROR 1 --- [io-18673-exec-8] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id4da22e90-3725-40c7-a90a-42c2834bc5a2",
-      "2026-03-19T22:27:43.180515017+08:00 2026-03-19 14:27:43.180 ERROR 1 --- [io-18673-exec-1] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id4da22e90-3725-40c7-a90a-42c2834bc5a2",
-      "2026-03-19T22:27:47.188697621+08:00 2026-03-19 14:27:47.188 ERROR 1 --- [io-18673-exec-9] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id4da22e90-3725-40c7-a90a-42c2834bc5a2",
-      "2026-03-19T22:27:51.199004753+08:00 2026-03-19 14:27:51.198 ERROR 1 --- [o-18673-exec-10] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id4da22e90-3725-40c7-a90a-42c2834bc5a2",
-      "2026-03-19T22:27:52.447390750+08:00 2026-03-19 14:27:52.447 ERROR 1 --- [io-18673-exec-3] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id4da22e90-3725-40c7-a90a-42c2834bc5a2",
-      "2026-03-19T22:28:00.561519578+08:00 2026-03-19 14:28:00.561 ERROR 1 --- [io-18673-exec-2] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id24bc5031-49d4-42d4-849c-a384eebe002c",
-      "2026-03-19T22:28:17.704721182+08:00 2026-03-19 14:28:17.704 ERROR 1 --- [io-18673-exec-4] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order idc6105704-9116-42e4-8649-684490136f44",
-      "2026-03-19T22:28:20.470640229+08:00 2026-03-19 14:28:20.470 ERROR 1 --- [io-18673-exec-9] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order idc6105704-9116-42e4-8649-684490136f44",
-      "2026-03-19T22:28:21.942920826+08:00 2026-03-19 14:28:21.942 ERROR 1 --- [io-18673-exec-8] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order idc6105704-9116-42e4-8649-684490136f44",
-      "2026-03-19T22:28:49.416566301+08:00 2026-03-19 14:28:49.416 ERROR 1 --- [o-18673-exec-10] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order idb4f550af-9c9e-4e63-a5a2-a1410fd8a950",
-      "2026-03-19T22:28:50.162899126+08:00 2026-03-19 14:28:50.162 ERROR 1 --- [io-18673-exec-2] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order idb4f550af-9c9e-4e63-a5a2-a1410fd8a950",
-      "2026-03-19T22:29:07.400859130+08:00 2026-03-19 14:29:07.400 ERROR 1 --- [io-18673-exec-5] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id6f6c8113-1b8c-4160-bd20-6c92fd705b45"
+    "app": {
+      "total_log_count": 357,
+      "total_errors": 18,
+      "total_error_ratio": 0.0504,
+      "patterns": [
+        {
+          "count": 18,
+          "ratio": 0.0504,
+          "sample": "2026-03-19T22:27:05.770535337+08:00 2026-03-19 14:27:05.770 ERROR 1 --- [io-18673-exec-8] i.service.InsidePaymentServiceImpl       : Payment failed: Pay Failed, order not found with order id9f36a5f9-527f-49f6-b66a-c4692b63866f"
+        }
+      ]
+    },
+    "istio-proxy": [
+      "2026-03-19T14:27:56.361901Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.2.200:15020->172.20.3.74:41446: write: broken pipe",
+      "2026-03-19T14:28:11.509686Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.2.200:15020->172.20.3.74:55410: write: broken pipe",
+      "2026-03-19T14:28:26.382927Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.2.200:15020->172.20.3.74:55910: write: broken pipe",
+      "2026-03-19T14:28:41.296482Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.2.200:15020->172.20.3.74:41160: write: broken pipe"
     ]
   },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-news-service\"}": [],

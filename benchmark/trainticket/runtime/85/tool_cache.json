@@ -1598,41 +1598,23 @@
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-avatar-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-basic-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-cancel-service\"}": {
-    "app": [
-      "2026-03-17T00:13:47.028408673+08:00 2026-03-16 16:13:47.028 ERROR 1 --- [io-18885-exec-8] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:47.028418133+08:00 2026-03-16 16:13:47.028 ERROR 1 --- [io-18885-exec-9] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:47.124640005+08:00 2026-03-16 16:13:47.124 ERROR 1 --- [o-18885-exec-10] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:47.124907059+08:00 2026-03-16 16:13:47.124 ERROR 1 --- [io-18885-exec-1] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:47.524135840+08:00 2026-03-16 16:13:47.524 ERROR 1 --- [io-18885-exec-2] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:47.524413293+08:00 2026-03-16 16:13:47.524 ERROR 1 --- [io-18885-exec-5] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:47.524778960+08:00 2026-03-16 16:13:47.524 ERROR 1 --- [io-18885-exec-6] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:47.623826577+08:00 2026-03-16 16:13:47.623 ERROR 1 --- [io-18885-exec-8] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:47.723683316+08:00 2026-03-16 16:13:47.723 ERROR 1 --- [io-18885-exec-3] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:47.723688125+08:00 2026-03-16 16:13:47.723 ERROR 1 --- [o-18885-exec-10] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:47.893873779+08:00 2026-03-16 16:13:47.893 ERROR 1 --- [io-18885-exec-1] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:47.900974955+08:00 2026-03-16 16:13:47.900 ERROR 1 --- [io-18885-exec-9] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:48.006209592+08:00 2026-03-16 16:13:48.006 ERROR 1 --- [io-18885-exec-7] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:48.382690004+08:00 2026-03-16 16:13:48.382 ERROR 1 --- [io-18885-exec-4] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:48.416057083+08:00 2026-03-16 16:13:48.415 ERROR 1 --- [io-18885-exec-5] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:48.593294402+08:00 2026-03-16 16:13:48.593 ERROR 1 --- [io-18885-exec-2] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:58.884709845+08:00 2026-03-16 16:13:58.884 ERROR 1 --- [o-18885-exec-10] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:58.917567955+08:00 2026-03-16 16:13:58.917 ERROR 1 --- [io-18885-exec-3] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:59.443432741+08:00 2026-03-16 16:13:59.443 ERROR 1 --- [io-18885-exec-1] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:59.497612566+08:00 2026-03-16 16:13:59.497 ERROR 1 --- [io-18885-exec-9] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:59.786527571+08:00 2026-03-16 16:13:59.786 ERROR 1 --- [io-18885-exec-7] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:13:59.818266537+08:00 2026-03-16 16:13:59.818 ERROR 1 --- [io-18885-exec-4] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:14:00.317894911+08:00 2026-03-16 16:14:00.317 ERROR 1 --- [io-18885-exec-5] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:14:00.399518808+08:00 2026-03-16 16:14:00.399 ERROR 1 --- [io-18885-exec-6] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:14:00.646856105+08:00 2026-03-16 16:14:00.646 ERROR 1 --- [io-18885-exec-2] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:14:00.700422967+08:00 2026-03-16 16:14:00.700 ERROR 1 --- [io-18885-exec-8] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:14:01.327400522+08:00 2026-03-16 16:14:01.327 ERROR 1 --- [o-18885-exec-10] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:14:01.401416358+08:00 2026-03-16 16:14:01.401 ERROR 1 --- [io-18885-exec-3] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:14:01.603523001+08:00 2026-03-16 16:14:01.603 ERROR 1 --- [io-18885-exec-1] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:14:01.701160460+08:00 2026-03-16 16:14:01.701 ERROR 1 --- [io-18885-exec-9] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:14:01.993669292+08:00 2026-03-16 16:14:01.993 ERROR 1 --- [io-18885-exec-7] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:14:02.101282236+08:00 2026-03-16 16:14:02.101 ERROR 1 --- [io-18885-exec-2] cancel.controller.CancelController       : Service Instance cannot be null",
-      "2026-03-17T00:14:02.101338426+08:00 2026-03-16 16:14:02.101 ERROR 1 --- [io-18885-exec-6] cancel.controller.CancelController       : Service Instance cannot be null"
-    ]
+    "app": {
+      "total_log_count": 536,
+      "total_errors": 33,
+      "total_error_ratio": 0.0616,
+      "patterns": [
+        {
+          "count": 29,
+          "ratio": 0.0541,
+          "sample": "2026-03-17T00:13:47.028408673+08:00 2026-03-16 16:13:47.028 ERROR 1 --- [io-18885-exec-8] cancel.controller.CancelController       : Service Instance cannot be null"
+        },
+        {
+          "count": 4,
+          "ratio": 0.0075,
+          "sample": "2026-03-17T00:13:47.124640005+08:00 2026-03-16 16:13:47.124 ERROR 1 --- [o-18885-exec-10] cancel.controller.CancelController       : Service Instance cannot be null"
+        }
+      ]
+    }
   },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-config-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-consign-price-service\"}": [],

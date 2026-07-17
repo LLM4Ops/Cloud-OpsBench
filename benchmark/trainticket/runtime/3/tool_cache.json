@@ -1841,7 +1841,20 @@
       "2026-03-13 12:40:46.629 ERROR 1 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Exception during pool initialization.\nCaused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution\nCaused by: org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution\nCaused by: java.sql.SQLNonTransientConnectionException: Too many connections\n\tat com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:111) ~[mysql-connector-j-8.0.33.jar!/:8.0.33]\n\tat com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-j-8.0.33.jar!/:8.0.33]\n\tat com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825) ~[mysql-connector-j-8.0.33.jar!/:8.0.33]\n\tat com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446) ~[mysql-connector-j-8.0.33.jar!/:8.0.33]"
     ]
   },
-  "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"tsdb-mysql\"}": [],
+  "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"tsdb-mysql\"}": {
+    "app": {
+      "total_log_count": 1459,
+      "total_errors": 325,
+      "total_error_ratio": 0.2228,
+      "patterns": [
+        {
+          "count": 325,
+          "ratio": 0.2228,
+          "sample": "2026-03-13T12:37:02.580538117+08:00 2026-03-13T12:37:02.580447+08:00 227 [Warning] Too many connections"
+        }
+      ]
+    }
+  },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"nacos\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"nacosdb-mysql\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"rabbitmq\"}": [],

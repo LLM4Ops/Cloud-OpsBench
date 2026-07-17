@@ -30,8 +30,8 @@ METRIC_DISPLAY_NAMES = {
     "invalid_actions": "Average Invalid Actions per Case",
 }
 
-from diagnostic_evidence.evaluator import evaluate_trajectory  # noqa: E402
-from diagnostic_evidence.schema import CaseAnnotation, ToolCall, TrajectoryStep  # noqa: E402
+from cloudops_agent.evaluation_utils.evaluator import evaluate_trajectory  # noqa: E402
+from cloudops_agent.evaluation_utils.schema import CaseAnnotation, ToolCall, TrajectoryStep  # noqa: E402
 
 
 def normalize_system_name(system: str) -> str:

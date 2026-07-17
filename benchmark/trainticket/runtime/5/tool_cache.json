@@ -1788,7 +1788,20 @@
       "2026-03-13T14:20:45.219246747+08:00 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution\n2026-03-13T14:20:45.219349381+08:00 Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution\n2026-03-13T14:20:45.219394298+08:00 Caused by: org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution\n2026-03-13T14:20:45.219463543+08:00 Caused by: java.sql.SQLNonTransientConnectionException: Too many connections\n2026-03-13T14:20:45.219249540+08:00 \tat org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initiali..."
     ]
   },
-  "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"tsdb-mysql\"}": [],
+  "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"tsdb-mysql\"}": {
+    "app": {
+      "total_log_count": 1470,
+      "total_errors": 337,
+      "total_error_ratio": 0.2293,
+      "patterns": [
+        {
+          "count": 337,
+          "ratio": 0.2293,
+          "sample": "2026-03-13T14:16:56.022458767+08:00 2026-03-13T14:16:56.022320+08:00 215 [Warning] Too many connections"
+        }
+      ]
+    }
+  },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"nacos\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"nacosdb-mysql\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"rabbitmq\"}": [],

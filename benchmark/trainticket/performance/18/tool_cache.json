@@ -1665,7 +1665,12 @@
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-assurance-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-auth-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-avatar-service\"}": [],
-  "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-basic-service\"}": [],
+  "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-basic-service\"}": {
+    "istio-proxy": [
+      "2026-03-19T13:04:03.141868Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.1.23:15020->172.20.3.74:33230: write: broken pipe",
+      "2026-03-19T13:04:18.134675Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.1.23:15020->172.20.3.74:44968: write: broken pipe"
+    ]
+  },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-cancel-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-config-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-consign-price-service\"}": [],

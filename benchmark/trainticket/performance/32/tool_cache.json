@@ -1745,7 +1745,11 @@
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-station-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-ticket-office-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-train-food-service\"}": [],
-  "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-train-service\"}": [],
+  "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-train-service\"}": {
+    "istio-proxy": [
+      "2026-03-20T05:27:00.162673Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.1.232:15020->172.20.3.74:32970: write: broken pipe"
+    ]
+  },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-travel-plan-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-travel-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-travel2-service\"}": [],

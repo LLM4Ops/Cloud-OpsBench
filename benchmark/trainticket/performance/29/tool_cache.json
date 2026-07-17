@@ -1673,7 +1673,13 @@
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-rebook-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-route-plan-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-route-service\"}": [],
-  "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-seat-service\"}": [],
+  "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-seat-service\"}": {
+    "istio-proxy": [
+      "2026-03-20T04:36:44.200338Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.2.42:15020->172.20.3.74:43484: write: broken pipe",
+      "2026-03-20T04:37:14.491352Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.2.42:15020->172.20.3.74:36134: write: broken pipe",
+      "2026-03-20T04:38:14.011156Z\terror\tfailed to scraping and writing envoy metrics: write tcp 172.20.2.42:15020->172.20.3.74:36234: write: broken pipe"
+    ]
+  },
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-security-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-station-food-service\"}": [],
   "GetErrorLogs:{\"namespace\":\"train-ticket\",\"service_name\":\"ts-station-service\"}": [],
