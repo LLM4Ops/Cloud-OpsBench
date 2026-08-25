@@ -258,3 +258,6 @@ Cloud-OpsBench evaluates agents along three complementary dimensions:
 - `EE` (Evidence Efficiency): the fraction of tool calls that contribute to admissible, dependency-grounded evidence.
 - `Steps`: the total number of tool invocations.
 - `RAR` (Redundant Action Rate): the fraction of repeated tool-and-argument calls that do not contribute new evidence or advance a new milestone group.
+
+### License
+MIT
