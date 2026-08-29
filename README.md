@@ -18,7 +18,7 @@ The current release covers **two microservice systems**, **57 fault types**, and
 ## Ecosystem Adoption & Recognition
 
 - **[OpenSRE](https://www.opensre.com/docs/cloudopsbench)** — Officially integrates Cloud-OpsBench for reproducible SRE-agent evaluation and publishes benchmark results in its [showcase](https://www.opensre.com/docs/showcase#put-it-through-cloudopsbench).
-- **[Alibaba Cloud STAROps](https://sls.aliyun.com/doc/starops/benchmark/rca/rca_benchmark_dataset.html)** — References Cloud-OpsBench as a representative benchmark for RCA agents.
+- **[Alibaba Cloud STAROps](https://sls.aliyun.com/doc/starops/benchmark/rca/rca_benchmark_dataset.html)** — References Cloud-OpsBench as a representative benchmark for Agentic RCA.
 - **[Jaeger](https://github.com/jaegertracing/jaeger/issues/9135)** — References Cloud-OpsBench as an academic RCA benchmark informing evaluation of the Jaeger AI Assistant.
 
 ## Repository Layout
