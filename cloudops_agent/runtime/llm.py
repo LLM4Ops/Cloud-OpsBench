@@ -27,6 +27,7 @@ class ModelRunner:
         temperature: float = 0.0,
         max_tokens: int = 1024,
         timeout: Optional[float] = None,
+        enable_thinking: Optional[bool] = None,
     ):
         """
         Args:
@@ -38,6 +39,8 @@ class ModelRunner:
             temperature: Sampling temperature.
             max_tokens: Maximum generation tokens.
             timeout: Optional client timeout in seconds.
+            enable_thinking: Optional provider-specific thinking switch. When
+                omitted, no thinking parameter is sent to the API.
         """
         self.model_name = model_name
         self.provider = provider
@@ -46,6 +49,7 @@ class ModelRunner:
         self.temperature = temperature
         self.max_tokens = max_tokens
         self.timeout = timeout
+        self.enable_thinking = enable_thinking
 
         if self.provider != "openai_compatible":
             raise ValueError(
@@ -61,6 +65,18 @@ class ModelRunner:
             client_kwargs["timeout"] = self.timeout
 
         self.client = OpenAI(**client_kwargs)
+
+    def build_request(self, prompt: str) -> Dict[str, Any]:
+        """Return the exact API request without performing network I/O."""
+        request: Dict[str, Any] = {
+            "model": self.model_name,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": self.temperature,
+            "max_tokens": self.max_tokens,
+        }
+        if self.enable_thinking is not None:
+            request["extra_body"] = {"enable_thinking": self.enable_thinking}
+        return request
 
     def generate(self, prompt: str) -> Dict[str, Any]:
         """
@@ -84,20 +100,8 @@ class ModelRunner:
         start_time = time.perf_counter()
 
         try:
-            response = self.client.chat.completions.create(
-                model=self.model_name,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": prompt,
-                    }
-                ],
-                temperature=self.temperature,
-                max_tokens=self.max_tokens,
-                extra_body={"enable_thinking": False} #only for qwen\deepseek
-            )
+            response = self.client.chat.completions.create(**self.build_request(prompt))
             latency = time.perf_counter() - start_time
-            print('----------',response)
             text = self._extract_text(response)
             usage = getattr(response, "usage", None)
 

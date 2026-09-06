@@ -2,319 +2,171 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
-
-# -------------------------------------------------------------------
-# Make project root importable
-# -------------------------------------------------------------------
-AGENT_ROOT = Path(__file__).resolve().parent
-if str(AGENT_ROOT) not in sys.path:
-    sys.path.insert(0, str(AGENT_ROOT))
-
-# -------------------------------------------------------------------
-# Project-local imports
-# -------------------------------------------------------------------
-from prompts.config_utils import load_config
-from prompts.RCA_candidate import agent_prompt, build_expected_output
-from tools.definition import create_k8s_tools
-from tools.registry import build_tool_registry, render_tools_description
-
-from runtime.state import init_case_state
-from runtime.prompt_builder import PromptBuilder
-from runtime.model_runner import ModelRunner
-from runtime.output_parser import OutputParser
-from runtime.tool_executor import ToolExecutor
-from runtime.logger import TraceLogger
-from runtime.agent_runtime import AgentRuntime
-
-MAX_CASES_TO_RUN = 50
-DEFAULT_DATASET_ROOT = Path("/root/k8srca/Cloud-OpsBench_history")
-DEFAULT_SAVE_ROOT = Path("/root/whyfail")
+from typing import Any, Dict
 
 
-def normalize_system_name(system: str) -> str:
-    system_key = (system or "").strip().lower()
-    if system_key in {"trainticket", "train-ticket"}:
-        return "trainticket"
-    if system_key == "boutique":
-        return "boutique"
-    raise ValueError(f"Unsupported system: {system}")
+PROJECT_ROOT = Path(__file__).resolve().parent
+CONFIG_PATH = PROJECT_ROOT / "configs" / "model_configs.yaml"
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from harness.context import ContextBuilder
+from harness.harness import CloudOpsHarness
+from runtime.contracts import build_expected_output
+from runtime.core import OutputParser, ToolExecutor, TraceLogger, init_case_state, load_config
+from runtime.llm import ModelRunner
+from tools.cloudops import build_tool_registry, create_k8s_tools, render_tools_description
 
 
-def resolve_workspace_path(diag_conf: Dict[str, Any], normalized_system: str) -> Path:
-    configured = diag_conf.get("workspace_path")
-    if configured:
-        return Path(configured)
-
-    dataset_root = Path(diag_conf.get("dataset_root", DEFAULT_DATASET_ROOT))
-    return dataset_root / "benchmark" / normalized_system
+TOOL_SYSTEM = {"boutique": "boutique", "trainticket": "train-ticket"}
+DEFAULT_NAMESPACE = {"boutique": "boutique", "trainticket": "train-ticket"}
 
 
-def resolve_save_path(diag_conf: Dict[str, Any], normalized_system: str) -> Path:
-    configured = diag_conf.get("save_path")
-    if configured:
-        return Path(configured)
-
-    save_root = Path(diag_conf.get("save_root", DEFAULT_SAVE_ROOT))
-    return save_root / normalized_system
+def numeric_case_key(path: Path) -> tuple[int, str]:
+    return (int(path.name), path.name) if path.name.isdigit() else (2**63 - 1, path.name)
 
 
-def load_metadata(meta_path: Path) -> Dict[str, Any]:
-    """Load metadata.json for one case."""
-    with open(meta_path, "r", encoding="utf-8") as f:
-        return json.load(f)
+def resolve_cases(config: Dict[str, Any]) -> list[Path]:
+    diagnosis = config["diagnosis"]
+    root = (
+        Path(str(diagnosis["dataset_root"])).expanduser()
+        / "benchmark"
+        / diagnosis["system"]
+        / str(diagnosis["fault_category"])
+    )
+    if not root.is_dir():
+        raise FileNotFoundError(f"Fault category does not exist: {root}")
+    case_name = str(diagnosis.get("case_name") or "").strip()
+    if case_name:
+        case = root / case_name
+        if not case.is_dir():
+            raise FileNotFoundError(f"Case does not exist: {case}")
+        return [case]
+    cases = sorted((path for path in root.iterdir() if path.is_dir()), key=numeric_case_key)
+    if not cases:
+        raise ValueError(f"No cases found in {root}")
+    return cases
 
 
-def is_completed_trace(trace_path: Path) -> bool:
-    """Return whether a trace records a completed or budget-exhausted run."""
-    if not trace_path.exists():
+def build_model_runner(model: Dict[str, Any]) -> ModelRunner:
+    enable_thinking = model.get("enable_thinking")
+    return ModelRunner(
+        model_name=str(model["model"]),
+        provider=str(model.get("provider") or "openai_compatible"),
+        api_base=str(model["api_base"]),
+        api_key=str(model["api_key"]),
+        temperature=float(model.get("temperature", 0)),
+        max_tokens=int(model.get("max_tokens", 8192)),
+        timeout=model.get("timeout"),
+        enable_thinking=(
+            bool(enable_thinking) if enable_thinking is not None else None
+        ),
+    )
+
+
+def is_complete(path: Path) -> bool:
+    if not path.is_file():
         return False
     try:
-        with open(trace_path, "r", encoding="utf-8") as f:
-            trace = json.load(f)
+        trace = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return False
-    return trace.get("stop_reason") in {"final_answer", "max_steps"}
+    return trace.get("stop_reason") in {"submit", "max_steps"}
 
 
-def build_model_runner(llm_conf: Dict[str, Any]) -> ModelRunner:
-    """
-    Construct ModelRunner from project config.
-    """
-    return ModelRunner(
-        model_name=llm_conf["model"],
-        provider="openai_compatible",
-        api_base=llm_conf["api_base"],
-        api_key=llm_conf["api_key"],
-        temperature=llm_conf.get("temperature", 0.0),
-        max_tokens=llm_conf.get("max_tokens", 1024),
-        timeout=llm_conf.get("timeout"),
+def run_case(config: Dict[str, Any], case_path: Path, model_runner: ModelRunner) -> None:
+    model = config["model"]
+    diagnosis = config["diagnosis"]
+    system = diagnosis["system"]
+    category = str(diagnosis["fault_category"])
+    case_id = case_path.name
+    trace_dir = (
+        Path(str(diagnosis["save_root"])).expanduser()
+        / system
+        / str(model["model"])
+        / category
+        / case_id
     )
-
-
-def resolve_case_names(fault_root: Path, diag_conf: Dict[str, Any]) -> List[str]:
-    """
-    Resolve case names from config.
-
-    Rules:
-    - If config specifies a non-empty case_name, run only that case.
-    - Otherwise, enumerate all subdirectories under fault_root.
-    """
-    case_name = diag_conf.get("case_name", None)
-
-    if case_name is not None and str(case_name).strip():
-        return [str(case_name).strip()]
-
-    if not fault_root.exists():
-        raise FileNotFoundError(f"Fault root not found: {fault_root}")
-
-    case_names = sorted(
-        p.name for p in fault_root.iterdir()
-        if p.is_dir()
-    )
-
-    if not case_names:
-        raise ValueError(f"No case directories found under: {fault_root}")
-
-    return case_names
-
-
-def run_single_case(
-    case_name: str,
-    workspace_path: str,
-    save_path: str,
-    fault_category: str,
-    model_name: str,
-    max_iterations: int,
-    llm_conf: Dict[str, Any],
-) -> None:
-    """
-    Run one single case end-to-end.
-    """
-    # -------------------------------------------------------------------
-    # 1. Resolve paths
-    # -------------------------------------------------------------------
-    # fault_root = Path(workspace_path) / "benchmark" / fault_category
-    fault_root = Path(workspace_path)/ fault_category
-    case_path = fault_root / case_name
-    meta_path = case_path / "metadata.json"
-
-    if not case_path.exists():
-        raise FileNotFoundError(f"Case path not found: {case_path}")
-    if not meta_path.exists():
-        raise FileNotFoundError(f"metadata.json not found: {meta_path}")
-
-    diag_root = Path(save_path) / model_name / fault_category
-    diag_case_path = diag_root / case_name
-    diag_case_path.mkdir(parents=True, exist_ok=True)
-
-    trace_dir = str(diag_case_path)
-    trace_path = diag_case_path / f"{case_name}.json"
-
-    # Skip only completed traces; an interrupted partial trace should be rerun.
-    if is_completed_trace(trace_path):
-        print(f"[SKIP] Case already has a completed trace: {case_name}")
+    trace_path = trace_dir / f"{case_id}.json"
+    if is_complete(trace_path):
+        print(f"[SKIP] completed case={system}/{category}/{case_id}", flush=True)
         return
 
-    # -------------------------------------------------------------------
-    # 2. Load metadata
-    # -------------------------------------------------------------------
-    metadata_data = load_metadata(meta_path)
-    query = metadata_data.get("query", "")
-    namespace = metadata_data.get("namespace", "")
-    result = metadata_data.get("result", "")
-
-    # -------------------------------------------------------------------
-    # 3. Build question
-    # -------------------------------------------------------------------
-    full_question = (
-        f"The Kubernetes environment in namespace `{namespace}` is experiencing a fault. "
-        f"A high-level symptom has been reported: '{query}'. "
-        f"Diagnose the root cause of this incident."
+    metadata = json.loads((case_path / "metadata.json").read_text(encoding="utf-8"))
+    namespace = str(metadata.get("namespace") or DEFAULT_NAMESPACE[system])
+    query = str(metadata.get("query") or "")
+    tool_system = TOOL_SYSTEM[system]
+    registry = build_tool_registry(
+        create_k8s_tools(str(case_path), system=tool_system, fault_category=category)
     )
-
-    # -------------------------------------------------------------------
-    # 4. Initialize tools
-    # -------------------------------------------------------------------
-    benchmark_system = "train-ticket" if namespace == "train-ticket" else "boutique"
-    tools_list = create_k8s_tools(
-        str(case_path),
-        system=benchmark_system,
-        fault_category=fault_category,
+    context = ContextBuilder(
+        tools_description=render_tools_description(registry),
+        expected_output=build_expected_output(tool_system),
     )
-    tool_registry = build_tool_registry(tools_list)
-    tools_description = render_tools_description(tool_registry)
-
-    # -------------------------------------------------------------------
-    # 5. Initialize runtime components
-    # -------------------------------------------------------------------
-    prompt_builder = PromptBuilder(
-        tools_description=tools_description,
-        backstory_prompt=agent_prompt,
-        expected_output=build_expected_output(benchmark_system),
-    )
-    model_runner = build_model_runner(llm_conf)
-    output_parser = OutputParser()
-    tool_executor = ToolExecutor(tool_registry=tool_registry)
-    trace_logger = TraceLogger(trace_dir=trace_dir)
-
-    runtime = AgentRuntime(
-        prompt_builder=prompt_builder,
-        model_runner=model_runner,
-        output_parser=output_parser,
-        tool_executor=tool_executor,
-        trace_logger=trace_logger,
-    )
-
-    # -------------------------------------------------------------------
-    # 6. Initialize case state
-    # -------------------------------------------------------------------
     state = init_case_state(
-        case_id=case_name,
-        system_name=fault_category,
-        question=full_question,
+        case_id=case_id,
+        system_name=system,
+        question=(
+            f"The Kubernetes environment in namespace `{namespace}` is experiencing a fault. "
+            f"A high-level symptom has been reported: '{query}'. "
+            "Diagnose the root cause of this incident."
+        ),
         case_path=str(case_path),
-        max_steps=max_iterations,
+        max_steps=int(diagnosis["max_iterations"]),
         metadata={
             "namespace": namespace,
             "query": query,
-            "result": result,
-            "fault_category": fault_category,
-            "model_name": model_name,
-            "run_started_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+            "fault_category": category,
+            "model_name": str(model["model"]),
         },
     )
-
-    # -------------------------------------------------------------------
-    # 7. Run one case
-    # -------------------------------------------------------------------
-    final_state = runtime.run_case(state)
-
-    # -------------------------------------------------------------------
-    # 8. Print summary
-    # -------------------------------------------------------------------
-    trace_path = trace_logger.get_trace_path(final_state)
-
-    print("=" * 80)
-    print("Cloud-OpsBench Single-Agent ReAct Runtime")
-    print("=" * 80)
-    print(f"Model         : {model_name}")
-    print(f"Fault Category: {fault_category}")
-    print(f"Case Name     : {case_name}")
-    print(f"Case Path     : {case_path}")
-    print(f"Finished      : {final_state.finished}")
-    print(f"Stop Reason   : {final_state.stop_reason}")
-    print(f"Steps Used    : {len(final_state.history)}")
-    print(f"Trace Path    : {trace_path}")
-    print("-" * 80)
-    print("Final Answer:")
-    print(final_state.final_answer or "[No final answer produced]")
-    print("=" * 80)
+    logger = TraceLogger(trace_dir)
+    final = CloudOpsHarness(
+        context_builder=context,
+        model_runner=model_runner,
+        output_parser=OutputParser(),
+        tool_executor=ToolExecutor(registry),
+        trace_logger=logger,
+    ).run_case(state)
+    (trace_dir / "result_raw.json").write_text(
+        json.dumps(
+            {
+                "Completed": str(final.final_answer or ""),
+                "finished": final.finished,
+                "stop_reason": final.stop_reason,
+                "steps_used": final.current_step,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    print(
+        f"[DONE] case={system}/{category}/{case_id} finished={final.finished} "
+        f"steps={final.current_step} trace={trace_path}",
+        flush=True,
+    )
 
 
 def main() -> None:
-    # -------------------------------------------------------------------
-    # 1. Load config
-    # -------------------------------------------------------------------
-    config = load_config(str(AGENT_ROOT / "configs/model_configs.yaml"))
-    llm_conf = config.model
-    diag_conf = config.diagnosis
-
-    model_name = llm_conf["model"]
-    normalized_system = normalize_system_name(diag_conf["system"])
-    workspace_path = resolve_workspace_path(diag_conf, normalized_system)
-    save_path = resolve_save_path(diag_conf, normalized_system)
-    fault_category = diag_conf["fault_category"]
-    max_iterations = diag_conf["max_iterations"]
-
-    # fault_root = Path(workspace_path) / "benchmark" / fault_category
-    fault_root = workspace_path / fault_category
-    if not fault_root.exists():
-        raise FileNotFoundError(f"Fault root not found: {fault_root}")
-
-    # -------------------------------------------------------------------
-    # 2. Resolve case list
-    # -------------------------------------------------------------------
-    case_names = resolve_case_names(fault_root, diag_conf)
-    # case_names = case_names[:MAX_CASES_TO_RUN]
-
-    print("✅ Configuration loading completed")
-    print(f"Model          : {model_name}")
-    print(f"Fault category : {fault_category}")
-    print(f"Workspace path : {workspace_path}")
-    print(f"Save path      : {save_path}")
-    print(f"Max iterations : {max_iterations}")
-    print(f"Max cases      : {MAX_CASES_TO_RUN}")
-    print(f"Case count     : {len(case_names)}")
-    print(f"Cases          : {case_names}")
-
-    # -------------------------------------------------------------------
-    # 3. Run all selected cases
-    # -------------------------------------------------------------------
-    for idx, case_name in enumerate(case_names, start=1):
-        print(f"\n[RUN] ({idx}/{len(case_names)}) case={case_name}")
+    config = load_config(CONFIG_PATH)
+    cases = resolve_cases(config)
+    model_runner = build_model_runner(config["model"])
+    diagnosis = config["diagnosis"]
+    print(
+        f"[PLAN] system={diagnosis['system']} category={diagnosis['fault_category']} "
+        f"cases={len(cases)} model={config['model']['model']} "
+        f"save_root={diagnosis['save_root']}",
+        flush=True,
+    )
+    for index, case_path in enumerate(cases, 1):
+        print(f"[RUN] {index}/{len(cases)} case={case_path.name}", flush=True)
         try:
-            run_single_case(
-                case_name=case_name,
-                workspace_path=str(workspace_path),
-                save_path=str(save_path),
-                fault_category=fault_category,
-                model_name=model_name,
-                max_iterations=max_iterations,
-                llm_conf=llm_conf,
-            )
-        except Exception as e:
-            print(f"[ERROR] case={case_name} failed: {e}")
+            run_case(config, case_path, model_runner)
+        except Exception as exc:
+            print(f"[ERROR] case={case_path.name} {type(exc).__name__}: {exc}", flush=True)
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("\nInterrupted by user.", file=sys.stderr)
-        sys.exit(130)
-    except Exception as e:
-        print(f"\nFatal error: {e}", file=sys.stderr)
-        sys.exit(1)
+    main()

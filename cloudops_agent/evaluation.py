@@ -12,10 +12,9 @@ except ModuleNotFoundError:
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent
-REPO_ROOT = PROJECT_ROOT.parent
 CONFIG_PATH = PROJECT_ROOT / "configs" / "model_configs.yaml"
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 METRIC_DISPLAY_NAMES = {
     "CA": "Component Accuracy",
@@ -30,8 +29,8 @@ METRIC_DISPLAY_NAMES = {
     "invalid_actions": "Average Invalid Actions per Case",
 }
 
-from cloudops_agent.evaluation_utils.evaluator import evaluate_trajectory  # noqa: E402
-from cloudops_agent.evaluation_utils.schema import CaseAnnotation, ToolCall, TrajectoryStep  # noqa: E402
+from evaluation_utils.evaluator import evaluate_trajectory  # noqa: E402
+from evaluation_utils.schema import CaseAnnotation, ToolCall, TrajectoryStep  # noqa: E402
 
 
 def normalize_system_name(system: str) -> str:

@@ -1,15 +1,19 @@
 model:
   model: ""
   provider: openai_compatible
-  api_base: "" 
-  api_key: ""  
+  api_base: ""
+  api_key: ""
   temperature: 0
   max_tokens: 4096
   timeout: 60
+  # Provider-specific and optional. For Qwen, uncomment when needed:
+  # enable_thinking: false
 
 diagnosis:
   max_iterations: 20
-  system: "boutique" # ["trainticket","boutique"]
-  fault_category: "codedefect" # ["service",'admission','startup','runtime','performance','scheduling','infrastructure','codedefect']
-  dataset_root: "/root/Cloud-OpsBench" # file root:Cloud-OpsBench
-  save_root: "/root/trajectory/"  # save diagnosis trajectory and results
+  system: "boutique" # ["trainticket", "boutique"]
+  fault_category: "codedefect" # ["service", "admission", "startup", "runtime", "performance", "scheduling", "infrastructure", "codedefect"]
+  # Optional: set one case id such as "1"; leave empty to run the full category.
+  case_name: ""
+  dataset_root: "/root/Cloud-OpsBench"
+  save_root: "/root/trajectory/"
