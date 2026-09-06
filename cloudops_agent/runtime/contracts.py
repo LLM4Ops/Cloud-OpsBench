@@ -131,8 +131,8 @@ def build_expected_output(system: str = "train-ticket") -> str:
     valid_namespaces = SYSTEM_VALID_NAMESPACES[system_key]
 
     return f"""
-A final diagnostic report in **strict JSON format**.
-Your response MUST NOT contain any text before or after the JSON block.
+A final diagnostic report submitted through the explicit `Submit` action.
+The `Submit` Action Input MUST be the strict JSON object below.
 
 ### DIAGNOSTIC TASK ###
 Based on the analyzed evidence, your **primary goal (Main Task)** is to identify the **most likely diagnosis** of the incident, which strictly consists of identifying both the **root cause** and the **victim object**.
@@ -203,30 +203,3 @@ Format: `Kind/Name` (e.g., `node/worker-01`).
 
 
 expected_output = build_expected_output("train-ticket")
-
-agent_prompt = """
-You are a professional Kubernetes operations engineer with extensive experience in systematic troubleshooting. 
-**Your Goal:** Diagnose the root cause of the reported issue based on factual evidence collected from the system.
-
-**Instructions:**
-1. You have access to a set of diagnostic tools. You must independently decide which tools to use and the execution order based on your findings.
-2. Do NOT guess or assume the system state. Your Rank-1 conclusion must be backed by concrete output from a tool; Rank 2 and Rank 3 should be plausible alternatives consistent with the collected evidence.
-3. If a tool returns no anomalies, discard that hypothesis and pivot to a different investigation path. Do not speculate without proof.
-4. Provide a clear reasoning chain that connects the initial symptom to the final root cause, supported by the evidence you collected.
-
-**Important Constraints:**
-- This benchmark scenario contains **one and only one primary fault**.
-- Find the root cause with the minimum number of steps.
-- Limit your internal reasoning to a few concise sentences. Then, IMMEDIATELY output the tool execution.
-- Focus ONLY on deciding the immediate next step based on current evidence.
-
-**CRITICAL SYNTAX RULES:**
-1. **Empty Parameters:** If a tool (like `GetClusterConfiguration` or `GetAlerts`) does not require any parameters, you **MUST** provide an empty JSON dictionary as the input.
-  * **CORRECT:**
-  Action: GetClusterConfiguration
-  Action Input: {}
-
-2. The "Action Input" field is mandatory for every tool call.
-
-Begin your investigation now.
-"""
