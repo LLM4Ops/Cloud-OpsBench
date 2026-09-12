@@ -16,6 +16,7 @@ from harness.harness import CloudOpsHarness
 from runtime.contracts import build_expected_output
 from runtime.core import OutputParser, ToolExecutor, TraceLogger, init_case_state, load_config
 from runtime.llm import ModelRunner
+from runtime.skills import SymptomDagRegistry
 from tools.cloudops import build_tool_registry, create_k8s_tools, render_tools_description
 
 
@@ -75,7 +76,12 @@ def is_complete(path: Path) -> bool:
     return trace.get("stop_reason") in {"submit", "max_steps"}
 
 
-def run_case(config: Dict[str, Any], case_path: Path, model_runner: ModelRunner) -> None:
+def run_case(
+    config: Dict[str, Any],
+    case_path: Path,
+    model_runner: ModelRunner,
+    symptom_registry: SymptomDagRegistry,
+) -> None:
     model = config["model"]
     diagnosis = config["diagnosis"]
     system = diagnosis["system"]
@@ -97,11 +103,12 @@ def run_case(config: Dict[str, Any], case_path: Path, model_runner: ModelRunner)
     namespace = str(metadata.get("namespace") or DEFAULT_NAMESPACE[system])
     query = str(metadata.get("query") or "")
     tool_system = TOOL_SYSTEM[system]
-    registry = build_tool_registry(
+    tool_registry = build_tool_registry(
         create_k8s_tools(str(case_path), system=tool_system, fault_category=category)
     )
-    context = ContextBuilder(
-        tools_description=render_tools_description(registry),
+    context = ContextBuilder.from_system_prompt(
+        tools_description=render_tools_description(tool_registry),
+        symptom_registry=symptom_registry,
         expected_output=build_expected_output(tool_system),
     )
     state = init_case_state(
@@ -123,11 +130,12 @@ def run_case(config: Dict[str, Any], case_path: Path, model_runner: ModelRunner)
     )
     logger = TraceLogger(trace_dir)
     final = CloudOpsHarness(
-        context_builder=context,
+        prompt_builder=context,
         model_runner=model_runner,
         output_parser=OutputParser(),
-        tool_executor=ToolExecutor(registry),
+        tool_executor=ToolExecutor(tool_registry),
         trace_logger=logger,
+        symptom_registry=symptom_registry,
     ).run_case(state)
     (trace_dir / "result_raw.json").write_text(
         json.dumps(
@@ -154,6 +162,10 @@ def main() -> None:
     cases = resolve_cases(config)
     model_runner = build_model_runner(config["model"])
     diagnosis = config["diagnosis"]
+    symptom_registry = SymptomDagRegistry.load(
+        PROJECT_ROOT / "harness" / "skills" / diagnosis["system"],
+        expected_system=diagnosis["system"],
+    )
     print(
         f"[PLAN] system={diagnosis['system']} category={diagnosis['fault_category']} "
         f"cases={len(cases)} model={config['model']['model']} "
@@ -163,7 +175,7 @@ def main() -> None:
     for index, case_path in enumerate(cases, 1):
         print(f"[RUN] {index}/{len(cases)} case={case_path.name}", flush=True)
         try:
-            run_case(config, case_path, model_runner)
+            run_case(config, case_path, model_runner, symptom_registry)
         except Exception as exc:
             print(f"[ERROR] case={case_path.name} {type(exc).__name__}: {exc}", flush=True)
 

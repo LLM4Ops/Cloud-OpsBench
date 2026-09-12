@@ -81,6 +81,8 @@ class CaseState:
     stop_reason: Optional[str] = None
     history: List[StepRecord] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
+    active_symptom_id: Optional[str] = None
+    symptom_selection_history: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -94,6 +96,8 @@ class CaseState:
             "final_answer": self.final_answer,
             "stop_reason": self.stop_reason,
             "metadata": self.metadata,
+            "active_symptom_id": self.active_symptom_id,
+            "symptom_selection_history": list(self.symptom_selection_history),
             "steps": [step.to_dict() for step in self.history],
         }
 
