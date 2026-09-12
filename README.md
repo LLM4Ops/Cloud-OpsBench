@@ -35,8 +35,12 @@ Cloud-OpsBench/
 ├── golden-trajectory/
 │   ├── boutique/
 │   └── trainticket/
-├── cloudops_agent/
-│   └── evaluation_utils/
+├── agents/
+│   ├── cloudops_agent/
+│   │   └── evaluation_utils/
+│   └── cloudops_skill_agent/
+│       ├── evaluation_utils/
+│       └── harness/skills/
 └── resource/
 ```
 
@@ -116,7 +120,8 @@ process-label/<system>/<fault_category>/<case_id>/
 
 Each file specifies the diagnostic milestones, admissible supporting evidence, and any required ordering between milestones. An agent receives process credit by establishing the corresponding milestones during its diagnostic trajectory.
 
-The matching and process-scoring implementation is provided in `cloudops_agent/evaluation_utils/`.
+The matching and process-scoring implementation is included independently in
+each agent under `agents/<agent_name>/evaluation_utils/`.
 
 ## Auxiliary Expert Trajectories
 
@@ -136,17 +141,31 @@ We provide a demo that you can directly interact with fault cases in Cloud-OpsBe
 python interact.py
 ```
 
-## Running the ReAct Agent
+## Running the ReAct Agents
 
-The repository includes a lightweight ReAct-style diagnostic agent under `cloudops_agent/`. It provides a single base prompt; researchers can define and integrate their own prompting methods as needed.
+The repository provides two independent, self-contained ReAct agents:
+
+- `agents/cloudops_agent/`: the Skill-free baseline agent.
+- `agents/cloudops_skill_agent/`: the Skill-enabled agent with a symptom
+  catalog, the internal `SelectSymptom` action, and on-demand Diagnostic Graph
+  Skill injection.
+
+The directories do not import from or link to each other. Each contains its own
+configuration, runtime, tools, output contract, and evaluation implementation,
+so additional agent variants can be added under `agents/` in the same way.
+Use a different `diagnosis.save_root` for each variant when running comparative
+experiments so their trajectories do not share an output directory.
 
 ### 1. Configure the Agent
 
 Edit:
 
 ```text
-cloudops_agent/configs/model_configs.yaml
+agents/cloudops_agent/configs/model_configs.yaml
 ```
+
+For the Skill-enabled variant, edit
+`agents/cloudops_skill_agent/configs/model_configs.yaml` instead.
 
 Minimal fields to set:
 
@@ -178,7 +197,14 @@ Notes:
 ### 2. Run the Agent
 
 ```bash
-cd cloudops_agent
+cd agents/cloudops_agent
+python run.py
+```
+
+To run the Skill-enabled agent:
+
+```bash
+cd agents/cloudops_skill_agent
 python run.py
 ```
 
@@ -193,11 +219,15 @@ The agent will read `configs/model_configs.yaml`, load cases from `benchmark/<sy
 After running the agent, you can directly evaluate the generated trajectories and diagnosis results with:
 
 ```bash
-cd cloudops_agent
+cd agents/cloudops_agent
 python evaluation.py
 ```
 
 `evaluation.py` reads the same `configs/model_configs.yaml`, automatically locates the corresponding benchmark cases and generated outputs, and then reports the evaluation metrics.
+
+Run `python evaluation.py` from `agents/cloudops_skill_agent/` to evaluate the
+Skill-enabled agent. The two agents use the same outcome and process metrics,
+but keep separate evaluator copies to remain self-contained.
 
 ## Supported Diagnostic Tools
 
