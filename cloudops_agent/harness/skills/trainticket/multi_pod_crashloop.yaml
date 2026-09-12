@@ -1,0 +1,60 @@
+schema_version: 1
+system: trainticket
+symptom_id: multi_pod_crashloop
+description: Multiple TrainTicket service pods show crash, error, or repeated restart states at the same time.
+signals:
+- multiple TrainTicket service pods are in CrashLoopBackOff, Error, or repeated startup failure
+- many pods have elevated restart counts
+- alerts affect several unrelated business services at once
+- abnormal pods belong to more than one TrainTicket service
+- the issue is visible from pod listings before inspecting service-specific configuration
+entry:
+- runtime.locate_multi_service_crashloop_scope
+nodes:
+  runtime.locate_multi_service_crashloop_scope:
+    goal: Detect a wide CrashLoopBackOff pattern across multiple TrainTicket services, which suggests a shared backend dependency rather than an isolated application configuration error.
+    actions:
+    - tool: GetResources
+      args:
+        resource_type: pods
+        namespace: <namespace>
+    evidence:
+    - pod_health_baseline
+    - affected_workloads
+    - crash_loop_backoff_pods
+    - multi_service_crashloop_detected
+    - shared_dependency_suspected
+    next:
+    - runtime.inspect_representative_db_connection_crash
+  runtime.inspect_representative_db_connection_crash:
+    goal: Inspect a representative crashing service log to classify whether the shared crash pattern is caused by database connection exhaustion.
+    actions:
+    - tool: GetErrorLogs
+      args:
+        namespace: <namespace>
+        service_name: <affected_service>
+    evidence:
+    - pod_state_details
+    - application_error_logs
+    - crash_reason
+    - db_connection_exhaustion
+    - connection_pool_exhausted
+    - too_many_connections
+    - pod_exit_error_code_1_no_root_cause
+    next:
+    - runtime.verify_mysql_backend_for_connection_exhaustion
+  runtime.verify_mysql_backend_for_connection_exhaustion:
+    goal: Check MySQL pod health and database logs after many services crash with connection pool failures, confirming that the symptom is caused by connection exhaustion rather than a missing database.
+    actions:
+    - tool: GetResources
+      args:
+        resource_type: pods
+        namespace: <namespace>
+        name: <mysql_workload>
+    evidence:
+    - database_pod_status
+    - database_log_status
+    - database_operational
+    - connection_limit_exceeded
+    - root_cause_confirmation
+    next: []

@@ -1,0 +1,76 @@
+schema_version: 1
+system: trainticket
+symptom_id: service_latency_degradation
+description: One or more TrainTicket services show sustained latency degradation or throughput drop.
+signals:
+- alerts report LATENCY_DEGRADATION for TrainTicket services
+- p50 or p90 latency increases sharply compared with normal baseline
+- throughput drops for one latency candidate service
+- multiple services may show degraded latency at the same time
+- affected pods may still appear Running and Ready
+entry:
+- performance.interpret_latency_degradation_alerts
+nodes:
+  performance.interpret_latency_degradation_alerts:
+    goal: Inspect performance alerts to identify whether latency degradation has a dominant anomalous service or a widespread systemic scope, using only alert evidence and service-topology reasoning available at the beginning of the investigation.
+    actions:
+    - tool: GetAlerts
+      args:
+        namespace: <namespace>
+    evidence:
+    - performance_alert_summary
+    - latency_delta_ranked_services
+    - throughput_drop_signals
+    - dominant_latency_service
+    - candidate_latency_root_service
+    - widespread_degradation_scope
+    - upstream_candidate_preferred_when_widespread
+    - dominant_latency_service_identified
+    - widespread_degradation_observed
+    next:
+    - performance.verify_latency_pod_surface_health
+  performance.verify_latency_pod_surface_health:
+    goal: Verify pod surface health to exclude pod crashes, restarts, readiness failures, or obvious missing backend symptoms before attributing latency degradation to pod network delay.
+    actions:
+    - tool: GetResources
+      args:
+        resource_type: pods
+        namespace: <namespace>
+        output_wide: true
+    evidence:
+    - pod_surface_health
+    - no_recent_restarts
+    - pod_surface_health_confirmed
+    next:
+    - performance.exclude_latency_application_errors
+  performance.exclude_latency_application_errors:
+    goal: Exclude application-level errors by inspecting error logs for the anomalous service selected from latency alerts.
+    actions:
+    - tool: GetErrorLogs
+      args:
+        namespace: <namespace>
+        service_name: <dominant_latency_service>
+    evidence:
+    - application_error_status
+    - error_logs_empty
+    - application_errors_excluded
+    next:
+    - performance.attribute_pod_network_delay_by_exclusion
+  performance.attribute_pod_network_delay_by_exclusion:
+    goal: Confirm root cause pod_network_delay by inspecting recent application logs for normal internal processing despite externally observed latency degradation, after pod health and application errors have been excluded. This is an exclusion-based attribution because chaosblade-injected pod network delay leaves no durable configuration artifact. The terminal root cause label emitted by this atom is pod_network_delay.
+    actions:
+    - tool: GetRecentLogs
+      args:
+        namespace: <namespace>
+        service_name: <dominant_latency_service>
+    evidence:
+    - recent_log_analysis
+    - internal_processing_vs_external_latency_discrepancy
+    - pod_surface_health_confirmed
+    - application_errors_excluded
+    - no_direct_delay_artifact_expected
+    - exclusion_based_network_delay_attribution
+    - pod_network_delay_attribution
+    - root_cause_pod_network_delay
+    - root_cause_confirmation
+    next: []

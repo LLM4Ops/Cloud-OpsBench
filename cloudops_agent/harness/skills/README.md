@@ -1,16 +1,13 @@
-# Optional Skills Extension
+# Diagnostic Graph Skills
 
-This directory is reserved for optional diagnostic skills.
+The Skill-enabled harness loads the YAML files under the configured system
+directory at startup.
 
-The current CloudOps agent is a **Skill-free ReAct baseline**. Its runtime does
-not scan, load, select, or inject files from this directory, so adding this
-directory does not change the agent's current behavior.
+The model first sees a compact symptom catalog. Calling the internal
+`SelectSymptom` action with an exact `symptom_id` activates that Skill, and its
+complete diagnostic graph is included in subsequent prompts. A later
+`SelectSymptom` call replaces the active Skill.
 
-Projects that want to add skills should define their own:
-
-- skill format and validation rules;
-- skill loader;
-- skill selection or routing mechanism;
-- context-injection policy;
-
-Simply placing a file in this directory does not enable it at runtime.
+Each system directory contains self-contained schema-version-1 YAML Skills.
+The runtime validates their keys, graph edges, actions and system identifier
+before any case is run.
