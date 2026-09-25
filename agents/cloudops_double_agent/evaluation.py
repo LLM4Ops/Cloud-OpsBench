@@ -449,6 +449,11 @@ def evaluate_case(case_name: str, label_root: Path, agent_root: Path) -> Dict[st
     invalid_count, invalid_details = invalid_tool_actions(case_data)
     prediction_metrics = prediction_scores(predictions, gt)
     disable_getalerts_credit = label_root.name == "performance" and prediction_metrics["CA"] < 1.0
+    steps = case_data.get("steps", [])
+    n_steps = 0
+    if steps:
+        n_steps = steps[-1].get("step_id", 0)
+    
     metrics = {
         **prediction_metrics,
         **process_scores(
@@ -457,7 +462,8 @@ def evaluate_case(case_name: str, label_root: Path, agent_root: Path) -> Dict[st
             case_data,
             disable_getalerts_credit=disable_getalerts_credit,
         ),
-        "steps": float(tool_call_count + final_answer_count),
+        "steps": n_steps,
+        # "steps": float(tool_call_count + final_answer_count),
         "RAR": redundant_action_rate(tool_steps),
         "invalid_actions": float(invalid_count),
     }
