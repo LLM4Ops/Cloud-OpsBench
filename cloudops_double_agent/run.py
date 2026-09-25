@@ -13,7 +13,8 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from harness.context import ContextBuilder
 from harness.harness import CloudOpsHarness
-from runtime.contracts import build_expected_output
+from harness.context_double_agent import DoubleAgentContextBuilder
+from harness.double_agent import DoubleAgentHarness
 from runtime.core import OutputParser, ToolExecutor, TraceLogger, init_case_state, load_config
 from runtime.llm import ModelRunner
 from tools.cloudops import build_tool_registry, create_k8s_tools, render_tools_description
@@ -100,9 +101,9 @@ def run_case(config: Dict[str, Any], case_path: Path, model_runner: ModelRunner)
     registry = build_tool_registry(
         create_k8s_tools(str(case_path), system=tool_system, fault_category=category)
     )
-    context = ContextBuilder(
+    context = DoubleAgentContextBuilder(
         tools_description=render_tools_description(registry),
-        expected_output=build_expected_output(tool_system),
+        system=tool_system
     )
     state = init_case_state(
         case_id=case_id,
@@ -122,7 +123,7 @@ def run_case(config: Dict[str, Any], case_path: Path, model_runner: ModelRunner)
         },
     )
     logger = TraceLogger(trace_dir)
-    final = CloudOpsHarness(
+    final = DoubleAgentHarness(
         context_builder=context,
         model_runner=model_runner,
         output_parser=OutputParser(),
