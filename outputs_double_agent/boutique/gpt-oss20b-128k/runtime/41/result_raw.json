@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"Currencyservice pod is running but not ready; readinessProbe gRPC port set to 7001 while the container only listens on 7000, causing readiness failure.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/currencyservice\", \"root_cause\": \"readiness_probe_incorrect_port\"}, {\"rank\": 2, \"fault_object\": \"app/currencyservice\", \"root_cause\": \"readiness_probe_incorrect_protocol\"}, {\"rank\": 3, \"fault_object\": \"app/currencyservice\", \"root_cause\": \"missing_service_account\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 6
-}

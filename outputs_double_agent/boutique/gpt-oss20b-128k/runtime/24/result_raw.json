@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"checkoutservice pod remains pending with status ContainerCreating. Describe shows event \\\"FailedCreatePodSandBox\\\" caused by \\\"container init was OOM‑killed (memory limit too low?)\\\".\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/checkoutservice\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 2, \"fault_object\": \"app/checkoutservice\", \"root_cause\": \"incorrect_image_reference\"}, {\"rank\": 3, \"fault_object\": \"node/worker-03\", \"root_cause\": \"containerd_unavailable\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 8
-}

@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"productcatalogservice pod is pending with reason 'FailedCreatePodSandBox' and OOM-killed container init; memory limits are 5Mi which is insufficient for the image, leading to pod failure and partial service unreachability.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 2, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"pod_cpu_overload\"}, {\"rank\": 3, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"pvc_selector_mismatch\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 7
-}

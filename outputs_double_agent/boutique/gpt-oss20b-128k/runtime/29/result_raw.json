@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"redis-cart pod is Pending and the DescribeResource event shows a FailedCreatePodSandbox with an OOM‑killed init because the container’s memory limit is only 5 Mi, preventing the pod from becoming ready and causing downstream services to be partially unreachable.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/redis-cart\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 2, \"fault_object\": \"app/frontend\", \"root_cause\": \"service_selector_mismatch\"}, {\"rank\": 3, \"fault_object\": \"app/frontend\", \"root_cause\": \"service_port_mapping_mismatch\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 12
-}

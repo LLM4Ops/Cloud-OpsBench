@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"The paymentservice pod is in ContainerCreating state and events show an OOM-killed error during container init, indicating the container memory limit (5Mi) is too low for the application to start. This prevents the pod from becoming ready, causing the paymentservice service to have no healthy endpoints and thus be unreachable.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 2, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"service_selector_mismatch\"}, {\"rank\": 3, \"fault_object\": \"node/worker-03\", \"root_cause\": \"node_network_packet_loss\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 6
-}

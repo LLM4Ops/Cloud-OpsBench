@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"recommendationservice pod is restarting repeatedly; describe shows liveness/probes failing, container exited with code 137 (OOM kill). Memory limits are 128Mi but the process likely exceeds this, causing OOM and probe failures.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/recommendationservice\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 2, \"fault_object\": \"app/recommendationservice\", \"root_cause\": \"code_memory_leak\"}, {\"rank\": 3, \"fault_object\": \"app/recommendationservice\", \"root_cause\": \"pod_cpu_overload\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 8
-}

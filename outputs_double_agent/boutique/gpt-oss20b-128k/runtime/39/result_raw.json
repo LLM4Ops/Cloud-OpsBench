@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"adservice pod’s readiness probe is configured to use port 9556, which does not exist in the container; DescribeResource shows repeated readiness probe failures.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/adservice\", \"root_cause\": \"readiness_probe_incorrect_port\"}, {\"rank\": 2, \"fault_object\": \"app/adservice\", \"root_cause\": \"readiness_probe_incorrect_protocol\"}, {\"rank\": 3, \"fault_object\": \"app/emailservice\", \"root_cause\": \"service_port_mapping_mismatch\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 15
-}

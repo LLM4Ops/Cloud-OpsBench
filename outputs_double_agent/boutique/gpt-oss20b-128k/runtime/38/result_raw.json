@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"Shippingservice pod is running with 0 restarts but Ready: False; readiness probe failed with HTTP GET on gRPC port 50051, indicating a protocol mismatch.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/shippingservice\", \"root_cause\": \"readiness_probe_incorrect_protocol\"}, {\"rank\": 2, \"fault_object\": \"app/shippingservice\", \"root_cause\": \"service_selector_mismatch\"}, {\"rank\": 3, \"fault_object\": \"app/shippingservice\", \"root_cause\": \"code_wrong_return\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 15
-}

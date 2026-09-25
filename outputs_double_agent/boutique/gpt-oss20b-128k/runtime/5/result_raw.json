@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"paymentservice pod has 2 restarts. Describe shows liveness probe is HTTP GET on port 50051 (a gRPC service). Probe fails with malformed HTTP response, kubelet kills the container (exit 137). Deployment YAML confirms incorrect liveness probe protocol.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"liveness_probe_incorrect_protocol\"}, {\"rank\": 2, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 3, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"liveness_probe_incorrect_timing\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 9
-}

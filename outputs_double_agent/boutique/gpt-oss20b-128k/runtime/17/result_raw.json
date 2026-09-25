@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"adservice pod repeatedly restarts due to liveness probe failures: kubelet reports timeout on gRPC port 9555 within 1s. Probe configuration matches service port and protocol, indicating the timeout is too short for the container startup, leading to CrashLoopBackOff.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/adservice\", \"root_cause\": \"liveness_probe_incorrect_timing\"}, {\"rank\": 2, \"fault_object\": \"app/adservice\", \"root_cause\": \"readiness_probe_incorrect_timing\"}, {\"rank\": 3, \"fault_object\": \"app/adservice\", \"root_cause\": \"liveness_probe_incorrect_timing\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 12
-}

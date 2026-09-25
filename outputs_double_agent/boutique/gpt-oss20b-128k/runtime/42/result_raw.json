@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"Emailservice pod is not ready (0/1) due to a readiness probe that targets port 8081, while the container only listens on 8080. This probe failure causes repeated recovery attempts and manifests as an abnormal restart symptom.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/emailservice\", \"root_cause\": \"readiness_probe_incorrect_port\"}, {\"rank\": 2, \"fault_object\": \"app/emailservice\", \"root_cause\": \"liveness_probe_incorrect_port\"}, {\"rank\": 3, \"fault_object\": \"app/emailservice\", \"root_cause\": \"service_selector_mismatch\"}]}",
-  "finished": true,
-  "stop_reason": "max_steps",
-  "steps_used": 20
-}

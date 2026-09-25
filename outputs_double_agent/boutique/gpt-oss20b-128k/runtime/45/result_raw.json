@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"Shippingservice pod has a readiness probe configured to connect to port 50052, but the container only exposes port 50051. The probe fails with a timeout, leaving the pod unready. This misconfiguration is the primary fault causing the service to appear abnormal.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/shippingservice\", \"root_cause\": \"readiness_probe_incorrect_port\"}, {\"rank\": 2, \"fault_object\": \"app/shippingservice\", \"root_cause\": \"service_port_mapping_mismatch\"}, {\"rank\": 3, \"fault_object\": \"node/worker-01\", \"root_cause\": \"node_network_packet_loss\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 7
-}

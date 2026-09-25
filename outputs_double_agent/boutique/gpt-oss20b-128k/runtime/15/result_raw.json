@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"recommendationservice pod has 2 restarts due to liveness probe failures on port 8081; container only exposes port 8080, causing a timeout.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/recommendationservice\", \"root_cause\": \"liveness_probe_incorrect_port\"}, {\"rank\": 2, \"fault_object\": \"app/recommendationservice\", \"root_cause\": \"pod_network_delay\"}, {\"rank\": 3, \"fault_object\": \"app/recommendationservice\", \"root_cause\": \"code_artificial_delay\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 7
-}

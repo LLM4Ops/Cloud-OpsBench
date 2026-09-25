@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"adservice pod is stuck in ContainerCreating. Describe shows a FailedCreatePodSandBox event where the container init was OOM‑killed due to the 5Mi memory limit/ request being too low for the image init process.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/adservice\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 2, \"fault_object\": \"app/adservice\", \"root_cause\": \"pod_cpu_overload\"}, {\"rank\": 3, \"fault_object\": \"node/worker-01\", \"root_cause\": \"containerd_unavailable\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 6
-}

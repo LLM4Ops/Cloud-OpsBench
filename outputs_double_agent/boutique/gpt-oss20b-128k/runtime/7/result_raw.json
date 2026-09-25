@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"recommendationservice pod terminated with exit code 137 (OOM) and restarted twice; liveness probe fails due to malformed HTTP response; pod memory limit is 450Mi while requests indicate higher usage.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/recommendationservice\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 2, \"fault_object\": \"app/recommendationservice\", \"root_cause\": \"pod_memory_overload\"}, {\"rank\": 3, \"fault_object\": \"app/recommendationservice\", \"root_cause\": \"liveness_probe_incorrect_port\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 7
-}

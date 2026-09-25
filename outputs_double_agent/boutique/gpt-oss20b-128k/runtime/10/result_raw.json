@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"DescribeResource for checkoutservice pod shows the liveness probe is configured to gRPC on <pod>:5051 while the container listens on port 5050. The kubelet event log records repeated \\\"Liveness probe failed: timeout\\\" messages, leading to container restarts. No other pods are restarting, and image pull succeeded.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/checkoutservice\", \"root_cause\": \"liveness_probe_incorrect_port\"}, {\"rank\": 2, \"fault_object\": \"app/checkoutservice\", \"root_cause\": \"liveness_probe_incorrect_timing\"}, {\"rank\": 3, \"fault_object\": \"node/worker-02\", \"root_cause\": \"node_network_delay\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 9
-}

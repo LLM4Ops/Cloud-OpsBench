@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"Emailservice pod shows two restarts with liveness probe failures on port 8081 (grpc). The container only exposes port 8080, causing the probe to fail and trigger restarts.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/emailservice\", \"root_cause\": \"liveness_probe_incorrect_port\"}, {\"rank\": 2, \"fault_object\": \"app/emailservice\", \"root_cause\": \"liveness_probe_incorrect_timing\"}, {\"rank\": 3, \"fault_object\": \"app/emailservice\", \"root_cause\": \"pod_cpu_overload\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 13
-}

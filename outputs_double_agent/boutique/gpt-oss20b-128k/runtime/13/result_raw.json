@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"Paymentservice pod has a liveness probe configured to port 50052, but the container exposes only port 50051. Events show repeated probe failures and container restarts triggered by the probe, indicating the mis‑configuration is the root cause.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"liveness_probe_incorrect_port\"}, {\"rank\": 2, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"liveness_probe_incorrect_protocol\"}, {\"rank\": 3, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"code_artificial_delay\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 6
-}

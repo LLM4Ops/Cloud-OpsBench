@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"Pod productcatalogservice shows 3 restarts with a liveness probe failure: \\\"Liveness probe failed: Get \\\"http://172.20.2.192:3550/\\\": net/http: HTTP/1.x transport connection broken: malformed HTTP response...\\\". The liveness probe uses http-get, but the service exposes a gRPC endpoint. This protocol mismatch causes the probe to fail and Kubernetes to restart the container.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"liveness_probe_incorrect_protocol\"}, {\"rank\": 2, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"liveness_probe_incorrect_port\"}, {\"rank\": 3, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"pod_anti_affinity_conflict\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 7
-}

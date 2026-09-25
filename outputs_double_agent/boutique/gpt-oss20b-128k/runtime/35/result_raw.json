@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"paymentservice pod is running (container start logs show server started), but readiness probe is configured as HTTP get on port 50051 while the container exposes a gRPC service. The pod logs show repeated readiness failures with malformed HTTP responses, and no liveness failures or restarts yet. This protocol mismatch explains the abnormal service behavior.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"readiness_probe_incorrect_protocol\"}, {\"rank\": 2, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"readiness_probe_incorrect_port\"}, {\"rank\": 3, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"liveness_probe_incorrect_protocol\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 10
-}

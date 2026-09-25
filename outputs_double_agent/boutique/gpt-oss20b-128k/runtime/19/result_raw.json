@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"emailservice pod is in CrashLoopBackOff with exit code 137 (SIGKILL). The pod has a 128Mi memory limit; OOM kill is the most likely cause of the crash. Liveness probe failures align with the pod being terminated.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/emailservice\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 2, \"fault_object\": \"app/emailservice\", \"root_cause\": \"liveness_probe_incorrect_timing\"}, {\"rank\": 3, \"fault_object\": \"app/emailservice\", \"root_cause\": \"pod_cpu_overload\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 7
-}

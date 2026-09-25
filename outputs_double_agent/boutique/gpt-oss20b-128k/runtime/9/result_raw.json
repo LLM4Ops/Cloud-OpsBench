@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"Adservice pod has 2 restarts due to liveness probe failures: probe uses grpc on 8080 while the container listens on 9555, leading to timeouts and container restarts.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/adservice\", \"root_cause\": \"liveness_probe_incorrect_port\"}, {\"rank\": 2, \"fault_object\": \"app/adservice\", \"root_cause\": \"liveness_probe_incorrect_timing\"}, {\"rank\": 3, \"fault_object\": \"app/adservice\", \"root_cause\": \"code_busy_loop\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 5
-}

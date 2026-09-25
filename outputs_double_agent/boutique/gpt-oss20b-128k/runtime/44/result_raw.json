@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"Recommendationservice deployment defines a livenessProbe that uses gRPC on port 8080, but the container logs indicate it listens for HTTP on the same port. This protocol mismatch leads to liveness probe failures and pod restarts, explaining the abnormal service restart.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/recommendationservice\", \"root_cause\": \"liveness_probe_incorrect_protocol\"}, {\"rank\": 2, \"fault_object\": \"app/recommendationservice\", \"root_cause\": \"readiness_probe_incorrect_port\"}, {\"rank\": 3, \"fault_object\": \"app/recommendationservice\", \"root_cause\": \"liveness_probe_incorrect_port\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 10
-}

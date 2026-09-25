@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"shippingservice pod has multiple restarts; events show liveness probe failures on port 50052 while the container listens on 50051. The probe uses gRPC. This port mismatch causes repeated restarts.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/shippingservice\", \"root_cause\": \"liveness_probe_incorrect_port\"}, {\"rank\": 2, \"fault_object\": \"app/shippingservice\", \"root_cause\": \"liveness_probe_incorrect_protocol\"}, {\"rank\": 3, \"fault_object\": \"app/shippingservice\", \"root_cause\": \"pod_network_delay\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 9
-}

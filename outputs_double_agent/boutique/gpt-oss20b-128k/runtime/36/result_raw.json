@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"productcatalogservice pod is Running but Ready=false; liveness uses grpc (ok), readiness uses http-get which fails with malformed HTTP response, indicating readiness_probe_incorrect_protocol.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"readiness_probe_incorrect_protocol\"}, {\"rank\": 2, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"service_selector_mismatch\"}, {\"rank\": 3, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"liveness_probe_incorrect_protocol\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 12
-}

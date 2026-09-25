@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"checkoutservice pod has restart count 3, last state terminated exit code 2; description shows HTTP GET liveness probe to / on port 5050 failing with malformed response, while the service is gRPC-only.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/checkoutservice\", \"root_cause\": \"liveness_probe_incorrect_protocol\"}, {\"rank\": 2, \"fault_object\": \"app/checkoutservice\", \"root_cause\": \"readiness_probe_incorrect_grpc\"}, {\"rank\": 3, \"fault_object\": \"app/checkoutservice\", \"root_cause\": \"container_memory_limit_too_low\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 12
-}

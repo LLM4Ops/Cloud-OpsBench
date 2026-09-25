@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"paymentservice pod restarts 3× triggered by kubelet liveness probe failures (timeout 1s). No OOM or memory‑limit evidence; probe timing too aggressive.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"liveness_probe_incorrect_timing\"}, {\"rank\": 2, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 3, \"fault_object\": \"app/paymentservice\", \"root_cause\": \"pod_cpu_overload\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 10
-}

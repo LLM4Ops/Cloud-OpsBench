@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"emailservice pod stuck in ContainerCreating; describe shows FailedCreatePodSandBox with OOM‑killed during init and memory limit 5Mi, matching event log. This is the sole fault causing service disruption.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/emailservice\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 2, \"fault_object\": \"node/worker-03\", \"root_cause\": \"memory_capacity_mismatch\"}, {\"rank\": 3, \"fault_object\": \"app/emailservice\", \"root_cause\": \"pod_cpu_overload\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 7
-}

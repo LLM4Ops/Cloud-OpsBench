@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"Emailservice pod has 2 restarts; container terminated with exit code 137 (OOM kill). Liveness probe failures recorded. Memory limits set to 128MiB, which is insufficient for the service’s runtime memory usage.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/emailservice\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 2, \"fault_object\": \"app/emailservice\", \"root_cause\": \"pod_cpu_overload\"}, {\"rank\": 3, \"fault_object\": \"app/emailservice\", \"root_cause\": \"code_memory_leak\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 8
-}

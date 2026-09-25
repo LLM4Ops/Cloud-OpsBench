@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"Currencyservice pod restarts; describe shows Liveness probe failures (malformed HTTP response) causing kubelet to kill the container. Probe uses HTTP GET on gRPC port 7000, mismatched protocol.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/currencyservice\", \"root_cause\": \"liveness_probe_incorrect_protocol\"}, {\"rank\": 2, \"fault_object\": \"app/currencyservice\", \"root_cause\": \"readiness_probe_incorrect_protocol\"}, {\"rank\": 3, \"fault_object\": \"app/currencyservice\", \"root_cause\": \"pod_cpu_overload\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 7
-}

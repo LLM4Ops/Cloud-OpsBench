@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"currencyservice pod restarts 5 times due to repeated liveness/readiness probe timeouts (context deadline exceeded). The probes use grpc on port 7000 with 1 s timeout, which is too short, causing kubelet to kill the container (exit 137). No memory or CPU over‑limit issues observed.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/currencyservice\", \"root_cause\": \"liveness_probe_incorrect_timing\"}, {\"rank\": 2, \"fault_object\": \"app/currencyservice\", \"root_cause\": \"liveness_probe_incorrect_port\"}, {\"rank\": 3, \"fault_object\": \"app/currencyservice\", \"root_cause\": \"container_memory_limit_too_low\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 12
-}

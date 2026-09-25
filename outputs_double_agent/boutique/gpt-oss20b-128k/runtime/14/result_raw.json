@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"productcatalogservice pod has 3 restarts triggered by liveness probe failures. Probe uses gRPC on port 3551, but the container only listens on 3550. Pod’s container terminated with exit code 2. No other pods or services show restarts, confirming the fault is confined to productcatalogservice.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"liveness_probe_incorrect_port\"}, {\"rank\": 2, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"liveness_probe_incorrect_protocol\"}, {\"rank\": 3, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"code_wrong_return\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 6
-}

@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"adservice pod is in ContainerCreating; describe shows \\\"FailedCreatePodSandBox\\\" event with OOM‑killed due to memory limit too low (5Mi). No other pods show similar errors, indicating a per‑app configuration issue.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/adservice\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 2, \"fault_object\": \"app/adservice\", \"root_cause\": \"image_registry_dns_failure\"}, {\"rank\": 3, \"fault_object\": \"app/adservice\", \"root_cause\": \"incorrect_image_reference\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 4
-}

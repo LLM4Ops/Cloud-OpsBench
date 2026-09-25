@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"Productcatalogservice pod has readiness probe failing with timeout on port 3551; container only exposes 3550, causing the pod to remain unready.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"readiness_probe_incorrect_port\"}, {\"rank\": 2, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"service_selector_mismatch\"}, {\"rank\": 3, \"fault_object\": \"app/productcatalogservice\", \"root_cause\": \"code_wrong_return\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 9
-}

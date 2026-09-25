@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"frontend pod is in CrashLoopBackOff; describe shows OOM-killed due to memory limit of 5Mi, which is too low for the application.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/frontend\", \"root_cause\": \"container_memory_limit_too_low\"}, {\"rank\": 2, \"fault_object\": \"app/frontend\", \"root_cause\": \"missing_service_account\"}, {\"rank\": 3, \"fault_object\": \"app/frontend\", \"root_cause\": \"code_missing_parameter\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 6
-}

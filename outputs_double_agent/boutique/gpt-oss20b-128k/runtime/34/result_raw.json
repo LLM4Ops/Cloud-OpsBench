@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"emailservice deployment uses a grpc liveness probe on port 8080, but the container serves HTTP on that port. This protocol mismatch is a classic cause of liveness probe failures and pod restarts.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/emailservice\", \"root_cause\": \"liveness_probe_incorrect_protocol\"}, {\"rank\": 2, \"fault_object\": \"app/emailservice\", \"root_cause\": \"service_dns_resolution_failure\"}, {\"rank\": 3, \"fault_object\": \"app/emailservice\", \"root_cause\": \"missing_service_account\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 10
-}

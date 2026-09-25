@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"Shippingservice pod has 3 restarts; deployment config shows livenessProbe httpGet on port 50051 for a gRPC service, causing probe failures and container restarts.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/shippingservice\", \"root_cause\": \"liveness_probe_incorrect_protocol\"}, {\"rank\": 2, \"fault_object\": \"app/shippingservice\", \"root_cause\": \"node_network_delay\"}, {\"rank\": 3, \"fault_object\": \"app/shippingservice\", \"root_cause\": \"pod_cpu_overload\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 8
-}

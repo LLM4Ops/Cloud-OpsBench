@@ -1,6 +1,0 @@
-{
-  "Completed": "{\"key_evidence_summary\": \"adservice pod is running but readiness probe fails with malformed HTTP status code, showing the probe expects HTTP while the service only supports gRPC on port 9555.\", \"top_3_predictions\": [{\"rank\": 1, \"fault_object\": \"app/adservice\", \"root_cause\": \"readiness_probe_incorrect_protocol\"}, {\"rank\": 2, \"fault_object\": \"app/adservice\", \"root_cause\": \"liveness_probe_incorrect_protocol\"}, {\"rank\": 3, \"fault_object\": \"app/adservice\", \"root_cause\": \"service_selector_mismatch\"}]}",
-  "finished": true,
-  "stop_reason": "submit",
-  "steps_used": 9
-}
