@@ -1,0 +1,81 @@
+schema_version: 1
+system: boutique
+symptom_id: image_pull_startup_failure
+description: A pod cannot start because its container image cannot be pulled, appearing as ErrImagePull or ImagePullBackOff.
+signals:
+- pod status is ErrImagePull
+- pod status is ImagePullBackOff
+- pod cannot pull container image
+- failing pod is non-Running because of image pull
+entry:
+- locate_failing_startup_pod
+nodes:
+  locate_failing_startup_pod:
+    goal: Locate the failing pod causing service disruption by inspecting pod readiness and status reasons in the application namespace.
+    actions:
+    - tool: GetResources
+      args:
+        resource_type: pods
+        namespace: <namespace>
+    evidence:
+    - active_alerts_status
+    - pod_health_status
+    - pod_status_summary
+    - failing_pod_identified
+    next:
+    - classify_image_pull_failure
+  classify_image_pull_failure:
+    goal: Classify the image pull failure reason from failing pod events by extracting pull error messages and distinguishing between DNS failure, incorrect image reference, and registry authorization failure.
+    actions:
+    - tool: DescribeResource
+      args:
+        resource_type: pod
+        name: <failing_pod_name>
+        namespace: <application_namespace>
+    evidence:
+    - image_pull_error_message
+    - pull_failure_reason
+    next:
+    - confirm_registry_dns_failure
+    - confirm_incorrect_image_reference
+    - confirm_missing_image_pull_secret
+  confirm_registry_dns_failure:
+    goal: Verify that the DNS failure is specific to the failing image registry by comparing registries across services.
+    actions:
+    - tool: GetAppYAML
+      args:
+        app_name: <failing_service_name>
+    - tool: GetAppYAML
+      args:
+        app_name: <healthy_service_name>
+    evidence:
+    - failing_service_image_registry
+    - healthy_service_image_registry
+    - registry_isolation_confirmed
+    - no_image_pull_secret_issue
+    next: []
+  confirm_incorrect_image_reference:
+    goal: Confirm that the failing deployment image tag is incorrect by inspecting deployment YAML, comparing with healthy services, and checking image pull secrets.
+    actions:
+    - tool: GetAppYAML
+      args:
+        app_name: <failing-service-name>
+    evidence:
+    - deployment_image_tag
+    - healthy_service_tag
+    - image_pull_secrets_status
+    - incorrect_image_reference_confirmed
+    next: []
+  confirm_missing_image_pull_secret:
+    goal: Confirm whether the deployment lacks imagePullSecrets configuration given registry authorization failure.
+    actions:
+    - tool: GetAppYAML
+      args:
+        app_name: <failing-service>
+    evidence:
+    - deployment_yaml
+    - image_pull_secrets_presence
+    - image_reference
+    - missing_image_pull_secret_indicator
+    - image_registry_requirement
+    next: []

@@ -1,0 +1,76 @@
+schema_version: 1
+system: boutique
+symptom_id: pod_running_but_not_ready
+description: A pod is Running but does not become Ready, such as showing READY 0/1.
+signals:
+- pod is Running but NotReady
+- pod readiness is 0/1
+- workload exists but readiness gate never becomes healthy
+entry:
+- locate_runtime_affected_pod
+nodes:
+  locate_runtime_affected_pod:
+    goal: Locate the pod-level runtime anomaly by listing pods and checking readiness, runtime status, and restart counts.
+    actions:
+    - tool: GetResources
+      args:
+        resource_type: pods
+        namespace: <application_namespace>
+        output_wide: true
+    evidence:
+    - pod_runtime_status
+    - pod_readiness_status
+    - pod_restart_counts
+    - failing_pod_identified
+    - abnormal_pod_identified
+    - no_failing_pod_identified
+    - alert_anomaly_status
+    next:
+    - classify_readiness_probe_failure
+  classify_readiness_probe_failure:
+    goal: Classify readiness probe failure reason by inspecting NotReady pod events and probe configuration — port mismatch or protocol mismatch.
+    actions:
+    - tool: DescribeResource
+      args:
+        resource_type: pod
+        name: <failing_pod>
+        namespace: <namespace>
+    evidence:
+    - readiness_probe_config
+    - container_port
+    - probe_failure_events
+    - suspected_port_mismatch
+    - readiness_probe_protocol_mismatch_suspected
+    - probe_protocol_consistency
+    - readiness_probe_incorrect_protocol
+    next:
+    - confirm_probe_port_mismatch
+    - confirm_probe_protocol_mismatch
+  confirm_probe_port_mismatch:
+    goal: Confirm liveness or readiness probe port mismatch from deployment or pod configuration.
+    actions:
+    - tool: GetAppYAML
+      args:
+        app_name: <failing_app>
+    evidence:
+    - deployment_probe_config
+    - readiness_probe_config
+    - container_port
+    - probe_port_consistency
+    - port_mismatch_confirmed
+    - root_cause_confirmed
+    next: []
+  confirm_probe_protocol_mismatch:
+    goal: Confirm liveness or readiness probe protocol mismatch by inspecting workload YAML probe protocol settings.
+    actions:
+    - tool: GetAppYAML
+      args:
+        app_name: <failing_app>
+    evidence:
+    - deployment_yaml
+    - liveness_probe_config
+    - readiness_probe_config
+    - protocol_consistency
+    - probe_protocol_mismatch_confirmed
+    - root_cause_confirmed
+    next: []

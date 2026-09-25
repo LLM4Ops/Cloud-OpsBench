@@ -1,0 +1,218 @@
+schema_version: 1
+system: trainticket
+symptom_id: pod_crash_or_restart
+description: A single TrainTicket service pod shows crash, error, partial readiness, or repeated restart behavior.
+signals:
+- exactly one TrainTicket service pod is abnormal while most other pods remain Running or Ready
+- the pod is in CrashLoopBackOff, Error, 0/1 Ready, 1/N Ready, or partial readiness
+- restart count increases for the affected service
+- the affected service has reduced readiness or availability
+- the symptom is visible from pod listings before detailed application inspection
+entry:
+- shared.locate_single_pod_crash_or_restart
+nodes:
+  shared.locate_single_pod_crash_or_restart:
+    goal: Locate a single TrainTicket workload with pod lifecycle instability, including CrashLoopBackOff, Error, 0/1 Ready, 1/N Ready, partial readiness, or abnormal restart growth. This atom merges the common GetResources(pods) prefix from the historical single-crash and partial-ready diagnostic paths while preserving service identity for MySQL, sidecar-port, and DNS-resolution diagnosis.
+    actions:
+    - tool: GetResources
+      args:
+        resource_type: pods
+        namespace: <namespace>
+    evidence:
+    - failing_pod_identified
+    - failing_pod_name
+    - affected_workload
+    - affected_service
+    - pod_status
+    - pod_readiness_status
+    - pod_restart_count
+    - restart_count
+    - CrashLoopBackOff
+    - partial_ready_pod
+    - sidecar_present
+    - repeated_startup_failure
+    - alert_summary
+    - downstream_failure_indication
+    next:
+    - shared.inspect_mysql_startup_crash_evidence
+    - runtime.inspect_sidecar_port_conflict_evidence
+    - service.classify_dns_resolution_failure_logs
+  shared.inspect_mysql_startup_crash_evidence:
+    goal: Inspect pod state and application logs for a single CrashLoopBackOff service to determine whether startup failure is caused by MySQL authentication, host, or port configuration.
+    actions:
+    - tool: DescribeResource
+      args:
+        resource_type: pod
+        name: <failing_pod>
+        namespace: <namespace>
+    - tool: GetErrorLogs
+      args:
+        namespace: <namespace>
+        service_name: <affected_service>
+    evidence:
+    - pod_exit_code
+    - pod_events
+    - pod_crash_state
+    - environment_variable_sources
+    - mysql_secret_dependency
+    - application_error_logs
+    - mysql_auth_error_message
+    - mysql_access_denied
+    - mysql_connection_refused
+    - crash_loop_reason
+    next:
+    - runtime.confirm_mysql_invalid_credentials
+    - runtime.inspect_mysql_port_configuration
+  runtime.confirm_mysql_invalid_credentials:
+    goal: Confirm invalid MySQL credentials by inspecting the Secret referenced by the affected workload and correlating it with access-denied log evidence and database reachability.
+    actions:
+    - tool: GetResources
+      args:
+        resource_type: deployments
+        namespace: <namespace>
+        name: <affected_workload>
+        output_yaml: true
+    - tool: GetResources
+      args:
+        resource_type: secrets
+        namespace: <namespace>
+        name: <referenced_secret>
+        output_yaml: true
+    evidence:
+    - referenced_secret
+    - secret_credential_configuration
+    - deployment_secret_binding
+    - credential_key_structure
+    - credential_structure_ok
+    - database_connectivity_status
+    - mysql_invalid_credential_suspected
+    - mysql_invalid_credentials_confirmed
+    - root_cause_confirmation
+    next: []
+  runtime.inspect_mysql_port_configuration:
+    goal: Inspect the affected application YAML or referenced Secret to retrieve the configured MySQL host and port after logs show connection refused or communications failure.
+    actions:
+    - tool: GetAppYAML
+      args:
+        app_name: <affected_service>
+    evidence:
+    - configured_mysql_host
+    - configured_mysql_port
+    - secret_configuration
+    - database_configuration
+    - database_port_misconfiguration_suspected
+    - referenced_secret
+    next:
+    - runtime.confirm_mysql_port_mismatch
+  runtime.confirm_mysql_port_mismatch:
+    goal: Confirm that the application-configured MySQL port differs from the actual MySQL Service port, using Service YAML and optional connectivity checks.
+    actions:
+    - tool: GetResources
+      args:
+        resource_type: services
+        namespace: <namespace>
+        name: <mysql_service>
+        output_yaml: true
+    evidence:
+    - actual_mysql_service_port
+    - app_configured_db_port
+    - configured_port_connectivity_failure
+    - standard_port_connectivity_success
+    - port_mismatch_confirmed
+    - root_cause_confirmation
+    next: []
+  runtime.inspect_sidecar_port_conflict_evidence:
+    goal: Inspect the partially ready pod and application logs to determine whether repeated restarts are caused by an application container port conflicting with the Istio sidecar status port.
+    actions:
+    - tool: DescribeResource
+      args:
+        resource_type: pod
+        name: <failing_pod>
+        namespace: <namespace>
+    - tool: GetErrorLogs
+      args:
+        namespace: <namespace>
+        service_name: <affected_service>
+    evidence:
+    - container_ports
+    - sidecar_status_port_annotation
+    - port_conflict_suspicion
+    - application_error_logs
+    - port_in_use_exception
+    - port_conflict_confirmed
+    - sidecar_annotation
+    - conflicting_port
+    next:
+    - runtime.confirm_sidecar_port_conflict
+  runtime.confirm_sidecar_port_conflict:
+    goal: Confirm sidecar/application port conflict by inspecting deployment YAML, sidecar logs, or service reachability on the conflicting port.
+    actions:
+    - tool: GetAppYAML
+      args:
+        app_name: <affected_service>
+    - tool: GetRecentLogs
+      args:
+        namespace: <namespace>
+        service_name: <affected_service>
+        container: istio-proxy
+    evidence:
+    - deployment_port_configuration
+    - deployment_container_port_configuration
+    - sidecar_statusport_annotation
+    - istio_sidecar_port_annotation
+    - istio_proxy_port_binding_logs
+    - service_reachability_status
+    - verified_port_conflict
+    - root_cause_confirmed
+    next: []
+  service.classify_dns_resolution_failure_logs:
+    goal: Inspect the failing or restarting service logs for DNS lookup errors, timeout evidence, service instance null messages, or name-resolution failures, preserving whether the same service is partially ready, restarting, or in startup failure.
+    actions:
+    - tool: GetErrorLogs
+      args:
+        namespace: <namespace>
+        service_name: <failing_service>
+    evidence:
+    - dns_error_logs
+    - dns_resolution_failure_evidence
+    - dns_timeout_evidence
+    - service_instance_null
+    - crash_cause_classification
+    - failing_service_identified
+    - pod_restart_context
+    - repeated_startup_failure
+    - pod_partial_ready_or_crashloop_context
+    next:
+    - service.verify_dns_target_service_exists
+  service.verify_dns_target_service_exists:
+    goal: Verify that the Service or database target named in DNS errors exists and is reachable, so the diagnosis can distinguish pod-local DNS configuration from a genuinely missing target.
+    actions:
+    - tool: GetResources
+      args:
+        resource_type: services
+        namespace: <namespace>
+    evidence:
+    - target_service_exists
+    - target_service_endpoints
+    - service_reachable
+    - missing_service_excluded
+    - network_unavailability_excluded
+    next:
+    - service.confirm_pod_dns_misconfiguration
+  service.confirm_pod_dns_misconfiguration:
+    goal: Confirm pod-local DNS misconfiguration by inspecting the failing workload YAML for dnsPolicy and custom nameserver configuration after DNS errors are observed, including cases where the misconfiguration causes repeated service restarts or partial readiness.
+    actions:
+    - tool: GetAppYAML
+      args:
+        app_name: <failing_service>
+    evidence:
+    - deployment_dns_config
+    - dns_policy
+    - custom_nameserver_configured
+    - pod_dns_policy_none
+    - unreachable_nameserver
+    - dns_failure_causes_service_restart
+    - root_cause_service_dns_resolution_failure
+    - root_cause_confirmation
+    - root_cause_confirmed
+    next: []

@@ -1,0 +1,244 @@
+schema_version: 1
+system: boutique
+symptom_id: pending_or_unschedulable_pod
+description: A pod remains Pending, Unschedulable, Init, ContainerCreating, or otherwise stalled before normal startup.
+signals:
+- pod is Pending
+- pod is Unschedulable
+- scheduler reports no suitable nodes
+- workload cannot place a pod on any node
+- pod is Pending, Init, or ContainerCreating
+- pod is stuck before normal container startup
+- pod has no node assignment or is assigned to an unhealthy node
+entry:
+- locate_pending_workload_context
+nodes:
+  locate_pending_workload_context:
+    goal: Locate the Pending, Unschedulable, Init, or ContainerCreating pod and collect the minimum node/alert context needed to distinguish scheduler constraints from platform-component failure.
+    actions:
+    - tool: GetResources
+      args:
+        resource_type: pods
+        namespace: <namespace>
+        output_wide: true
+    evidence:
+    - pending_pod_identified
+    - pending_pod_name
+    - affected_workload
+    - failing_service
+    - pod_status_summary
+    - pod_node_assignment
+    - node_status_summary
+    - active_alerts_summary
+    next:
+    - classify_pending_blocker
+  classify_pending_blocker:
+    goal: Inspect the stalled pod once to classify scheduler constraints, storage dependency, missing scheduler progress, container-runtime failure, or unhealthy-node/platform evidence. Do not attempt to decide selector, affinity, cordon, and taint ownership from the aggregated FailedScheduling sentence alone; route mixed node-placement evidence to the dedicated placement comparison atom.
+    actions:
+    - tool: DescribeResource
+      args:
+        resource_type: pod
+        name: <pending_pod>
+        namespace: <namespace>
+    evidence:
+    - pod_events
+    - pod_event_error_message
+    - scheduler_failure_reason
+    - pod_node_assignment
+    - node_name
+    - pod_resource_requests
+    - pod_node_selector
+    - pod_tolerations
+    - insufficient_cpu_event
+    - insufficient_memory_event
+    - node_affinity_mismatch_indicated
+    - pod_anti_affinity_conflict_suspected
+    - untolerated_taint_event
+    - unschedulable_nodes_event
+    - unbound_pvc_identified
+    - container_runtime_failure_suspected
+    - scheduler_unavailability_suspected
+    - node_level_failure_suspected
+    next:
+    - confirm_pod_resource_capacity_mismatch
+    - inspect_node_placement_constraints
+    - inspect_pod_anti_affinity_rule
+    - inspect_node_component_health
+    - confirm_scheduler_availability
+  confirm_pod_resource_capacity_mismatch:
+    goal: 'Confirm CPU or memory capacity mismatch only when the Pod request exceeds the allocatable capacity of every node that is otherwise eligible: label constraints match, the node is schedulable, and relevant taints are tolerated. An insufficient-memory phrase in an aggregated scheduler event is not enough when a cordon, selector, affinity, or taint blocker independently explains the Pod.'
+    actions:
+    - tool: GetAppYAML
+      args:
+        app_name: <failing_service>
+    - tool: GetClusterConfiguration
+      args: {}
+    evidence:
+    - pod_cpu_request
+    - pod_memory_request
+    - otherwise_eligible_nodes
+    - eligible_node_allocatable_resources
+    - cpu_capacity_mismatch_confirmed
+    - memory_capacity_mismatch_confirmed
+    next: []
+  inspect_node_placement_constraints:
+    goal: Inspect the workload placement rules and cluster nodes together to distinguish node selector, required node affinity, node cordon, and ordinary taint/toleration blockers. A selector or affinity rule is not the root cause when at least one node matches it but that matching node is cordoned or has an untolerated taint.
+    actions:
+    - tool: GetAppYAML
+      args:
+        app_name: <failing_service>
+    - tool: GetClusterConfiguration
+      args: {}
+    evidence:
+    - workload_node_selector
+    - workload_required_node_affinity
+    - workload_tolerations
+    - node_labels
+    - node_taints
+    - node_spec_unschedulable
+    - selector_matching_nodes
+    - affinity_matching_nodes
+    - matching_node_blocker
+    next:
+    - confirm_node_selector_mismatch
+    - confirm_node_affinity_mismatch
+    - confirm_node_cordon_status
+    - confirm_taint_toleration_mismatch
+  confirm_node_selector_mismatch:
+    goal: Confirm node_selector_mismatch only when the Pod has an explicit nodeSelector and no cluster node carries the required key/value combination. If a matching node exists but is cordoned or blocked by a taint, selector mismatch is refuted.
+    actions:
+    - tool: GetAppYAML
+      args:
+        app_name: <failing_service>
+    - tool: GetClusterConfiguration
+      args: {}
+    evidence:
+    - workload_node_selector
+    - node_labels
+    - selector_matching_nodes
+    - node_selector_mismatch_confirmed
+    next: []
+  confirm_node_affinity_mismatch:
+    goal: Confirm node_affinity_mismatch only when no node satisfies the workload's requiredDuringScheduling node-affinity expression. If a matching node exists but is cordoned or blocked by a taint, affinity mismatch is refuted.
+    actions:
+    - tool: GetAppYAML
+      args:
+        app_name: <failing_service>
+    - tool: GetClusterConfiguration
+      args: {}
+    evidence:
+    - required_node_affinity
+    - node_labels
+    - affinity_matching_nodes
+    - node_affinity_mismatch_confirmed
+    next: []
+  confirm_node_cordon_status:
+    goal: Confirm node_cordon_mismatch when every node that satisfies the Pod's selector or required affinity is administratively unschedulable through spec.unschedulable=true, SchedulingDisabled, or node.kubernetes.io/unschedulable:NoSchedule. This Kubernetes cordon marker is not an ordinary taint/toleration mismatch.
+    actions:
+    - tool: GetClusterConfiguration
+      args: {}
+    evidence:
+    - placement_matching_nodes
+    - node_spec_unschedulable
+    - unschedulable_taint_present
+    - node_cordon_confirmed
+    next: []
+  inspect_pod_anti_affinity_rule:
+    goal: Inspect required pod anti-affinity, its labelSelector/topologyKey, desired replicas, current matching-Pod distribution, and schedulable topology domains. Merely finding an anti-affinity rule is not confirmation; the rule must leave too few valid placements for the desired replicas.
+    actions:
+    - tool: GetAppYAML
+      args:
+        app_name: <failing_service>
+    - tool: GetResources
+      args:
+        resource_type: pods
+        namespace: <namespace>
+        output_wide: true
+    - tool: GetClusterConfiguration
+      args: {}
+    evidence:
+    - required_pod_anti_affinity
+    - anti_affinity_label_selector
+    - topology_key
+    - desired_replicas
+    - matching_pod_distribution
+    - schedulable_topology_domains
+    next:
+    - confirm_pod_anti_affinity_capacity
+  confirm_pod_anti_affinity_capacity:
+    goal: Confirm pod_anti_affinity_conflict only when required anti-affinity and the current matching-Pod distribution consume every schedulable topology domain, leaving no valid placement for the remaining desired replica.
+    actions:
+    - tool: GetResources
+      args:
+        resource_type: pods
+        namespace: <namespace>
+        output_wide: true
+    - tool: GetClusterConfiguration
+      args: {}
+    evidence:
+    - desired_replicas
+    - schedulable_topology_domains
+    - occupied_topology_domains
+    - pending_replica_without_valid_domain
+    - pod_anti_affinity_conflict_confirmed
+    next: []
+  confirm_taint_toleration_mismatch:
+    goal: Confirm taint_toleration_mismatch only when a placement-matching schedulable node carries a non-cordon taint that the Pod does not tolerate. Never classify node.kubernetes.io/unschedulable:NoSchedule or SchedulingDisabled as this root cause; those are node cordon.
+    actions:
+    - tool: GetClusterConfiguration
+      args: {}
+    - tool: GetAppYAML
+      args:
+        app_name: <failing_service>
+    evidence:
+    - placement_matching_node
+    - non_cordon_node_taint
+    - pod_tolerations
+    - taint_toleration_mismatch_confirmed
+    next: []
+  inspect_node_component_health:
+    goal: Check containerd and kubelet service health once on the affected node to distinguish container-runtime failure from node-agent failure.
+    actions:
+    - tool: CheckNodeServiceStatus
+      args:
+        node_name: <affected_node>
+        service_name: containerd
+    - tool: CheckNodeServiceStatus
+      args:
+        node_name: <affected_node>
+        service_name: kubelet
+    evidence:
+    - containerd_health_status
+    - kubelet_health_status
+    - node_readiness_status
+    - runtime_log_errors
+    - containerd_unavailable_supported
+    - kubelet_unavailable_supported
+    next:
+    - confirm_container_runtime_unavailable
+    - confirm_kubelet_unavailable
+  confirm_container_runtime_unavailable:
+    goal: Confirm from existing node-service and pod-event evidence that containerd is unavailable on the affected node.
+    actions: []
+    evidence:
+    - root_cause_confirmation
+    - container_runtime_status
+    next: []
+  confirm_scheduler_availability:
+    goal: Confirm whether the kube-scheduler is unavailable and explains the Pending pod.
+    actions:
+    - tool: CheckNodeServiceStatus
+      args:
+        node_name: master
+        service_name: kube-scheduler
+    evidence:
+    - scheduler_service_status
+    - root_cause_confirmed
+    next: []
+  confirm_kubelet_unavailable:
+    goal: Confirm from existing node-service and node-readiness evidence that kubelet is unavailable on the affected worker node.
+    actions: []
+    evidence:
+    - root_cause_confirmation
+    - kubelet_service_status
+    next: []
