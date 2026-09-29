@@ -1,17 +1,18 @@
-# CloudOps Harness Refactor
+# Diagnostic + Verifier Double Agent Harness 
 
-A modular, Skill-free Cloud-OpsBench baseline agent.
+A Cloud-OpsBench multi-agent with diagnostic and verifier sub-agents.
 
 ```text
 system prompt + full ReAct history
-             -> LLM
+             -> LLM (Diagnostic Agent)
              -> one CloudOps tool action
              -> observation appended to context
              -> Submit(top-3 diagnosis)
+                -> history review 
+                -> Submit (if verifier agrees)
+             -> Return to ReAct loop + Disagree Reason (if verifier disagrees)
 ```
 
-This baseline intentionally contains no Diagnostic Skills, symptom catalog,
-`SelectSymptom`, Failure Analysis, or Harness Evolution logic.
 
 ## Structure
 
@@ -50,6 +51,6 @@ The evaluator is the Cloud-OpsBench outcome/process evaluator and reports:
 - `EOC`: evidence-order consistency.
 - `ECR`: evidence closure rate.
 - `EE`: evidence efficiency.
-- `steps`: average diagnostic action count.
+- `steps`: average diagnostic action count. This includes internal (Verifier) steps.
 - `RAR`: redundant action rate.
 - `invalid_actions`: average invalid actions per case.

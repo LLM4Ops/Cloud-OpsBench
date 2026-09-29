@@ -11,8 +11,6 @@ CONFIG_PATH = PROJECT_ROOT / "configs" / "model_configs.yaml"
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from harness.context import ContextBuilder
-from harness.harness import CloudOpsHarness
 from harness.context_double_agent import DoubleAgentContextBuilder
 from harness.double_agent import DoubleAgentHarness
 from runtime.core import OutputParser, ToolExecutor, TraceLogger, init_case_state, load_config
