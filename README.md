@@ -41,6 +41,10 @@ Cloud-OpsBench/
 │   └── cloudops_skill_agent/
 │       ├── evaluation_utils/
 │       └── harness/skills/
+├── cloudopsbench_mcp/
+│   ├── server.py
+│   ├── examples/
+│   └── tests/
 └── resource/
 ```
 
@@ -228,6 +232,18 @@ python evaluation.py
 Run `python evaluation.py` from `agents/cloudops_skill_agent/` to evaluate the
 Skill-enabled agent. The two agents use the same outcome and process metrics,
 but keep separate evaluator copies to remain self-contained.
+
+## MCP Interface
+
+[`cloudopsbench_mcp/`](cloudopsbench_mcp/README.md) exposes the existing
+diagnostic tools through Streamable HTTP: **12 tools for Online Boutique** and
+**10 for TrainTicket**. Each server instance serves one incident snapshot and
+records diagnostic tool calls, allowing MCP-compatible agents to use the
+benchmark without the bundled ReAct agent.
+
+See the [server quickstart](cloudopsbench_mcp/README.md) and minimal connection
+examples for [Codex](cloudopsbench_mcp/examples/codex/README.md) and
+[OpenCode](cloudopsbench_mcp/examples/opencode/README.md).
 
 ## Supported Diagnostic Tools
 
