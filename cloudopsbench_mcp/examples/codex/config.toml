@@ -1,0 +1,4 @@
+# Merge this section into your Codex configuration.
+# Start the Cloud-OpsBench MCP server separately before connecting.
+[mcp_servers.cloudopsbench]
+url = "http://127.0.0.1:8000/mcp"
