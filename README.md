@@ -321,4 +321,11 @@ Feel free to cite us if you like or use Cloud-OpsBench.
   journal={arXiv preprint arXiv:2603.00468},
   year={2026}
 }
+@inproceedings{yu2026freezing,
+  title={Freezing the Crime Scene: A State Snapshot Paradigm for Reproducible Agentic SRE Evaluation},
+  author={Yu, Guangba and Wang, Yilun and Lyu, Michael R},
+  booktitle={Proceedings of the 34th ACM International Conference on the Foundations of Software Engineering},
+  pages={1733--1737},
+  year={2026}
+}
 ```
