@@ -1,0 +1,39 @@
+---
+fault_category: "Performance"
+failure_mode: "PodNetworkDelay"
+general_description: "This fault simulates artificially increased latency in Pod's network communication (entrance/exit). This is a typical 'grey failure', where the Pod itself has not crashed (still in the 'Running' state), but its service quality has severely declined. This delay will directly increase the response time of all upstream services that depend on the Pod. If the delay is too high, it can easily trigger upstream timeout mechanisms, leading to an increase in error rates and cascading failures. This fault is commonly used to test the effectiveness of timeout configuration, retry strategy, and circuit breaker mechanism in testing systems."
+cases:
+  - id: 1
+    sub_scenario: "Injecting Fixed Network Delay into a Specific Pod"
+    description: "Use the ChaosBlade tool to intercept all traffic on a specific network interface (such as ` eth0 `) of a specified Pod, and add a fixed base delay (` time `) and a random jitter range (` offset `) to each packet. This will directly affect the round-trip time (RTT) of all TCP/IP connections entering and leaving the Pod, accurately simulating scenarios of network congestion or slow downstream service processing."
+    trigger_condition: |
+      1. Deploy a ChaosBlade CRD YAML with 'scope' set to 'pod', 'target' set to 'network', and 'action' set to 'delay'. 
+      2. Accurately specify the target Pod through pod name and namespace . 
+      3. Set the 'time' (base delay, in milliseconds) and 'offset' (delay jitter, in milliseconds) parameters
+      4. Set timeout (e.g. 120) to specify the experiment duration in seconds.
+    minimal_yaml_snippet:
+      apiVersion: chaosblade.io/v1alpha1
+      kind: ChaosBlade
+      metadata:
+        name: delay-pod-network-by-names
+      spec:
+        experiments:
+        - scope: pod
+          target: network
+          action: delay
+          desc: "delay currencyservice pod network"
+          matchers:
+          - name: namespace
+            value: ["{{namespace}}"]
+          - name: names
+            value: ["{{Pod_name}}"]
+          - name: interface
+            value: ["eth0"]
+          - name: time
+            value: ["{{base_time}}"]  # Recommended: 500-1000
+          - name: offset
+            value: ["{{offset}}"] # Recommended: 200-300
+          - name: timeout
+            value: ["120"] # Set the experiment duration to 120 seconds, and recover automatically after timeout
+    trigger_commands:
+      - "kubectl apply -f chaosblade_inject.yaml"

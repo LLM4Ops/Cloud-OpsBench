@@ -1,0 +1,75 @@
+---
+fault_category: "Scheduling"
+failure_mode: "NodeAffinityMismatch"
+general_description: "A Pod remains `Pending` because it defines a hard node affinity rule (`requiredDuringSchedulingIgnoredDuringExecution`), but no nodes in the cluster satisfy the rule. As a more flexible alternative to `nodeSelector`, it supports operators like `In`, `NotIn`, and `Exists`. Scheduling fails directly when no node matches the rule."
+cases:
+  - id: 1
+    sub_scenario: "`In` Operator Mismatch"
+    description: "The Pod requires nodes with `env` label in `[prod, staging]` via the `In` operator. All worker nodes are labeled `env=dev`, so no nodes match the rule, leading to `Pending` state."
+    trigger_condition: "1. User replaces `<worker>` with actual worker node names; 2. All specified nodes are labeled `env=dev`; 3. A Pod with hard affinity `env In [prod, staging]` is deployed; 4. The Pod remains `Pending` with events showing `0/x nodes are available: x node(s) didn't match node affinity rules`."
+    minimal_yaml_snippet:
+      spec:
+        affinity:  # Critical: Hard node affinity rule
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: "env"
+                      operator: "In"
+                      values: ["prod", "staging"]
+        containers:
+          - name: app
+            image: nginx:alpine
+    trigger_commands:
+      - "# 1. Label all worker nodes with env=dev (replace `<worker>` with actual node names)"
+      - "kubectl label node <worker> env=dev --overwrite"
+      - ""
+      - "# 2. Deploy the Pod with mismatched In affinity rule"
+      - "kubectl apply -f <yaml-file>"
+
+  - id: 2
+    sub_scenario: "`NotIn` Operator Leaves No Available Nodes"
+    description: "The Pod uses `NotIn` to exclude nodes labeled `state=maintenance`. When all worker nodes are labeled `state=maintenance`, every node is excluded, leaving the Pod unschedulable."
+    trigger_condition: "1. User replaces `<worker>` with actual worker node names; 2. All specified nodes are labeled `state=maintenance`; 3. A Pod with hard affinity `state NotIn [maintenance]` is deployed; 4. The Pod remains `Pending` with events showing `0/x nodes are available: x node(s) didn't match node affinity rules`."
+    minimal_yaml_snippet:
+      spec:
+        affinity:  # Critical: Hard node affinity rule
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: "state"
+                      operator: "NotIn"
+                      values: ["maintenance"]
+        containers:
+          - name: app
+            image: nginx:alpine
+    trigger_commands:
+      - "# 1. Label all worker nodes with state=maintenance (replace `<worker>` with actual node names)"
+      - "kubectl label node <worker> state=maintenance --overwrite"
+      - ""
+      - "# 2. Deploy the Pod with NotIn affinity rule"
+      - "kubectl apply -f <yaml-file>"
+
+  - id: 3
+    sub_scenario: "`Exists` Operator Fails to Find Label Key"
+    description: "The Pod requires nodes with the `storage-vendor` label key (value irrelevant) via `Exists`. When no worker nodes have this label, the affinity rule is unsatisfied, causing scheduling failure."
+    trigger_condition: "1. User replaces `<worker>` with actual worker node names; 2. All specified nodes have the `storage-vendor` label removed; 3. A Pod with hard affinity `storage-vendor Exists` is deployed; 4. The Pod remains `Pending` with events showing `0/x nodes are available: x node(s) didn't match node affinity rules`."
+    minimal_yaml_snippet:
+      spec:
+        affinity:  # Critical: Hard node affinity rule
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: "storage-vendor"
+                      operator: "Exists"
+        containers:
+          - name: app
+            image: nginx:alpine
+    trigger_commands:
+      - "# 1. Remove storage-vendor label from all worker nodes (replace `<worker>` with actual node names)"
+      - "kubectl label node <worker> storage-vendor-"
+      - ""
+      - "# 2. Deploy the Pod with Exists affinity rule"
+      - "kubectl apply -f <yaml-file>"

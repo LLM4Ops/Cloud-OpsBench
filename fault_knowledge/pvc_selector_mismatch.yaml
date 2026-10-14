@@ -1,0 +1,46 @@
+---
+fault_category: "Scheduling"
+failure_mode: "PVCSelectorMismatch"
+general_description: |
+  This failure occurs when a PersistentVolumeClaim (PVC) specifies a label selector in its `.spec.selector` field that does not match the labels defined in the `.metadata.labels` of any available PersistentVolume (PV). 
+  The Kubernetes volume controller requires an exact label match to bind the PVC to a PV when a selector is used. Without a matching PV, the PVC remains in the `Pending` state indefinitely.
+cases:
+  - id: 1
+    sub_scenario: "PVC Selector Labels Do Not Match PV Labels"
+    description: |
+      In this scenario, a statically provisioned PV is created with a specific set of labels (e.g., `app: static-web`). 
+      However, the PVC is configured to strictly select a PV with a completely different label (e.g., `app: backend-api`). 
+      Because the labels do not align, the volume binding process fails, and any Pod relying on this PVC will be unable to start.
+    trigger_condition: |
+      1. Create a PersistentVolume with a specific label (e.g., `app: static-web`).
+      2. Create a PersistentVolumeClaim with a `matchLabels` selector requesting a different label (e.g., `app: backend-api`).
+      3. Deploy a Pod that references this PVC and observe that the PVC remains in the `Pending` state.
+    precondition:
+      description: "A statically provisioned PV exists in the cluster, and no dynamic StorageClass is configured to fulfill the PVC's specific label requirements."
+    minimal_yaml_snippet:
+      - title: "PersistentVolume (Labeled for static-web)"
+        yaml_snippet:
+          apiVersion: v1
+          kind: PersistentVolume
+          metadata:
+            name: my-pv
+            labels:
+              app: static-web # PV is labeled for static-web
+      - title: "PersistentVolumeClaim (Requests backend-api - Fault Injection Point)"
+        yaml_snippet:
+          apiVersion: v1
+          kind: PersistentVolumeClaim
+          metadata:
+            name: my-pvc
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+            storageClassName: ""
+            selector:
+              matchLabels:
+                app: backend-api # Fault Injection: PVC strictly selects a mismatched label
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"

@@ -1,0 +1,40 @@
+---
+fault_category: "Traffic Routing"
+failure_mode: "ServiceProtocolMismatch"
+general_description: "The Service's `.spec.ports[].protocol` does not match the protocol used by the backend container. Service and Pods appear healthy (Ready), but client connections fail (timeouts or no response) because kube-proxy only forwards traffic of the declared (wrong) protocol."
+cases:
+  - id: 1
+    sub_scenario: "TCP service configured as UDP"
+    description: "A TCP-based application (e.g., HTTP, gRPC) runs in the Pod, but the Service uses `protocol: UDP`. Kube-proxy drops TCP segments, causing client timeouts."
+    trigger_condition: "1. Backend app uses TCP (e.g., gRPC on port 50051); 2. Service incorrectly sets `protocol: UDP`; 3. Client TCP connections to the Service time out."
+    precondition:
+      description: "A TCP-based service (e.g., gRPC server) is deployed, listening on port 50051."
+    minimal_yaml_snippet:
+      spec:
+        ports:
+          - name: grpc
+            port: 50051
+            targetPort: 50051
+            protocol: "UDP"  # Fault injection: TCP app misconfigured as UDP
+    commands:
+      - "kubectl apply -f <yaml-file>"
+
+
+  - id: 2
+    sub_scenario: "UDP service configured as TCP (default)"
+    description: "A UDP application (e.g., DNS, statsd) runs in the Pod, but the Service uses `protocol: TCP` (default). Kube-proxy drops UDP datagrams, causing client timeouts."
+    trigger_condition: "1. Backend app uses UDP (e.g., DNS on port 53); 2. Service uses `protocol: TCP` (or omitted, defaulting to TCP); 3. Client UDP packets to the Service time out."
+    precondition:
+      description: "A UDP-based service (e.g., custom DNS server) is deployed, listening on port 53."
+    minimal_yaml_snippet:
+      spec:
+        selector:
+          app: dns-app
+        ports:
+          - name: dns-udp
+            port: 53
+            targetPort: 53
+            # Fault injection: Defaults to TCP (should be UDP)
+            # protocol: "TCP"
+    commands:
+      - "kubectl apply -f <yaml-file>"

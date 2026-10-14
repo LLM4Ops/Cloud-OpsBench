@@ -1,0 +1,43 @@
+---
+fault_category: "Traffic Routing"
+failure_mode: "ServiceEnvVarAddressMismatch"
+general_description: "A microservice fails to discover downstream dependencies due to misconfigured environment variables containing service addresses. The Pod remains `Running`, but logs show network errors (e.g., 'Name or service not known' for DNS failures, 'Connection refused' for wrong ports)."
+cases:
+  - id: 1
+    sub_scenario: "Wrong Hostname in Env-Var (DNS Resolution Failure)"
+    description: "The hostname in a service address environment variable (e.g., `MY_SERVICE_ADDR`) is misspelled. Cluster DNS fails to resolve the name, blocking communication."
+    trigger_condition: "1. A Pod with a misspelled hostname in an environment variable is deployed; 2. Pod status is `Running`, but logs show 'Name or service not known'."
+    precondition:
+      description: "The application uses environment variables (e.g., `MY_SERVICE_ADDR`) for service discovery."
+    minimal_yaml_snippet:
+      spec:
+        template:
+          spec:
+            containers:
+              - name: server
+                env:
+                  - name: MY_SERVICE_ADDR
+                    # Fault injection: Hostname 'myservice' misspelled as 'myservices'
+                    value: "myservices:3550"
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"
+
+
+  - id: 2
+    sub_scenario: "Wrong Port in Env-Var (Connection Refused)"
+    description: "The hostname in the environment variable is correct, but the port is invalid. DNS resolution succeeds, but the connection is refused."
+    trigger_condition: "1. A Pod with a wrong port in an environment variable is deployed; 2. Pod status is `Running`, but logs show 'Connection refused'."
+    precondition:
+      description: "The application uses environment variables (e.g., `MY_SERVICE_ADDR`) for service discovery, with the target service on a known port (e.g., 3550)."
+    minimal_yaml_snippet:
+      spec:
+        template:
+          spec:
+            containers:
+              - name: server
+                env:
+                  - name: MY_SERVICE_ADDR
+                    # Fault injection: Correct port 3550 changed to invalid 3600
+                    value: "myservice:3600"
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"

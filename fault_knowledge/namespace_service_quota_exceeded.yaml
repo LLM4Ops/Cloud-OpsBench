@@ -1,0 +1,25 @@
+---
+fault_category: "Admission Control"
+failure_mode: "NamespaceServiceQuotaExceeded"
+general_description: "ResourceQuota sets a hard limit on Service count in the namespace.When the limit is reached, the API Server rejects any new Service creation request with an `exceeded quota` error, preventing further Services from being added."
+cases:
+  - id: 1
+    sub_scenario: "API Object (Service) Count Exceeds Quota"
+    injectable: "yes"
+    description: "After a Namespace is configured with a hard limit on the total number of Services via ResourceQuota, the number of existing Services in the Namespace has reached or approached the upper limit of the quota. When attempting to create a new Service in the Namespace, the request is rejected by the Kubernetes API Server due to exceeding the Service count quota limit, resulting in failure to add new Services to the Namespace."
+    trigger_condition: "1. A ResourceQuota defining a hard limit on the total number of Services (`services`) is created in the target Namespace; 2. A certain number of running Services already exist in the Namespace, consuming a substantial portion or all of the available Service count quota; 3. Attempt to create a new Service in the Namespace; 4. The creation request is rejected, and the API returns a quota exhaustion error message in the format: `exceeded quota: <quota-name>, requested: services=1, used: services=<total-used>, limited: services=<quota-limit>`."
+    precondition:
+      description: "1. It is assumed that a specific number of running Services (e.g., ClusterIP, NodePort type) already exist in the target Namespace, consuming a large portion of the Service count quota (e.g., reaching or nearing the hard limit); 2. Create a ResourceQuota in the target Namespace to enforce a hard limit on the total number of Services; 3. Ensure no Services in the Namespace are in Pending or Terminating state to avoid inaccurate calculation of used Service count quota."
+      pre_yaml_snippet:
+        apiVersion: v1
+        kind: ResourceQuota
+        metadata:
+          name: service-count-quota
+        spec:
+          hard:
+            services: "10"  # Hard limit for total number of Services in the Namespace
+    minimal_yaml_snippet:
+       # No need to modify, not caused by user application
+    trigger_commands:
+      - "kubectl apply -f <pre-yaml-file>"
+      - "kubectl apply -f <yaml-file>"

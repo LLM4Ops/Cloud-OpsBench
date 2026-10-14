@@ -1,0 +1,26 @@
+---
+fault_category: "Infrastructure"
+failure_mode: "KubeletUnavailable"
+general_description: "The Kubelet service on a specific node is inoperative. Kubelet is responsible for reporting node status and managing pod lifecycles. When Kubelet stops, the node stops sending heartbeats. After a grace period (default 40s), the control plane marks the node as `NotReady`. This prevents new Pods from being scheduled to this node, and existing Pods may eventually be evicted or marked as `Unknown`."
+cases:
+  - id: 1
+    sub_scenario: "Kubelet Systemd Service Stopped"
+    description: "The `kubelet` system process is manually stopped on a target node. The node status transitions to `NotReady` after the heartbeat timeout. Services running on this node may become unreachable."
+    trigger_condition: "1. The `kubelet` service is inactive; 2. The Node status becomes `NotReady` after ~40 seconds; 3. New Pods targeted to this node remain `Pending` or fail to run; 4. Existing Pods may enter `Unknown` state."
+    precondition:
+      description: 
+        Stop the systemd service for the kubelet to simulate a node component crash.
+      setup_commands:
+       # 1. Stop the kubelet service on the target node
+        - "ssh root@<worker> systemctl stop kubelet"
+    minimal_yaml_snippet:
+      spec:
+        nodeSelector:
+          kubernetes.io/hostname: <worker>
+    trigger_commands:
+      # 1. Stop the kubelet service
+      - "ssh root@<worker> systemctl stop kubelet"
+      # 2. Sleep for 50 seconds to wait for Node Monitor Grace Period (default 40s)
+      - "sleep 50"
+      # 3. Apply a Pod (or check Node status) to verify the impact
+      - "kubectl apply -f <yaml-file>"

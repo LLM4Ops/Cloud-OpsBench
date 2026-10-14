@@ -1,0 +1,111 @@
+---
+fault_category: "Scheduling"
+failure_mode: "PVBindingOccupied"
+general_description: |
+  This failure mode specifically refers to scenarios of **Static Provisioning**, where a PersistentVolumeClaim (PVC)
+  **fails to precisely match** any PersistentVolume (PV) in the `Available` state within the cluster due to its configured 
+  capacity, access modes, StorageClass name, label selectors, or other requirements. The PVC binding controller cannot 
+  complete the binding process, causing the PVC to remain in the `Pending` state indefinitely.
+cases:
+  - id: 1
+    sub_scenario: "Mismatched PV/PVC Label Selectors"
+    description: |
+      The PVC specifies label requirements in its `.spec.selector` field, but none of the available PVs in the cluster 
+      contain these labels or have mismatched label values. This is a binding failure caused by incorrect isolation via metadata.
+    trigger_condition: |
+      1. Create a PV with specific labels (e.g., `app: static-web`).
+      2. Create a PVC and request a label that the PV does not possess (e.g., 
+      `app: backend-api`) in its `selector` field.
+    precondition:
+      description: "The application relies on static PVs, and the PVC uses `.spec.selector` for precise binding."
+      pre_yaml_snippet:
+        - title: "PersistentVolume (with Labels)"
+          yaml_snippet:
+            apiVersion: v1
+            kind: PersistentVolume
+            metadata:
+              name: pv-web-data
+              labels:
+                app: "static-web"
+            spec:
+              capacity:
+                storage: "1Gi"
+              accessModes:
+                - ReadWriteOnce
+              persistentVolumeReclaimPolicy: Retain
+              hostPath:
+                path: "/mnt/data/web"
+    minimal_yaml_snippet: |
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: pvc-app-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: "1Gi"
+        selector:
+          matchLabels:
+            app: "backend-api"   # Requested label does not match the PV's label
+    trigger_commands:
+      - "kubectl apply -f <pre-yaml-file>"
+      - "kubectl apply -f <yaml-file>"
+      
+  - id: 2
+    sub_scenario: "Static PV Already Bound"
+    description: |
+      A PV in the cluster has been successfully bound to a previously created PVC-A. A subsequently created PVC—even if 
+      all its metadata perfectly matches the PV—cannot use the PV because the PV is in the `Bound` state and unavailable 
+      for new binding requests.
+    trigger_condition: |
+      1. Create a PV.
+      2. Create PVC-A, which immediately and successfully binds to the PV.
+      3. The target PVC has metadata that perfectly matches the PV, but the PV is already bound to PVC-A.
+    precondition:
+      description: "There is a static PV in the cluster that fully meets the PVC's requirements."
+      pre_yaml_snippet:
+        - title: "PersistentVolume (PV)"
+          yaml_snippet:
+            apiVersion: v1
+            kind: PersistentVolume
+            metadata:
+              name: single-exclusive-pv
+            spec:
+              capacity:
+                storage: "1Gi"
+              accessModes:
+                - ReadWriteOnce
+              persistentVolumeReclaimPolicy: Retain
+              storageClassName: ""   # Explicitly declare as classless
+              hostPath:
+                path: "/mnt/single-data"
+        - title: "PersistentVolumeClaim (PVC-A - Exclusive Binding)"
+          yaml_snippet:
+            apiVersion: v1
+            kind: PersistentVolumeClaim
+            metadata:
+              name: pvc-a-first-claim
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: "1Gi"
+              storageClassName: ""
+    minimal_yaml_snippet: |
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: pvc-b-second-claim
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: "1Gi"
+        storageClassName: ""
+    trigger_commands:
+      - "kubectl apply -f <pre-yaml-file>"
+      - "kubectl apply -f <yaml-file>"

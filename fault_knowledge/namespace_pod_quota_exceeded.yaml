@@ -1,0 +1,35 @@
+fault_category: "Admission Control"
+failure_mode: "NamespacePodQuotaExceeded"
+general_description: |
+  Pod-count quota sets a hard ceiling on the number of Pods in the namespace. 
+  When the limit is reached the API Server refuses any new Pod creation, so Deployments/StatefulSets can not schedule additional replicas and remain below their desired size; 
+  events show `exceeded quota: pods=1, used: X, limited: Y`.
+cases:
+  - id: 1
+    sub_scenario: "Total Pod Count Exceeds Quota"
+    description: |
+      A ResourceQuota is configured in the target namespace to enforce a hard limit on the total number of Pods. 
+      A specific number of running Pods already exist in the namespace, consuming nearly all of the Pod count quota. 
+      When attempting to deploy a new application, the sum of existing Pods + the new Pod exceeds the hard quota limit. 
+      The Kubernetes API Server rejects the creation request for this new Pod, resulting in the Pod failing to instantiate.
+    trigger_condition: |
+      1. A ResourceQuota defining a hard limit on the total number of Pods is created in the target Namespace (e.g., `default`); 
+      2. A specific number of Pods in `Running` state exist in the Namespace (e.g., 10 Pods for a quota limit of 10); 
+      3. Attempt to deploy a single new Pod in the same Namespace.
+    precondition:
+      description: |
+        1. Create a ResourceQuota with `pods: 10` (hard limit) in the target Namespace (e.g., `default`) to restrict total Pod count;
+        2. Ensure the number of existing running Pods in the Namespace equals or is one less than the quota limit (e.g., 10 running Pods for a 10-pod limit).
+      pre_yaml_snippet:
+        apiVersion: v1
+        kind: ResourceQuota
+        metadata:
+          name: pod-count-quota
+        spec:
+          hard:
+            pods: "10"  # Hard limit of 10 Pods for the total Pod count quota （must be 10 in this case)
+    minimal_yaml_snippet:
+       # No need to modify, not caused by user application
+    trigger_commands:
+      - "kubectl apply -f <pre-yaml-file>"
+      - "kubectl apply -f <yaml-file>"

@@ -1,0 +1,68 @@
+fault_category: "Scheduling"
+failure_mode: "InsufficientNodeMemory"
+general_description: "When a Pod's memory resource request (spec.containers.resources.requests.memory) exceeds the available memory capacity of any node in the Kubernetes cluster, the scheduler cannot assign a node to the Pod. The Pod will remain in a `Pending` state, and the event log will show a `FailedScheduling` event with the reason 'Insufficient memory'. This includes two core sub-scenarios: absolute exceedance (request exceeds the node's hardware limit) and relative exceedance (request exceeds the node's remaining resources)."
+cases:
+  - id: 1
+    sub_scenario: "Absolute Exceedance of Memory Limit"
+    description: "The memory resources requested by the Pod directly exceed the physical memory limit of all nodes in the cluster, leaving no nodes available for the scheduler to assign. For example, if a node's maximum memory is 16Gi and a Pod requests 20Gi, it will directly trigger a scheduling failure."
+    trigger_condition: "1. The total memory of all nodes in the cluster is ≤ 18Gi; 2. The Pod's memory request (requests.memory) is set to 20Gi, exceeding the limit of all nodes; 3. After deploying the Pod with `kubectl apply`, its status will immediately be `Pending` with 'Insufficient memory' events."
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: resource-test
+            resources:  # Critical error: The request memory exceeds the physical upper limit of all nodes
+              requests:
+                memory: "20Gi"
+                cpu: "100m"
+              limits:
+                memory: "20Gi"
+                cpu: "100m"
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"
+
+
+  - id: 2
+    sub_scenario: "Relative Exceedance of Remaining Memory Resources"
+    description: "The memory resources requested by the Pod do not exceed the node's physical limit (e.g., a node has 16Gi, and the Pod requests 8Gi), but a resource-consuming Pod is deployed on each node via a DaemonSet, leaving all nodes with insufficient remaining memory, causing the new Pod's scheduling to fail."
+    trigger_condition: "1. All nodes in the cluster have a total of 16Gi of memory; 2. A resource-consuming Pod is deployed on each node via a DaemonSet, with each requesting 10Gi of memory; 3. The remaining memory on the nodes is 16 - 10 = 6Gi. Deploying the target Pod, which requests 8Gi, will trigger a scheduling failure with 'Insufficient memory' events."
+    precondition:
+      description: "Deploy a DaemonSet to occupy 10Gi of memory per node, ensuring remaining memory < 8Gi on all nodes."
+      pre_yaml_snippet:  # Core resource configuration of DaemonSet
+        apiVersion: apps/v1
+        kind: DaemonSet
+        metadata:
+          name: memory-consumer
+        spec:
+          selector:
+            matchLabels:
+              app: memory-consumer
+          template:
+            metadata:
+              labels:
+                app: memory-consumer
+            spec:
+              containers:
+                - name: consumer
+                  image: busybox
+                  command: ["sleep", "3600"]
+                  resources:  # Key configuration: Each node consumes 10Gi memory
+                    requests:
+                      memory: "10Gi"
+                      cpu: "100m"
+                    limits:
+                      memory: "10Gi"
+                      cpu: "100m"
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: target-app
+            resources:  # Key configuration: Request memory exceeds node remaining resources (6Gi)
+              requests:
+                memory: "8Gi"
+                cpu: "100m"
+              limits:
+                memory: "8Gi"
+                cpu: "100m"
+    trigger_commands:
+      - "kubectl apply -f <pre-yaml-file>"
+      - "kubectl apply -f <yaml-file>"

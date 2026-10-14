@@ -1,0 +1,21 @@
+---
+fault_category: "Runtime"
+failure_mode: "ReadinessProbeIncorrectPort"
+general_description: "This failure occurs when the port specified in a Pod's Readiness Probe does not align with the actual port where the application is listening for health checks inside the container. Because the Kubelet attempts to verify the Pod's health on an unassigned or closed port, the connection fails (e.g., connection refused or timeout). Consequently, the Pod never enters a 'Ready' state, preventing it from being added to any Service endpoints and causing total traffic blackholing for that instance."
+cases:
+  - id: 1
+    sub_scenario: "Mismatch between configured and container listening port"
+    description: "The container's actual listening health check port is declared via `containerPort`, but the readiness probe is incorrectly configured with a non-listening port. When the Kubelet initiates a health check to the incorrect port, the connection fails due to the port not being open. This causes continuous readiness probe failures, leaving the Pod in a long-term `Not Ready` state and unable to receive traffic."
+    trigger_condition: "1. The container declares and actually listens on a health check port (e.g., 50051) via `containerPort`; 2. The `port` configured in `readinessProbe` is a non-listening port (e.g., 50052); 3. After deployment, the Pod status is `Running` but marked `Not Ready`; 4. The event log continuously shows `Readiness probe failed: grpc: can't dial \"<pod-ip>:50052\": context deadline exceeded` or similar connection failure messages; 5. The Pod is excluded from the Service's endpoint list."
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: service
+            ports:
+              - containerPort: 50051  # Health check port actually listened on by the container
+            readinessProbe:
+              grpc:
+                port: 50052  # Error: Probe port mismatches the container's listening port (50051)
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"
+

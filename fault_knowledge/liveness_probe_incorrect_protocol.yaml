@@ -1,0 +1,27 @@
+fault_category: "Runtime"
+failure_mode: "LivenessProbeIncorrectProtocol"
+general_description: |
+  This failure occurs when the protocol specified in a Kubernetes Liveness Probe (e.g., HTTP) is incompatible with the protocol implemented by the application on the target port (e.g., gRPC). 
+  Unlike readiness probes, a liveness probe failure triggers Kubernetes to terminate and restart the container. Because the protocol mismatch is persistent in the configuration, the Pod enters a crash loop (e.g., CrashLoopBackOff), preventing the application from ever reaching a stable running state.
+
+cases:
+  - id: 1
+    sub_scenario: "HTTP probe for gRPC service"
+    description: |
+      A gRPC service requires a `grpc` type liveness probe but is incorrectly configured with an `httpGet` probe. When the Kubelet sends an HTTP/1.1 request to the gRPC port, the server cannot parse the frames and rejects the connection. The Kubelet interprets this as the application being dead and restarts the container, causing a perpetual restart loop.
+    trigger_condition: |
+      1. Deploy a containerized gRPC service (e.g., listening on port 50051).
+      2. Configure a `livenessProbe` using the `httpGet` handler.
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: grpc-service
+            image: my-grpc-service:v1
+            ports:
+              - containerPort: 50051
+            livenessProbe:
+              httpGet:  # Error: HTTP probe used for gRPC service (protocol mismatch)
+                path: "/"  # gRPC services have no HTTP path, exacerbating the failure
+                port: 50051
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"

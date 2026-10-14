@@ -1,0 +1,30 @@
+fault_category: "Admission Control"
+failure_mode: "NamespaceCPUQuotaExceeded"
+general_description: "CPU-request quota caps the total millicores available in the namespace. When the sum of existing CPU requests plus the new Pod’s request exceeds the hard limit, the API Server rejects the Pod."
+cases:
+  - id: 1
+    sub_scenario: "Total CPU Request Exceeds Quota"
+    description: "After a Namespace is configured with a hard limit on total CPU requests via ResourceQuota, a cumulative amount of CPU requests from existing running Pods in the Namespace has already consumed a significant portion of the quota. When a new Deployment (with Pods specifying CPU requests) is deployed, the sum of the existing cumulative CPU requests and the CPU requests of the new Pods exceeds the hard quota limit for CPU requests. As a result, the Kubernetes API Server rejects the creation request for the new Pods, leading to failed Pod instantiation and insufficient available replicas for the Deployment."
+    trigger_condition: "1. A ResourceQuota defining a hard limit on total CPU requests (`requests.cpu`) is created in the target Namespace; 2. Multiple running Pods exist in the Namespace, with their combined `resources.requests.cpu` values consuming a substantial portion of the CPU request quota (e.g., 800m); 3. Deploy a new Deployment with Pods that specify CPU requests (e.g., 300m), such that the sum of existing cumulative CPU requests and the new Pods' CPU requests exceeds the hard quota limit (800m + 300m = 1100m > 1000m); 4. The creation of new Pods is rejected, and event logs display a quota exhaustion error message in the format: `exceeded quota: <quota-name>, requested: requests.cpu=<new-request>, used: requests.cpu=<total-used>, limited: requests.cpu=<quota-limit>`."
+    precondition:
+      description: |
+        1. Create a ResourceQuota with requests.cpu: "1000m" (hard limit) in the target Namespace to restrict the total CPU resource requests;
+        2. Ensure the sum of requests.cpu from all existing Pods in the Namespace equals or is below the quota limit (e.g., 800m).
+      pre_yaml_snippet: 
+        apiVersion: v1
+        kind: ResourceQuota
+        metadata:
+          name: cpu-request-quota
+          namespace: default
+        spec:
+          hard:
+            requests.cpu: "10"
+    minimal_yaml_snippet: 
+      spec:
+        containers:
+          resources:
+            requests:
+              cpu: "1000m"
+    trigger_commands:
+      - "kubectl apply -f <pre-yaml-file>"
+      - "kubectl apply -f <yaml-file>"

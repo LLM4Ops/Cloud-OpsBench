@@ -1,0 +1,39 @@
+---
+fault_category: "Performance"
+failure_mode: "PodCPUOverload"
+general_description: "Injecting CPU full load into a specified container through ChaosBlade to keep the target process in a high computing state, the container will quickly reach its CPU quota limit and be throttled by the kernel, resulting in a surge in response latency and a decrease in throughput. If accompanied by a health check timeout, it may trigger Pod restart or HPA expansion."
+cases:
+  - id: 1
+    sub_scenario: "Injecting High CPU Load into a Specific Container"
+    description: "Use ChaosBlade to inject CPU full load into a specified container within the target Pod (by combining container id, pod name, and namespace)"
+    trigger_condition: |
+      1. Deploy ChaosBlade CRD with the scope set to container.
+      2. Obtain the target container id, pod name and namespace.
+      3. Set cpu percent (e.g. 100) to define the load intensity.
+      4. Set timeout (e.g. 120) to specify the experiment duration in seconds.
+    minimal_yaml_snippet:
+      - title: "ChaosBlade (Pod CPU Overload Injection)"
+        yaml_snippet:
+          apiVersion: chaosblade.io/v1alpha1
+          kind: ChaosBlade
+          metadata:
+            name: container-cpu-load
+          spec:
+            experiments:
+            - scope: container
+              target: cpu
+              action: fullload
+              desc: "increase pod cpu load by names"
+              matchers:
+                - name: container-ids
+                  value: ["{{Container_ID}}"]
+                - name: names
+                  value: ["{{Pod_name}}"]
+                - name: namespace
+                  value: ["{{namespace}}"]
+                - name: cpu-percent
+                  value: ["{{CPU_percent}}"] # Highly recommended 100 to full cpu
+                - name: timeout
+                  value: ["120"] # Set the experiment duration to 120 seconds, and recover automatically after timeout
+    trigger_commands:
+      - "kubectl apply -f chaosblade_inject.yaml"

@@ -1,0 +1,97 @@
+---
+fault_category: "Scheduling"
+failure_mode: "PodAntiAffinityConflict"
+general_description: "A Pod remains `Pending` due to a hard podAntiAffinity rule (`requiredDuringSchedulingIgnoredDuringExecution`), which prevents co-location with matching Pods in the same topology domain (e.g., node). If all domains already contain matching Pods, scheduling fails. Common in high-availability or resource-isolation scenarios."
+cases:
+  - id: 1
+    sub_scenario: "HA Self-Anti-Affinity (Replica count > Node count)"
+    description: "A 5-replica Deployment with self-anti-affinity (one Pod per node) is deployed on a 3-node cluster. Only 3 Pods can schedule (one per node), leaving 2 replicas `Pending` as no nodes satisfy the anti-affinity rule."
+    trigger_condition: "1. Cluster has exactly 3 worker nodes (user must ensure this); 2. A 5-replica Deployment with self-anti-affinity is deployed; 3. 3 Pods run (one per node), 2 remain `Pending` with events showing `0/3 nodes are available: 3 node(s) didn't match pod anti-affinity rules`."
+    minimal_yaml_snippet:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: ha-service
+      spec:
+        replicas: 5  # Critical: Replica count (5) > node count (3)
+        selector:
+          matchLabels:
+            app: ha-service
+        template:
+          metadata:
+            labels:
+              app: ha-service
+          spec:
+            containers:
+              - name: ha-app
+                image: nginx:alpine
+            affinity:
+              podAntiAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  - labelSelector:
+                      matchExpressions:
+                        - key: app
+                          operator: In
+                          values: [ha-service]
+                    topologyKey: kubernetes.io/hostname  # Anti-affinity by node
+    trigger_commands:
+      - "Deploy 5-replica Deployment with self-anti-affinity"
+      - "kubectl apply -f <yaml-file>"
+
+
+  - id: 2
+    sub_scenario: "Cross-Service Anti-Affinity (Frontend avoids Backend)"
+    description: "A backend DaemonSet runs on all nodes (1 Pod per node). A frontend Deployment with anti-affinity to avoid backend nodes has no available nodes, leaving all frontend Pods `Pending`."
+    trigger_condition: "1. Backend DaemonSet runs on all worker nodes (1 Pod per node); 2. Frontend Deployment with anti-affinity against backend is deployed; 3. All frontend Pods remain `Pending` with events showing `0/x nodes are available: x node(s) didn't match pod anti-affinity rules`."
+    precondition:
+      description: "Deploy a backend DaemonSet (runs on all nodes) with label `service: backend` to occupy all nodes."
+      pre_yaml_snippet:  # Backend DaemonSet configuration (precondition)
+        apiVersion: apps/v1
+        kind: DaemonSet
+        metadata:
+          name: backend-daemonset
+        spec:
+          selector:
+            matchLabels:
+              service: backend
+          template:
+            metadata:
+              labels:
+                service: backend  # Label matched by frontend's anti-affinity
+            spec:
+              containers:
+                - name: backend
+                  image: busybox:1.35
+                  command: ["sh", "-c", "while true; do sleep 3600; done"]  # Long-running
+    minimal_yaml_snippet:  # Frontend Deployment (target)
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: frontend
+      spec:
+        replicas: 2
+        selector:
+          matchLabels:
+            app: frontend
+        template:
+          metadata:
+            labels:
+              app: frontend
+          spec:
+            containers:
+              - name: frontend
+                image: nginx:alpine
+            affinity:
+              podAntiAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  - labelSelector:
+                      matchExpressions:
+                        - key: service
+                          operator: In
+                          values: [backend]  # Avoid pods with service=backend
+                    topologyKey: kubernetes.io/hostname  # Anti-affinity by node
+    trigger_commands:
+      - "# 1. Deploy precondition backend DaemonSet"
+      - "kubectl apply -f <pre-yaml-file>"
+      - "# 2. Deploy frontend Deployment"
+      - "kubectl apply -f <yaml-file>"

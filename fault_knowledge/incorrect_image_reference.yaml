@@ -1,0 +1,52 @@
+---
+fault_category: "Startup"
+failure_mode: "IncorrectImageReference"
+general_description: "The Pod fails to pull an image due to an incorrect image reference, eventually entering an `ImagePullBackOff` or `ErrImagePull` state. Error types include: the image tag does not exist, the image name is misspelled, the tag format is invalid, the version number does not exist, etc. The core reason is that the `image` field in the Pod specification does not match the actual image in the repository, causing the repository to return a 'image not found' or 'invalid reference' error."
+cases:
+  - id: 1
+    sub_scenario: "Image tag is misspelled"
+    description: "The image repository and name are correct, but the tag is misspelled (e.g., missing or extra letters), resulting in no corresponding tagged image in the repository and a pull failure. For example, `nginx:latest` is misspelled as `nginx:latst`, or `redis:alpine` is misspelled as `redis:alpinee`."
+    trigger_condition: "1. The Pod's `image` field uses a misspelled tag; 2. Deploy the Pod using `kubectl apply`; 3. The Pod's status becomes `ImagePullBackOff`/`ErrImagePull`, and the event shows 'manifest for [image_name:wrong_tag] not found'."
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: nginx-app
+            image: docker.io/library/nginx:latst  # Error: latest -> latst (missing an e)
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"
+
+  - id: 2
+    sub_scenario: "Non-existent image version number"
+    description: "The image name is correct, but the specified version number has not been published in the repository (it does not exist), causing the pull to fail. This is common for typos in version numbers (e.g., extra or missing digits) or when using a version that has not been released yet, for example, `mysql:5.7.999` (when the latest is 5.7.44) or `ubuntu:24.04` (when used before its release)."
+    trigger_condition: "1. The Pod's `image` field uses a version number tag that does not exist in the repository; 2. After deploying the Pod, its status becomes `ImagePullBackOff`/`ErrImagePull`; 3. The event shows 'failed to pull and unpack image [image_name:non_existent_version]'."
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: mysql-app
+            image: docker.io/library/mysql:5.7.999  # Error: non-existent 5.7.999 version (latest is 5.7.44)
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"
+
+  - id: 3
+    sub_scenario: "Image name is misspelled"
+    description: "The image tag is correct, but the image name itself is misspelled (e.g., missing or swapped letters), resulting in no such image name in the repository, so it cannot be pulled even with a correct tag. For example, `nginx:latest` is misspelled as `ngixn:latest` (i and x swapped), `httpd:alpine` is misspelled as `httdp:alpine` (p and d swapped)."
+    trigger_condition: "1. The image name in the Pod's `image` field is misspelled, while the tag is correct; 2. After deploying the Pod, its status becomes `ImagePullBackOff`/`ErrImagePull`; 3. The event shows 'repository [wrong_image_name] not found' or 'pull access denied for [wrong_image_name]'."
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: nginx-app
+            image: docker.io/library/ngixn:latest  # Error: nginx -> ngixn (i and x swapped)
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"
+
+  - id: 4
+    sub_scenario: "Incorrect image tag format"
+    description: "The core image name and version are correct, but the tag format does not comply with the repository's specifications (e.g., illegal characters, incorrect separators), causing the repository to be unable to recognize the tag and the pull to fail. For example, using an underscore instead of a hyphen (`app:v1.2_beta` instead of `app:v1.2-beta`), or confusing numbers with letters (`ubuntu:22O4` instead of `ubuntu:22.04`, using the letter O instead of the number 0)."
+    trigger_condition: "1. The Pod's `image` field uses an incorrectly formatted tag; 2. After deploying the Pod, its status becomes `ImagePullBackOff`/`ErrImagePull`; 3. The event shows 'invalid reference format' or 'manifest for [image_name:invalid_tag] not found'."
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: ubuntu-app
+            image: docker.io/library/ubuntu:22O4  # Error: 22.04 -> 22O4 (number 0 -> letter O)
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"

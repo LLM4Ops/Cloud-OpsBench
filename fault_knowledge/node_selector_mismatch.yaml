@@ -1,0 +1,88 @@
+---
+fault_category: "Scheduling"
+failure_mode: "NodeSelectorMismatch"
+general_description: "A Pod remains `Pending` because its `nodeSelector` does not match any node labels in the cluster. Events show `FailedScheduling` with reason `0/N nodes are available: N node(s) didn't match Pod's node selector`."
+cases:
+  - id: 1
+    sub_scenario: "Single Label Value Mismatch"
+    description: "The Pod's `nodeSelector` requires `env: prod`, but all nodes have `env: staging` or `env: dev`, causing a value mismatch and unschedulable state."
+    trigger_condition: "1. User replaces `<worker>` with actual worker node names; 2. All specified nodes are labeled `env: staging`; 3. A Pod with `nodeSelector: {env: prod}` is deployed; 4. The Pod remains `Pending` with the mismatch event."
+    minimal_yaml_snippet:
+      spec:
+        nodeSelector:  # Critical: Mismatched label value
+          env: "prod"
+        containers:
+          - name: app
+            image: nginx:alpine
+    trigger_commands:
+      - "# 1. Label all worker nodes with env=staging (replace `<worker>` with actual node names, e.g., 'node-1 node-2')"
+      - "kubectl label node <worker> env=staging --overwrite"
+      - ""
+      - "# 2. Deploy the Pod with mismatched nodeSelector"
+      - "kubectl apply -f <yaml-file>"
+
+
+  - id: 2
+    sub_scenario: "Single Label Key Not Found"
+    description: "The Pod's `nodeSelector` requires `region: cn-north`, but no nodes have the `region` label key, leading to scheduling failure."
+    trigger_condition: "1. User replaces `<worker>` with actual worker node names; 2. All specified nodes have the `region` label removed; 3. A Pod with `nodeSelector: {region: cn-north}` is deployed; 4. The Pod remains `Pending` with the mismatch event."
+    minimal_yaml_snippet:
+      spec:
+        nodeSelector:  # Critical: Missing label key on nodes
+          region: "cn-north"
+        containers:
+          - name: app
+            image: nginx:alpine
+    trigger_commands:
+      - "# 1. Remove 'region' label from all worker nodes (replace `<worker>` with actual node names)"
+      - "kubectl label node <worker> region-"
+      - ""
+      - "# 2. Deploy the Pod with nodeSelector for missing key"
+      - "kubectl apply -f <yaml-file>"
+
+
+  - id: 3
+    sub_scenario: "Multiple Label Combination Mismatch"
+    description: "The Pod's `nodeSelector` requires both `env: prod` and `hardware: high-mem`, but no node has both labels, causing unschedulable state."
+    trigger_condition: "1. User replaces `<worker1>` and `<worker2>` with two distinct worker nodes; 2. `<worker1>` is labeled `env: prod` (no `hardware`), `<worker2>` is labeled `hardware: high-mem` (no `env`); 3. A Pod with `nodeSelector: {env: prod, hardware: high-mem}` is deployed; 4. The Pod remains `Pending` with the mismatch event."
+    minimal_yaml_snippet:
+      spec:
+        nodeSelector:  # Critical: No node has both labels
+          env: "prod"
+          hardware: "high-mem"
+        containers:
+          - name: app
+            image: nginx:alpine
+    trigger_commands:
+      - "# 1. Label first node with env=prod (no hardware label) (replace `<worker1>`)"
+      - "kubectl label node <worker1> env=prod --overwrite"
+      - "kubectl label node <worker1> hardware-"
+      - ""
+      - "# 2. Label second node with hardware=high-mem (no env label) (replace `<worker2>`)"
+      - "kubectl label node <worker2> hardware=high-mem --overwrite"
+      - "kubectl label node <worker2> env-"
+      - ""
+      - "# 3. Deploy the Pod requiring both labels"
+      - "kubectl apply -f <yaml-file>"
+
+
+  - id: 4
+    sub_scenario: "Label Key or Value Misspelled"
+    description: "The Pod's `nodeSelector` uses `disktype: ssd`, but nodes have misspelled labels (`disk-type: ssd` or `disktype: sdd`), leading to mismatch."
+    trigger_condition: "1. User replaces `<worker>` with actual worker node names; 2. All specified nodes are labeled `disk-type: ssd` (misspelled key); 3. A Pod with `nodeSelector: {disktype: ssd}` is deployed; 4. The Pod remains `Pending` with the mismatch event."
+    minimal_yaml_snippet:
+      spec:
+        nodeSelector:  # Critical: Key mismatch with node labels (node has 'disk-type')
+          disktype: "ssd"
+        containers:
+          - name: app
+            image: nginx:alpine
+    trigger_commands:
+      - "# 1. Label nodes with misspelled key 'disk-type' (replace `<worker>` with actual node names)"
+      - "kubectl label node <worker> disk-type=ssd --overwrite"
+      - ""
+      - "# 2. Remove correct key 'disktype' to avoid residual matches"
+      - "kubectl label node <worker> disktype-"
+      - ""
+      - "# 3. Deploy the Pod with correctly spelled (but mismatched) nodeSelector"
+      - "kubectl apply -f <yaml-file>"

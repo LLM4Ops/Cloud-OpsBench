@@ -1,0 +1,85 @@
+---
+fault_category: "Traffic Routing"
+failure_mode: "ServiceSelectorMismatch"
+general_description: "Service selector doesn't match Pod labels, leaving Endpoints empty. Requests to the Service fail due to no available endpoints."
+cases:
+  - id: 1
+    sub_scenario: "Label Value Typo"
+    description: "Service selector has a typo in the label value (e.g., `nginx_server` instead of `nginx-server`), so no Pods are matched."
+    trigger_condition: "1. Pods have label `app: nginx-server`; 2. Service uses `app: nginx_server`; 3. Endpoints are empty."
+    precondition:
+      description: "Pods with label `app: nginx-server` are running."
+      pre_yaml_snippet:
+        spec:
+          template:
+            metadata:
+              labels:
+                app: nginx-server  # Correct label (hyphen)
+            spec:
+              containers:
+                - name: nginx
+                  image: nginx:alpine
+    minimal_yaml_snippet:
+      spec:
+        ports:
+          - port: 80
+            targetPort: 80
+        selector:  # Fault: Typo (underscore)
+          app: "nginx_server"
+    commands:
+      - "kubectl apply -f <pre-yaml>"
+      - "kubectl apply -f <service-yaml>"
+
+  - id: 2
+    sub_scenario: "Label Key Typo"
+    description: "Service selector uses a wrong label key (e.g., `application` instead of `app`), so no Pods are matched."
+    trigger_condition: "1. Pods have label `app: nginx`; 2. Service uses `application: nginx`; 3. Endpoints are empty."
+    precondition:
+      description: "Pods with label `app: nginx` are running."
+      pre_yaml_snippet:
+        spec:
+          template:
+            metadata:
+              labels:
+                app: nginx  # Correct key (app)
+            spec:
+              containers:
+                - name: frontend
+                  image: nginx:alpine
+    minimal_yaml_snippet:
+      spec:
+        ports:
+          - port: 80
+            targetPort: 8080
+        selector:  # Fault: Wrong key (application)
+          application: "nginx"
+    commands:
+      - "kubectl apply -f <yaml-file>"
+
+
+  - id: 3
+    sub_scenario: "Over-Specific Selector (Missing Label)"
+    description: "Service selector includes an extra label not on Pods, so no matches (selectors are AND-ed)."
+    trigger_condition: "1. Pods have only `app: api-gateway`; 2. Service requires `app: api-gateway` + `env: production`; 3. Endpoints are empty."
+    precondition:
+      description: "Pods with label `app: api-gateway` (no `env` label) are running."
+      pre_yaml_snippet:
+        spec:
+          template:
+            metadata:
+              labels:
+                app: api-gateway  # Only this label
+            spec:
+              containers:
+                - name: api
+                  image: nginx:alpine
+    minimal_yaml_snippet:
+      spec:
+        ports:
+          - port: 80
+            targetPort: 80
+        selector:  # Fault: Extra label (env: production)
+          app: "api-gateway"
+          env: "production"
+    commands:
+      - "kubectl apply -f <yaml-file>"

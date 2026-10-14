@@ -1,0 +1,18 @@
+---
+fault_category: "Infrastructure"
+failure_mode: "ContainerdUnavailable"
+general_description: "The containerd service, acting as the container runtime on the node, is inoperative. Kubelet relies on containerd to pull images, create, start, and stop containers. When containerd stops, Kubelet loses connection to the container runtime socket. While running container processes might survive temporarily (depending on the crash nature), Kubelet cannot perform lifecycle operations or health checks. Kubelet will eventually report that the runtime is not ready, transitioning the Node status to `NotReady` (specifically, the `ContainerRuntimeReady` condition becomes `False`). New Pods cannot start on this node."
+cases:
+  - id: 1
+    sub_scenario: "Containerd Systemd Service Stopped"
+    description: "The `containerd` system process is manually stopped on a target node. Kubelet detects the loss of connection to the runtime API. Existing Pods may eventually enter `Unknown` or `Error` states as probes fail. The node status transitions to `NotReady`."
+    trigger_condition: "1. The `containerd` service is inactive on the target node; 2. The Node status becomes `NotReady` after Kubelet detects runtime failure (usually within a minute); 3. New Pods scheduled to this node get stuck in `ContainerCreating` state; 4. Kubelet logs on the node show connection refused errors to the containerd socket."
+    precondition:
+      description: 
+        Stop the systemd service for containerd to simulate a container runtime crash.
+      setup_commands:
+        - "ssh root@<worker> systemctl stop containerd"
+    minimal_yaml_snippet:
+       "# Optional: A generic Pod yaml to test scheduling to this node"
+    trigger_commands:
+      - "ssh root@<worker> systemctl stop containerd"
