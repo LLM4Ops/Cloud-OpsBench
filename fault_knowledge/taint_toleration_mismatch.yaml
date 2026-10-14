@@ -1,0 +1,62 @@
+---
+fault_category: "Scheduling"
+failure_mode: "TaintTolerationMismatch"
+general_description: "A Pod remains `Pending` because it lacks the necessary toleration to schedule on nodes with taints. Taints block Pod scheduling unless the Pod explicitly tolerates them; if all nodes have untolerated taints, the Pod stays unschedulable. Un tainted nodes allow normal scheduling."
+cases:
+  - id: 1
+    sub_scenario: "Basic Taint/Toleration Mismatch (NoSchedule)"
+    description: "All worker nodes have the `critical=true:NoSchedule` taint, blocking new Pods without the matching toleration. Running Pods are unaffected, but new Pods remain `Pending`."
+    trigger_condition: "1. User replaces `<worker>` with actual worker node names; 2. All specified nodes are tainted `critical=true:NoSchedule`; 3. A Pod with no toleration is deployed; 4. The Pod remains `Pending` with events showing `0/x nodes are available: x node(s) had untolerated taint`."
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: app
+            image: nginx:alpine  # No toleration configured; fault from untolerated taint
+    trigger_commands:
+      - "# 1. Taint all worker nodes with NoSchedule (replace `<worker>` with actual node names)"
+      - "kubectl taint nodes <worker> critical=true:NoSchedule --overwrite"
+      - ""
+      - "# 2. Deploy a Pod with no toleration (will fail to schedule)"
+      - "kubectl apply -f <yaml-file>"
+
+
+  - id: 2
+    sub_scenario: "Eviction Taint with Node Selector (`NoExecute`)"
+    description: "A Pod is bound to a specific node via `nodeSelector: {app: target-node}`, but that node has the `node-unhealthy=true:NoExecute` taint. Without a toleration, the Pod cannot schedule on its only eligible node and remains `Pending`."
+    trigger_condition: "1. User replaces `<target-node>` with the actual node name; 2. `<target-node>` is labeled `app=target-node` and tainted `node-unhealthy=true:NoExecute`; 3. A Pod with `nodeSelector: {app: target-node}` (no toleration) is deployed; 4. The Pod remains `Pending` with events showing `0/1 nodes are available: 1 node(s) had untolerated taint`."
+    minimal_yaml_snippet:
+      spec:
+        nodeSelector:  # Binds to the tainted node
+          app: "target-node"
+        containers:
+          - name: app
+            image: nginx:alpine  # No toleration for node-unhealthy taint
+    trigger_commands:
+      - "# 1. Label target node for nodeSelector (replace `<worker>`)"
+      - "kubectl label node <worker> app=target-node --overwrite"
+      - ""
+      - "# 2. Taint target node with NoExecute (replace `<worker>`)"
+      - "kubectl taint nodes <worker> node-unhealthy=true:NoExecute --overwrite"
+      - ""
+      - "# 3. Deploy Pod with nodeSelector (no toleration)"
+      - "kubectl apply -f <yaml-file>"
+
+
+  - id: 3
+    sub_scenario: "Taint and Node Selector Conflict (NoSchedule)"
+    description: "A Pod uses `nodeSelector: {dedicated: gpu-node}` to target GPU nodes, but all such nodes are tainted `workload=machine-learning:NoSchedule`. Without the required toleration, the Pod cannot schedule and remains `Pending`."
+    trigger_condition: "1. User replaces `<target-gpu-node>` with the actual GPU node name; 2. `<target-gpu-node>` is labeled `dedicated=gpu-node` and tainted `workload=machine-learning:NoSchedule`; 3. A Pod with `nodeSelector: {dedicated: gpu-node}` (no toleration) is deployed; 4. The Pod remains `Pending` with events showing `0/1 nodes are available: 1 node(s) had untolerated taint`."
+    minimal_yaml_snippet:
+      spec:
+        nodeSelector:  # Binds to the tainted GPU node
+          dedicated: "gpu-node"
+        containers:
+          - name: ml-app
+            image: nginx:alpine   # No toleration for workload taint
+    trigger_commands:
+      - "# 1. Label target GPU node (replace `<worker>`)"
+      - "kubectl label node <worker> dedicated=gpu-node --overwrite"
+      - "# 2. Taint target GPU node with NoSchedule (replace `<worker>`)"
+      - "kubectl taint nodes <worker> workload=machine-learning:NoSchedule --overwrite"
+      - "# 3. Deploy Pod with GPU nodeSelector (no toleration)"
+      - "kubectl apply -f <yaml-file>"

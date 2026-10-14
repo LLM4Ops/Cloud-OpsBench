@@ -1,0 +1,21 @@
+---
+fault_category: "Infrastructure"
+failure_mode: "KubeSchedulerUnavailable"
+general_description: "The Kubernetes Scheduler (kube-scheduler), which is responsible for assigning newly created Pods to Nodes, is inoperative. When the scheduler is down, the API Server still accepts Pod creation requests, and the Pod objects are stored in Etcd. However, because no component is watching for unscheduled Pods to assign them a Node, these Pods remain in a `Pending` state indefinitely. Crucially, unlike scheduling failures caused by resource shortages (which generate 'FailedScheduling' events), a stopped scheduler results in **no events** related to scheduling for the new Pod."
+cases:
+  - id: 1
+    sub_scenario: "Scheduler Systemd Service Stopped"
+    description: "The `kube-scheduler` system process is manually stopped or crashes on the control plane node. Existing running Pods are unaffected and continue to run. However, any new Pods (or Pods recreated due to failure) will be created but never assigned to a node. The `nodeName` field in the Pod spec remains empty."
+    trigger_condition: "1. The `kube-scheduler` service on the master node is inactive (checked via systemctl); 2. A new Pod/Deployment is applied to the cluster; 3. The Pod status remains `Pending` for an extended period; 4. Executing `kubectl describe pod <pod-name>` shows **no Events** section or no events related to scheduling."
+    precondition:
+      description: 
+        Stop the systemd service for the scheduler to simulate a component crash or maintenance error.
+      setup_commands:
+       # 1. Stop the kube-scheduler service"
+        - "sudo systemctl stop kube-scheduler"
+    minimal_yaml_snippet:
+       "# No need to modify, not caused by user application"
+    trigger_commands:
+      - "sudo systemctl stop kube-scheduler"
+      - "sleep 20"
+      - "kubectl apply -f <yaml-file>"

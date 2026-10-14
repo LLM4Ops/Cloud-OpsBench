@@ -1,0 +1,44 @@
+---
+fault_category: "Scheduling"
+failure_mode: "NodeCordoned"
+general_description: "Worker nodes marked `SchedulingDisabled` after `kubectl cordon` prevent new Pod scheduling. If all worker nodes or specialized nodes (e.g., GPU nodes) are cordoned, new Pods will remain in `Pending` state, affecting workload deployment, scaling, or self-healing. Core sub-scenarios: Global Worker Node Cordon (all worker nodes) and Specific Resource Node Cordon (specialized nodes)."
+
+cases:
+  - id: 1
+    sub_scenario: "Global Worker Node Cordon (Change Freeze)"
+    description: "All worker nodes (excluding control-plane nodes) are cordoned. Any new Pod deployment will fail to schedule and remain in `Pending` state due to the lack of available nodes."
+    trigger_condition: "1. User provides all worker node names (e.g., 'node-1 node-2'); 2. All provided worker nodes are cordoned via `kubectl cordon`; 3. A new Pod is deployed; 4. The Pod remains in `Pending` state with events showing `0/x nodes are available: x node(s) are cordoned`."
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: test-app
+            image: nginx:alpine  # No configuration error; fault caused by cordoned nodes
+    trigger_commands:  # Combined deployment script steps
+      - "# 1. Cordon all worker nodes"
+      - "kubectl cordon <worker>" # replace <worker> with actual node names)
+      - ""
+      - "# 2. Deploy the new Pod (will trigger scheduling failure)"
+      - "kubectl apply -f <yaml-file>"
+
+
+  - id: 2
+    sub_scenario: "Specific GPU Node Cordon (Node Isolation)"
+    description: "A specified GPU node is cordoned. Pods requiring this node (via `nodeSelector`) will fail to schedule and remain in `Pending` state, as no matching available nodes exist."
+    trigger_condition: "1. User provides a target GPU node name (e.g., 'node-gpu-1'); 2. The node is labeled `hardware-type=gpu` and cordoned; 3. A Pod with `nodeSelector: {hardware-type: gpu}` is deployed; 4. The Pod remains in `Pending` state with events showing `0/1 nodes are available: 1 node(s) are cordoned`."
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: gpu-app
+            image: your-image
+        nodeSelector:  # Critical: Binds to the GPU node (now cordoned)
+          hardware-type: "gpu"
+    trigger_commands:  # Combined deployment script steps
+      - "# 1. Add GPU label to the node"
+      - "kubectl label node <worker> hardware-type=gpu --overwrite"
+      - ""
+      - "# 2. Cordon the GPU node"
+      - "kubectl cordon <worker>"
+      - ""
+      - "# 3. Deploy the GPU-dependent Pod (will trigger scheduling failure)"
+      - "kubectl apply -f <yaml-file>"
+      

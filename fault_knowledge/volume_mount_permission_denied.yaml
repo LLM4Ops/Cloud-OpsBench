@@ -1,0 +1,45 @@
+---
+fault_category: "Startup"
+failure_mode: "VolumeMountPermissionDenied"
+general_description: |
+  The core of this failure is a mismatch between the container's process user (UID/GID) and the ownership/permissions of the mounted storage volume on the host (Node) filesystem. 
+  When a Pod attempts to read/write to a volume, if the process running inside the container (typically a non-root user) lacks filesystem permissions for the volume mount point, 
+  the container will fail to start or crash with a "Permission denied" error at runtime—this usually causes the Pod to enter the `CrashLoopBackOff` state.
+cases:
+  - id: 1
+    sub_scenario: "Redis Pod Fails to Start due to HostPath Permission Conflict"
+    description: |
+      A standard Redis container (which runs as the non-root `redis` user by default) is deployed with its data directory `/data` persisted to a `hostPath` volume. 
+      However, this `hostPath` volume is preconfigured on the host node to be readable/writable only by the `root` user. 
+      When the Redis process starts and attempts to write data, the operating system rejects the operation due to insufficient permissions, 
+      causing the process to exit and the Pod to enter the `CrashLoopBackOff` state.
+    trigger_condition: |
+      1. Create a permission-restricted directory on the target Kubernetes node for the Pod.
+      2. Deploy a customized Redis YAML that forces the Pod to schedule to this node and mounts the permission-restricted `hostPath` volume.
+    precondition:
+      description: |
+        This failure scenario intentionally uses `hostPath` to precisely control underlying filesystem permissions (instead of PV/PVC).
+    minimal_yaml_snippet:
+      # Complete Pod template (fixed syntax: volumeMounts belongs to container spec)
+      spec:
+        # Force scheduling to target node (for fault reproducibility)
+        nodeSelector:
+          kubernetes.io/hostname: worker # Replace with actual node name
+        securityContext:
+          runAsUser: 999       # UID of the redis user (non-root)
+          runAsGroup: 999      # GID of the redis user (non-root)
+          fsGroup: 999         # Fault Injection 1: fsGroup still lacks write permissions
+        containers:
+        - name: redis
+          image: redis:latest
+          volumeMounts:
+          - mountPath: /data   # Redis data directory
+            name: db-data      # Mount the permission-restricted hostPath volume
+        volumes:
+        - name: db-data
+          hostPath:
+            path: /mnt/redis-data-hp # Fault Injection 2: HostPath mapped to root-only directory on node
+            type: Directory # Ensure the directory exists on the node
+    trigger_commands:
+      - "ssh root@<worker> 'mkdir -p /mnt/redis-data-hp && chown root:root /mnt/redis-data-hp && chmod 700 /mnt/redis-data-hp'"
+      - "kubectl apply -f <yaml-file>"

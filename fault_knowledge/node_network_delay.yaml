@@ -1,0 +1,37 @@
+---
+fault_category: "Infrastructure"
+failure_mode: "NodeNetworkDelay"
+general_description: "This fault simulates artificially increased network latency on a Kubernetes Node's physical network interface (e.g., eth0). Unlike Pod-level faults, this has a 'blast radius' that covers the entire Node. It affects ALL Pods running on that node, as well as system daemons like Kubelet, Kube-proxy, and SSH. \n\nCRITICAL WARNING: Because this fault affects the node's communication with the control plane (Kube-apiserver), excessive latency (>5000ms) or lack of safety measures can cause the Node to change to a 'NotReady' state, triggering unintended Pod evictions. To prevent locking administrators out of the node, it is MANDATORY to set a 'timeout' (auto-recovery) or use 'exclude-port' (to whitelist SSH/22 and Kubelet ports)."
+cases:
+  - id: 1
+    sub_scenario: "Injecting High Network Latency with Jitter into a Specific Node"
+    description: "Use ChaosBlade to manipulate the Traffic Control (tc) qdisc settings on the target Node's network interface. It introduces a base delay (`time`) plus a random fluctuation (`offset`) to outgoing packets. This accurately simulates an unstable physical network environment, cross-region link congestion, or degraded switch performance."
+    trigger_condition: |
+      1. Deploy a ChaosBlade CRD YAML with `scope: node`, `target: network`, `action: delay`.
+      2. Identify the target node via `names`.
+      3. Set `time` (latency in ms) and `offset` (jitter in ms).
+      4. MUST include `timeout` (e.g., 60s) or `exclude-port` (e.g., 22) to ensure cluster manageability.
+    minimal_yaml_snippet:
+      apiVersion: chaosblade.io/v1alpha1
+      kind: ChaosBlade
+      metadata:
+        name: node-network-delay
+      spec:
+        experiments:
+        - scope: node
+          target: network
+          action: delay
+          desc: "Inject 2000ms delay (+-500ms) to worker-02 eth0, auto-stop after 60s"
+          matchers:
+          - name: names
+            value: ["{{Node_Name}}"]
+          - name: interface
+            value: ["eth0"]
+          - name: time
+            value: ["2000"]    # Base delay: 2 seconds
+          - name: offset
+            value: ["500"]     # Jitter: +/- 500ms
+          - name: timeout
+            value: ["60s"]     # Safety: Auto-recover after 60 seconds
+    trigger_commands:
+      - "kubectl apply -f chaosblade_inject.yaml"

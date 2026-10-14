@@ -1,0 +1,33 @@
+---
+fault_category: "Scheduling"
+failure_mode: "PVCCapacityMismatch"
+general_description: |
+  This failure occurs when the storage capacity requested by a PersistentVolumeClaim (PVC) exceeds the available capacity or configured quota of the underlying storage backend (e.g., StorageClass Provisioner, cloud disk, or node-local disk). 
+  The dynamic volume provisioner cannot create a PersistentVolume (PV) that meets the capacity requirement, causing the PVC to remain in the `Pending` state indefinitely.
+cases:
+  - id: 1
+    sub_scenario: "Dynamic Provisioning: Requested Capacity Exceeds Backend Storage Limits"
+    description: |
+      The storage capacity requested by the PVC (e.g., 500Gi) exceeds the maximum limit of the cloud storage type associated with the StorageClass (e.g., certain cloud disk types have fixed maximum capacity limits) or the maximum limit configured in the Provisioner. 
+      Upon receiving the request, the Provisioner rejects PV creation due to the exceeded limit.
+    trigger_condition: |
+      Create a PVC where the value of `resources.requests.storage` far exceeds the actual or configured maximum capacity of the backend storage associated with the cluster's StorageClass.
+    precondition:
+      description: |
+        A StorageClass (e.g., `standard`) is deployed in the cluster, and its underlying storage has a verifiable upper capacity limit (e.g., Minikube's default storage constraints or limits for specific cloud disk types).
+    minimal_yaml_snippet:
+      - title: "PersistentVolumeClaim (Oversized Capacity Injection)"
+        yaml_snippet:
+          apiVersion: v1
+          kind: PersistentVolumeClaim
+          metadata:
+            name: oversized-claim
+          spec:
+            accessModes:
+              - ReadWriteOnce # RWO: Single-node read-write access
+            storageClassName: "standard" # Assumption: `standard` has a 100Gi maximum capacity limit
+            resources:
+              requests:
+                storage: "500Gi" # Fault Injection: Request capacity far exceeding backend limits
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"

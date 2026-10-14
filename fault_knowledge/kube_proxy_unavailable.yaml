@@ -1,0 +1,19 @@
+---
+fault_category: "Infrastructure"
+failure_mode: "KubeProxyUnavailable"
+general_description: "The Kube-proxy is the core configurator of the Service mechanism. It continuously watches the API Server for Service and EndpointSlice objects and writes the traffic routing rules (such as iptables or IPVS) into the node's kernel. When Kube-proxy is stopped before a Service is deployed, it will fail to receive the new Service events, meaning the network rules on that node are never created. As a result, new Service traffic (via both ClusterIP and NodePort) cannot be correctly routed to the backend Pods, leading to access failure."
+cases:
+  - id: 1
+    sub_scenario: "New Service Deployment after Kube-proxy Failure"
+    description: "After the kube-proxy process is stopped on a target node, a new Service and its corresponding Pods are deployed in the cluster. Due to the absence of Kube-proxy to configure the network rules, access to the new Service's NodePort or ClusterIP from outside or inside the cluster will fail."
+    trigger_condition: "1. The Kube-proxy process is stopped or the Pod is deleted on the target node; 2. A new Service is deployed; 3. Attempts to access the new Service via $NodeIP:NodePort$ or ClusterIP result in failure or connection timeouts."
+    precondition:
+      description: 
+        Stop the Kube-proxy process on the node and confirm it is inactive before deploying a new Service for testing.
+      setup_commands:
+       # 1. Stop the kubelet service on the target node
+        - "ssh root@<worker> systemctl stop kube-proxy"
+    minimal_yaml_snippet:
+       "# Optional: A generic Pod yaml to test scheduling to this node"
+    trigger_commands:
+      - "ssh root@<worker> systemctl stop kube-proxy"

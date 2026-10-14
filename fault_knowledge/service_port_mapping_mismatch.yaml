@@ -1,0 +1,69 @@
+fault_category: "Traffic Routing"
+failure_mode: "Service Port Mapping Mismatch"
+injectable: "yes"
+general_description: |
+  The Service selector is correct, but traffic cannot flow because the Service's
+  `targetPort` does not match the port the backend Pod container is actually
+  listening on.  Kube-proxy forwards packets to the wrong port inside the Pod,
+  causing connection timeouts or "Connection refused".
+
+cases:
+  - id: 1
+    sub_scenario: "Numeric port mismatch (targetPort != containerPort)"
+    injectable: "yes"
+    description: |
+      Straightforward numeric mismatch: the container listens on 8080, but
+      the Service targets 80.  Traffic reaches the Pod IP, but no process
+      is bound to port 80, so the connection fails.
+    trigger_condition: |
+      1. Container listens on `containerPort: 8080`.
+      2. Service mistakenly uses `targetPort: 80`.
+      3. Endpoints show IPs, yet Service access fails.
+    precondition:
+      description: "Ensure the Deployment/Pod exposes `containerPort: 8080`."
+      pre_yaml_snippet:
+        spec:
+          containers:
+            - name: web-app
+              ports:
+                - containerPort: 8080   # real listener
+    minimal_yaml_snippet:
+      spec:
+        selector:
+          app: web-app
+        ports:
+          - port: 80
+            targetPort: 80   # fault-injection: should be 8080
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"
+
+  - id: 2
+    sub_scenario: "Named port mismatch (Port Name Mismatch)"
+    injectable: "yes"
+    description: |
+      When using named ports, the Service's `targetPort` string must match
+      the `ports[].name` defined in the container.  A spelling mismatch
+      prevents Kubernetes from resolving the name to the correct numeric
+      port, so traffic is sent to port 0 (invalid) and the connection fails.
+    trigger_condition: |
+      1. Container port named `http-main`.
+      2. Service `targetPort` references non-existent name `http-web`.
+      3. Name resolution fails → no valid port → connection refused.
+    precondition:
+      description: "Ensure container defines `name: http-main` for its port."
+      pre_yaml_snippet:
+        spec:
+          containers:
+            - name: web-app
+              ports:
+                - name: http-main  # Container port name
+                  containerPort: 8080
+    minimal_yaml_snippet:
+      spec:
+        selector:
+          app: web-app
+        ports:
+          - port: 80
+            targetPort: http-web   # fault-injection: wrong name
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"

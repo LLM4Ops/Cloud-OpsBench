@@ -1,0 +1,62 @@
+---
+fault_category: "Admission Control"
+failure_mode: "NamespaceStorageQuotaExceeded"
+general_description: "Storage-request quota caps the total storage requests (in GiB) available in the namespace via PersistentVolumeClaims. When the sum of existing storage requests (from PVCs) plus the new PVC's request exceeds the hard limit, the API Server rejects the PVC creation."
+cases:
+  - id: 1
+    sub_scenario: "Total Storage Request Exceeds Quota"
+    description: "After a Namespace is configured with a hard limit on total storage requests via ResourceQuota, a cumulative amount of storage requests from existing PersistentVolumeClaims (PVCs) in the Namespace has already consumed a significant portion of the quota. When a new PVC (or Deployment that creates a new PVC) is requested, the sum of the existing cumulative storage requests and the new PVC's storage request exceeds the hard quota limit for storage requests. As a result, the Kubernetes API Server rejects the creation request for the new PVC, leading to failed volume attachment and deployment failures."
+    trigger_condition: "1. A ResourceQuota defining a hard limit on total storage requests (`requests.storage`) is created in the target Namespace; 2. Multiple PVCs exist in the Namespace, with their combined `resources.requests.storage` values consuming a substantial portion of the storage request quota; 3. Create a new PVC (or deploy a Pod that references a new PVC) with storage requests, such that the sum of existing cumulative storage requests and the new PVC's storage request exceeds the hard quota limit; 4. The creation of the new PVC is rejected, and event logs display a quota exhaustion error message in the format: `exceeded quota: <quota-name>, requested: requests.storage=<new-request>, used: requests.storage=<total-used>, limited: requests.storage=<quota-limit>`."
+    precondition:
+      description: |
+        1. Create a ResourceQuota with requests.storage: "10Gi" (hard limit) in the target Namespace;
+        2. Create an existing PVC that consumes storage (e.g., `resources.requests.storage: "9Gi"`) to consume most of the quota.
+      pre_yaml_snippet: |
+        # ResourceQuota + Pre-existing PVC (must be deployed FIRST)
+        apiVersion: v1
+        kind: ResourceQuota
+        metadata:
+          name: storage-quota
+        spec:
+          hard:
+            requests.storage: "10Gi"  # Total storage quota
+        ---
+        apiVersion: v1
+        kind: PersistentVolume
+        metadata:
+          name: pre-existing-pv
+        spec:
+          capacity:
+            storage: "10Gi"
+          accessModes:
+            - ReadWriteOnce
+          persistentVolumeReclaimPolicy: Retain
+          storageClassName: ""
+          hostPath:
+            path: "/mnt/data"  # Simple hostPath for demo
+        ---
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: pre-existing-pvc
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: "9Gi"  # Consumes 9Gi of the 10Gi quota
+      minimal_yaml_snippet: 
+        # USER'S BUSINESS: Will trigger quota exceedance when deployed
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: user-pvc
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: "2Gi"  # 2Gi + 9Gi = 11Gi > 10Gi → FAIL
+    trigger_commands:
+      - "kubectl apply -f <pre-yaml>"
+      - "kubectl apply -f <yaml-file>"

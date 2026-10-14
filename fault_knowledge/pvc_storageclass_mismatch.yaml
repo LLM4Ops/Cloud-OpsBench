@@ -1,0 +1,36 @@
+---
+fault_category: "Scheduling"
+failure_mode: "PVCStorageClassMismatch"
+general_description: |
+  This failure occurs when the StorageClass referenced by a PersistentVolumeClaim (PVC) in its `.spec.storageClassName` field **does not match any existing or available StorageClass** in the current Kubernetes cluster. 
+  As a result, the Kubernetes dynamic volume provisioner (Volume Controller/Provisioner) cannot find or create a matching PersistentVolume (PV) for the PVC. 
+  The PVC remains in the `Pending` state indefinitely, and any Pod referencing this PVC will also stay in `Pending` with volume-related error events in its status.
+cases:
+  - id: 1
+    sub_scenario: "References a Non-Existent or Misspelled StorageClass"
+    description: |
+      This is the most common StorageClass-related failure. The `storageClassName` field in the PVC configuration points to a StorageClass name that either does not exist in the cluster or contains a spelling error. 
+      Without a matching provisioner for the specified StorageClass, the PVC cannot dynamically provision a PV.
+    trigger_condition: |
+      1. Create a PVC with `spec.storageClassName` set to a non-existent name (e.g., "storage-class1" when no such StorageClass exists).
+      2. Deploy a Pod that references this PVC.
+    precondition:
+      description: |
+        An application Pod requiring persistent storage (e.g., a database or microservice with storage volumes) is deployed in the cluster, 
+        but its associated PVC and PV have not yet been provisioned.
+    minimal_yaml_snippet:
+      - title: "PersistentVolumeClaim (Failure Injection Point)"
+        yaml_snippet:
+          apiVersion: v1
+          kind: PersistentVolumeClaim
+          metadata:
+            name: my-pvc
+          spec:
+            accessModes:
+              - ReadWriteOnce # ReadWriteOnce (RWO): Single-node read-write access
+            storageClassName: "storage-class1" # Fault Injection: Non-existent/misspelled StorageClass name
+            resources:
+              requests:
+                storage: 1Gi
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"

@@ -1,0 +1,64 @@
+---
+fault_category: "Scheduling"
+failure_mode: "InsufficientNodeCPU"
+general_description: "When a Pod's CPU resource request (spec.containers.resources.requests.cpu) exceeds the available CPU capacity of any node in the Kubernetes cluster, the scheduler cannot assign a node to the Pod. The Pod will remain in a `Pending` state, and the event log will show a `FailedScheduling` event with the reason 'Insufficient cpu'. This includes two core sub-scenarios: absolute exceedance (request exceeds the node's hardware limit) and relative exceedance (request exceeds the node's remaining resources)."
+cases:
+  - id: 1
+    sub_scenario: "Absolute Exceedance of CPU Limit"
+    description: "The Pod's CPU request directly exceeds all nodes' physical CPU limits. For example, nodes with 8 cores cannot schedule a Pod requesting 12 cores."
+    trigger_condition: "1. All cluster nodes have total CPU ≤ 10 cores; 2. The Pod's CPU request is set to 12 cores (exceeding all nodes); 3. After `kubectl apply`, the Pod stays `Pending` with 'Insufficient cpu' events."
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: resource-test
+            resources:  # Critical error: The request CPU exceeds the physical upper limit of all nodes
+              requests:
+                cpu: "12"
+                memory: "128Mi"
+              limits:
+                cpu: "12"
+                memory: "128Mi"
+    trigger_commands:
+          - "kubectl apply -f <yaml-file>"
+
+  - id: 2
+    sub_scenario: "Relative Exceedance of Remaining CPU Resources"
+    description: "The CPU resources requested by the Pod do not exceed the node's physical limit (e.g., a node has 8 cores, and the Pod requests 5 cores), but a resource-consuming Pod is deployed on each node via a DaemonSet, leaving all nodes with insufficient remaining CPU, causing the new Pod's scheduling to fail."
+    trigger_condition: "1. All nodes in the cluster have a total of 8 CPU cores; 2. A resource-consuming Pod is deployed on each node via a DaemonSet, with each requesting 5 CPU cores; 3. The remaining CPU on the nodes is 8 - 5 = 3 cores. Deploying the target Pod, which requests 5 cores, will trigger a scheduling failure."
+    precondition:
+      description: "Deploy a DaemonSet to occupy 5 CPU cores per node, ensuring remaining CPU < 5 cores on all nodes."
+      pre_yaml_snippet:  # Core resource configuration of DaemonSet
+        apiVersion: apps/v1
+        kind: DaemonSet
+        metadata:
+          name: cpu-consumer
+        spec:
+          selector:
+            matchLabels:
+              app: cpu-consumer
+          template:
+            metadata:
+              labels:
+                app: cpu-consumer
+            spec:
+              containers:
+                - name: consumer
+                  image: busybox
+                  command: ["sleep", "3600"]
+                  resources: # Key configuration: Each node consumes 5 CPUs
+                    requests:
+                      cpu: "5"
+                    limits:
+                      cpu: "5"
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: target-app
+            resources:  # Key configuration: request CPU to exceed node remaining resources (3 cores)
+              requests:
+                cpu: "5"
+              limits:
+                cpu: "5"
+    trigger_commands:
+      - "kubectl apply -f <pre-yaml-file>"
+      - "kubectl apply -f <yaml-file>"

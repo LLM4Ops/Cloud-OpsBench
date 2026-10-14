@@ -1,0 +1,108 @@
+---
+fault_category: "Scheduling"
+failure_mode: "PVCAccessModeMismatch"
+general_description: |
+  This failure occurs when the set of access modes requested by a PersistentVolumeClaim (PVC) in its `.spec.accessModes` field is **incompatible** with the access modes supported by any available PersistentVolume (PV) (either statically provisioned or dynamically provisioned by a StorageClass). 
+  The Kubernetes volume controller cannot find a PV that meets all the PVC's requirements, causing the PVC to remain in the `Pending` state indefinitely.
+cases:
+  - id: 1
+    sub_scenario: "PVC Requests ReadWriteMany (RWX), PV Only Supports ReadWriteOnce (RWO)"
+    description: |
+      This is the most classic access mode mismatch failure. When a PVC explicitly requires a volume to support multi-node read-write access (ReadWriteMany, RWX), 
+      but all available PVs in the cluster (whether static or dynamically provisioned) only support single-node read-write access (ReadWriteOnce, RWO), 
+      the PVC will fail to bind to any PV.
+    trigger_condition: |
+      1. Create a PV with `accessModes` set to only `[ReadWriteOnce]`.
+      2. Create a PVC with `accessModes` set to `[ReadWriteMany]`.
+      3. Deploy a Pod that references this PVC.
+    precondition:
+      description: "The cluster has one or more PVs or StorageClasses configured with ReadWriteOnce (RWO) access mode."
+    minimal_yaml_snippet:
+      - title: "PersistentVolume (ReadWriteOnce Only)"
+        yaml_snippet:
+          apiVersion: v1
+          kind: PersistentVolume
+          metadata:
+            name: rwo-only-pv
+          spec:
+            capacity:
+              storage: "2Gi"
+            accessModes:
+              - ReadWriteOnce # PV only supports RWO (single-node read-write)
+            persistentVolumeReclaimPolicy: Retain
+            hostPath:
+              path: "/mnt/data-rwo"
+      - title: "PersistentVolumeClaim (Requests ReadWriteMany - Fault Injection Point)"
+        yaml_snippet:
+          apiVersion: v1
+          kind: PersistentVolumeClaim
+          metadata:
+            name: rwx-required-pvc
+          spec:
+            accessModes:
+              - ReadWriteMany # Fault Injection: PVC requests RWX (multi-node read-write)
+            resources:
+              requests:
+                storage: "1Gi"
+            volumeName: "rwo-only-pv" # Explicit PV reference (amplifies binding failure)
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"
+
+  - id: 2
+    sub_scenario: "PVC Requests Combined Modes Not Supported by a Single PV"
+    description: |
+      A PVC can request multiple access modes (e.g., `[ReadWriteOnce, ReadOnlyMany]`). If all available PVs support only a single mode (e.g., one PV supports only RWO, 
+      another supports only ROX), no single PV can satisfy the full set of modes requested by the PVC, resulting in binding failure.
+    trigger_condition: |
+      1. Create PV-A that only supports `[ReadWriteOnce]`.
+      2. Create PV-B that only supports `[ReadOnlyMany]`.
+      3. Create a PVC that requests both `[ReadWriteOnce, ReadOnlyMany]` simultaneously.
+    precondition:
+      description: "The cluster contains multiple PVs, but their supported access modes are fragmented (no single PV supports all requested modes)."
+    pre_yaml_snippet:
+      - title: "PersistentVolume (ReadWriteOnce Only - PV-A)"
+        yaml_snippet:
+          apiVersion: v1
+          kind: PersistentVolume
+          metadata:
+            name: rwo-only-pv-a # Fixed: Unique PV name (resolved duplicate naming)
+          spec:
+            capacity:
+              storage: "1Gi"
+            accessModes:
+              - ReadWriteOnce # PV only supports RWO
+            persistentVolumeReclaimPolicy: Retain
+            hostPath:
+              path: "/mnt/data-rwo-a"
+      - title: "PersistentVolume (ReadOnlyMany Only - PV-B)"
+        yaml_snippet:
+          apiVersion: v1
+          kind: PersistentVolume
+          metadata:
+            name: rox-only-pv-b # Fixed: Unique PV name (resolved duplicate naming)
+          spec:
+            capacity:
+              storage: "1Gi"
+            accessModes:
+              - ReadOnlyMany # PV only supports ROX
+            persistentVolumeReclaimPolicy: Retain
+            hostPath:
+              path: "/mnt/data-rox-b"
+    minimal_yaml_snippet:
+      - title: "PersistentVolumeClaim (Requests Multiple Modes - Fault Injection Point)"
+        yaml_snippet:
+          apiVersion: v1
+          kind: PersistentVolumeClaim
+          metadata:
+            name: multi-mode-request-pvc
+          spec:
+            accessModes:
+              - ReadWriteOnce
+              - ReadOnlyMany # Fault Injection: Requires single PV to support both modes
+            resources:
+              requests:
+                storage: "1Gi"
+            storageClassName: "" # Ensure static PV binding (disable dynamic provisioning)
+    trigger_commands:
+      - "kubectl apply -f <pre-yaml-file>"
+      - "kubectl apply -f <yaml-file>"

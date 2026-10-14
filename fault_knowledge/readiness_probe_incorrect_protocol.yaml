@@ -1,0 +1,22 @@
+fault_category: "Runtime"
+failure_mode: "ReadinessProbeIncorrectProtocol"
+general_description: "This failure occurs when the protocol used by the Kubernetes Readiness Probe (e.g., HTTP) is incompatible with the protocol implemented by the application listening on the target port (e.g., gRPC or TCP-only). Since Readiness Probes determine if a Pod can receive traffic, a protocol mismatch causes the probe to fail continuously. While the container remains 'Running', it stays in a 'Not Ready' state and is excluded from Service endpoints, leading to service unavailability."
+
+cases:
+  - id: 1
+    sub_scenario: "HTTP probe for gRPC service"
+    description: "A gRPC service requires a `grpc` type readiness probe but is incorrectly configured with an `httpGet` type probe. When the Kubelet sends an HTTP request to the gRPC port, the service cannot parse the HTTP protocol, returning a connection error or invalid response. This causes continuous readiness probe failures, leaving the Pod in a long-term `Not Ready` state and unable to receive traffic forwarded by the Service."
+    trigger_condition: "1. The container is a gRPC service (listening on a port such as 50051), but the `readinessProbe` is configured with `httpGet`; 2. After deployment, the Pod status is `Running` but marked `Not Ready`; 3. The event log continuously shows `Readiness probe failed: Get \"http://<pod-ip>:50051/\": dial tcp <pod-ip>:50051: connect: connection refused` or similar protocol incompatibility errors; 4. The Pod is not present in the Service's endpoint list."
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: grpc-service
+            image: my-grpc-service:v1
+            ports:
+              - containerPort: 50051
+            readinessProbe:
+              httpGet:  # Error: HTTP probe used for gRPC service (protocol mismatch)
+                path: "/"  # gRPC services have no HTTP path, exacerbating the failure
+                port: 50051
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"

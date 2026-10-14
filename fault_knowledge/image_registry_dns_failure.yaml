@@ -1,0 +1,38 @@
+---
+fault_category: "Startup"
+failure_mode: "ImageRegistryDNSFailure"
+general_description: "The Pod fails to pull an image because the cluster's DNS service cannot resolve the image registry's hostname, causing the Kubelet to be unable to connect to the registry. The Pod enters an `ImagePullBackOff` or `ErrImagePull` state. The core error is a domain name resolution failure, with event logs showing `lookup <hostname>: no such host` or `could not resolve host`. This fault depends on the cluster's network/DNS environment configuration, not an error in the Pod's own configuration, and is common in scenarios where the domain does not exist, is misspelled, or a private domain has not been configured for resolution."
+cases:
+  - id: 1
+    sub_scenario: "Referencing a non-existent, fictional domain"
+    description: "The Pod references a fictional image registry domain (e.g., `ghost-registry.example.net`) that has no record in the global DNS system. No cluster can resolve this hostname, leading to an image pull failure. This type of fault is independent of cluster configuration and is purely caused by the non-existence of the domain."
+    trigger_condition: "1. The Pod's `image` field uses a fictional domain (e.g., `ghost-registry.example.net/app:v1`); 2. After deployment, the Pod's status becomes `ImagePullBackOff`/`ErrImagePull`"
+    minimal_yaml_snippet:
+      spec:
+        containers:
+            image: ghost-registry.example.net/project/analyzer:1.0  # Fictional domain with no DNS record
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"
+
+  - id: 2
+    sub_scenario: "Misspelled public domain name"
+    description: "When referencing a public image registry, a typo in the domain name (e.g., `docker.io` -> `dockr.io`, `gcr.io` -> `gcrr.io`) causes DNS to fail to match a valid record, leading to resolution failure. The actual registry exists, but the domain is misspelled, which is a human configuration error."
+    trigger_condition: "1. The Pod's `image` field uses a misspelled public domain (e.g., `dockr.io/library/nginx:latest`); 2. After deployment, the Pod's status becomes `ImagePullBackOff`/`ErrImagePull`"
+    minimal_yaml_snippet:
+      spec:
+        containers:
+            image: dockr.io/library/nginx:latest  # Error: docker.io -> dockr.io (missing an 'e')
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"
+
+
+  - id: 3
+    sub_scenario: "Private domain missing DNS resolution record"
+    description: "The Pod references an internal, private image registry (e.g., `corp-registry.internal`), but the cluster's DNS server (e.g., CoreDNS) has not been configured with an A/AAAA resolution record for this domain. This results in resolution failure only within the cluster, while it may work on the external network (if the corporate DNS has the record)."
+    trigger_condition: "1. The Pod's `image` field uses a private domain not configured in the cluster DNS (e.g., `corp-registry.internal/app:v2`); 2. After deployment, the Pod's status becomes `ImagePullBackOff`/`ErrImagePull`;"
+    minimal_yaml_snippet:
+      spec:
+        containers:
+            image: corp-registry.internal/team/service:v2  # Private domain, cluster DNS not configured for resolution
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"

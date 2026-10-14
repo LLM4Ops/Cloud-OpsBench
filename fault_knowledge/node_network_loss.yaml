@@ -1,0 +1,37 @@
+---
+fault_category: "Infrastructure"
+failure_mode: "NodeNetworkPacketLoss"
+general_description: "This fault simulates packet loss on a Kubernetes Node's physical network interface (e.g., eth0). By dropping a percentage of incoming or outgoing packets, it degrades the network quality for ALL Pods running on the node, as well as system components. \n\nCRITICAL WARNING: High packet loss (>40%) on the node interface can disrupt Kubelet heartbeats (port 10250) and Etcd communication (if running on the node), causing the control plane to mark the node as 'NotReady' or 'Unreachable'. This may trigger aggressive Pod evictions. To prevent a 'deadlock' situation where you cannot SSH into the node to fix the fault, it is CRITICAL to configure `exclude-port` (for SSH/22, Kubelet) or set a strict `timeout`."
+cases:
+  - id: 1
+    sub_scenario: "Injecting High Packet Loss into a Specific Node"
+    injectable: "yes"
+    description: "Use ChaosBlade to manipulate the Traffic Control (tc) qdisc settings to randomly drop packets on the specified network interface. This simulates severe network congestion, faulty physical cabling, or switch interface errors. Unlike simple latency, packet loss forces TCP stacks to aggressively retransmit data, severely reducing throughput and causing application timeouts.
+      1. Deploy a ChaosBlade CRD YAML with `scope: node`, `target: network`, `action: loss`.
+      2. Identify the target node via `names`.
+      3. Set the `percent` (loss rate, 0-100).
+      4. MANDATORY: Configure `exclude-port` to whitelist management ports (22, 10250, etc.) or set a short `timeout` to avoid permanent node isolation."
+    minimal_yaml_snippet:
+      apiVersion: chaosblade.io/v1alpha1
+      kind: ChaosBlade
+      metadata:
+        name: node-network-loss-safe
+      spec:
+        experiments:
+        - scope: node
+          target: network
+          action: loss
+          desc: "Inject 30% packet loss to worker-02 eth0, excluding SSH/K8s ports"
+          matchers:
+          - name: names
+            value: ["{{Node_Name}}"]
+          - name: interface
+            value: ["eth0"]
+          - name: percent
+            value: ["30"]      # Drop 30% of traffic
+          - name: exclude-port
+            value: ["22,10250,6443"] # CRITICAL: Exclude SSH, Kubelet, and API Server ports
+          - name: timeout
+            value: ["60s"]     # Safety: Auto-recover after 60 seconds
+    trigger_commands:
+      - "kubectl apply -f chaosblade_inject.yaml"

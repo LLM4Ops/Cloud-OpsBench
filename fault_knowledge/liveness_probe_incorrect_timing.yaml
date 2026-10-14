@@ -1,0 +1,29 @@
+---
+fault_category: "Runtime"
+failure_mode: "LivenessProbeIncorrectTiming"
+general_description: |
+  A Pod crashes repeatedly due to unreasonable timing configuration of its Liveness Probe. The core cause is an overly short `initialDelaySeconds`, an overly short `periodSeconds`, or an excessively low `failureThreshold`. 
+  This causes the probe to check the application prematurely before it is ready, or to lack fault tolerance for temporary anomalies. After consecutive probe failures, the Kubelet triggers container restarts.
+cases:
+  - id: 1
+    sub_scenario: "Narrow Startup Delay Window (Short initialDelay + Short period + Low failureThreshold)"
+    injectable: "yes"
+    description: |
+      An application requires several seconds to complete initialization on startup, but the Liveness Probe is configured with a restrictive timing combination: 
+      `initialDelaySeconds=1` (probe checks start 1 second after container launch), `periodSeconds=1` (probe runs every 1 second), and `failureThreshold=2` (only 2 failures allowed). 
+      The total startup window is only 2 seconds. The application cannot respond to the probe before finishing initialization, leading to consecutive failures and forced restarts.
+    trigger_condition: |
+      1. The probe is configured with an overly short `initialDelaySeconds` (e.g., 1 second), an overly short `periodSeconds` (e.g., 1 second), and an excessively low `failureThreshold` (e.g., 2 failures).
+      2. The application startup time exceeds `initialDelaySeconds + periodSeconds*(failureThreshold-1)` (e.g., 1 seconds).
+      3. After deployment, the Pod restarts repeatedly due to premature probe failures, and event logs show `Liveness probe failed` errors accumulating to the threshold.
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: grpc-service
+            livenessProbe:
+              grpc: { port: 50051 }
+              initialDelaySeconds: 1 # Fault Injection: Too short initial delay (checks start too early)
+              periodSeconds: 1       # Fault Injection: Too frequent probe checks
+              failureThreshold: 1    # Fault Injection: No fault tolerance (1 failure = restart)
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"

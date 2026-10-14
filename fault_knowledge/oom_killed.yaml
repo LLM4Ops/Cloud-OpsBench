@@ -1,0 +1,21 @@
+---
+fault_category: "Runtime"
+failure_mode: "OOMKilled"
+general_description: "The container is terminated by the kernel for exceeding its configured memory limit, causing the Pod status to show `OOMKilled` (Out-of-Memory Killed). When an application's memory usage exceeds `limits.memory`, the node kernel triggers the OOM killer to terminate the process, leading to frequent container crashes and `CrashLoopBackOff` states."
+cases:
+  - id: 1
+    sub_scenario: "Business Application Memory Limit Set Too Low"
+    description: "The memory limit is set far below the application's actual needs (e.g., `5Mi`). Many applications (especially Go-based or dependency-heavy services) require more memory during initialization than this limit, causing OOM termination before readiness, resulting in a `CrashLoopBackOff` loop."
+    trigger_condition: "1. The container's `limits.memory` is set to an unrealistically low value (e.g., 5Mi); 2. The application's startup memory requirement exceeds this limit; 3. After `kubectl apply`, the Pod quickly enters `OOMKilled` state with events showing `Memory cgroup out of memory`."
+    minimal_yaml_snippet:
+      spec:
+        containers:
+          - name: business-app
+            image: my-business-app:v1
+            resources:  # Critical error: Memory limit is too low for application startup
+              requests:
+                memory: "5Mi"  # Request equals limit, no buffer
+              limits:
+                memory: "5Mi"  # Limit insufficient for startup requirements
+    trigger_commands:
+      - "kubectl apply -f <yaml-file>"
