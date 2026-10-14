@@ -1,3 +1,5 @@
+[![Official Hugging Face Dataset](https://img.shields.io/badge/Hugging%20Face-Official%20Dataset-FFD21E?style=flat-square&logo=huggingface&logoColor=FFD21E)](https://huggingface.co/datasets/LLM4Ops/Cloud-OpsBench) [![arXiv Paper](https://img.shields.io/badge/arXiv-2603.00468-B31B1B?style=flat-square&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2603.00468) [![MIT License](https://img.shields.io/badge/License-MIT-3DA639?style=flat-square&logo=opensourceinitiative&logoColor=white)](https://github.com/LLM4Ops/Cloud-OpsBench/blob/main/LICENSE)
+
 **Cloud-OpsBench** is a benchmark for **agentic root cause analysis (RCA)** in Kubernetes-based cloud systems. It is built around a state snapshot paradigm: instead of requiring a live cluster, each fault case stores the cluster state, alerts, logs, and tool cache needed for deterministic diagnosis and replay.
 
 The current release covers **two microservice systems**, **57 fault types**, and **754 fault cases**:
