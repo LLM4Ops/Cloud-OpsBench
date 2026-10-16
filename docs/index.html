@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cloud-OpsBench is a reproducible benchmark for agentic root cause analysis in cloud systems. Explore 754 incident snapshots, 57 fault types, and milestone-based evaluation.">
+  <meta name="theme-color" content="#153c38">
+  <meta property="og:title" content="Cloud-OpsBench · Reproducible Agentic RCA">
+  <meta property="og:description" content="Freeze the incident. Replay the evidence. Evaluate the diagnosis. 754 incidents across two microservice systems.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://llm4ops.github.io/Cloud-OpsBench/">
+  <meta property="og:image" content="https://llm4ops.github.io/Cloud-OpsBench/assets/overview.png">
+  <link rel="canonical" href="https://llm4ops.github.io/Cloud-OpsBench/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/script.js" defer></script>
+  <title>Cloud-OpsBench — A Reproducible Benchmark for Agentic RCA</title>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="brand" href="#" aria-label="Cloud-OpsBench home"><span class="brand-mark" aria-hidden="true">C<span>·</span>O</span> Cloud-OpsBench</a>
+      <nav aria-label="Main navigation"><a href="#overview">Overview</a><a href="#benchmark">Benchmark</a><a href="#results">Results</a><a href="#start">Get started</a></nav>
+      <a class="nav-github" href="https://github.com/LLM4Ops/Cloud-OpsBench">GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero container">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="status-dot"></span> A benchmark for agentic cloud diagnosis</div>
+        <h1>Cloud-OpsBench<span class="hero-subtitle">Real incidents.<br>Reproducible diagnosis.</span></h1>
+        <p class="hero-description">A reproducible benchmark for agentic root cause analysis in cloud systems. Investigate preserved incident snapshots, follow diagnostic evidence, and evaluate both the answer and the path to it.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="https://huggingface.co/datasets/LLM4Ops/Cloud-OpsBench"><span aria-hidden="true">🤗</span> Explore the dataset <span aria-hidden="true">↗</span></a>
+          <a class="button button-outline" href="https://arxiv.org/abs/2603.00468">Read the paper <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="attribution">LLM4Ops <span aria-hidden="true">/</span> The Chinese University of Hong Kong</p>
+      </div>
+      <div class="incident-card" aria-label="Conceptual diagnostic snapshot, not a live incident">
+        <div class="card-topline"><span class="mini-label">THE SNAPSHOT PARADIGM</span><span class="small-pill">Replayable</span></div>
+        <div class="scene-heading"><span class="scene-icon" aria-hidden="true">⌁</span><div><h2>Freeze the crime scene.</h2><p>Keep the evidence. Remove the live-cluster dependency.</p></div></div>
+        <div class="evidence-grid">
+          <div><span class="tile-symbol" aria-hidden="true">▦</span><span>Cluster state</span><small>Resources & configuration</small></div>
+          <div><span class="tile-symbol" aria-hidden="true">≋</span><span>Telemetry</span><small>Logs, alerts & metrics</small></div>
+          <div><span class="tile-symbol code-symbol" aria-hidden="true">&lt;/&gt;</span><span>Application code</span><small>Source-level evidence</small></div>
+          <div><span class="tile-symbol" aria-hidden="true">↻</span><span>Tool responses</span><small>Deterministic replay</small></div>
+        </div>
+        <div class="diagnosis-flow"><span>Incident snapshot</span><b aria-hidden="true">→</b><span>Tool investigation</span><b aria-hidden="true">→</b><span>Root cause</span></div>
+        <div class="card-footline"><span class="status-dot"></span> No live Kubernetes cluster required</div>
+      </div>
+    </section>
+
+    <div class="stats-wrap"><div class="stats container" aria-label="Dataset statistics"><div><strong>754</strong><span>incident snapshots</span></div><div><strong>57</strong><span>fault types</span></div><div><strong>2</strong><span>microservice systems</span></div><div><strong>1,508</strong><span>expert trajectories</span></div></div></div>
+
+    <section class="section container" id="overview">
+      <div class="section-heading"><div><p class="eyebrow">01 / THE IDEA</p><h2>The same incident. Every time.</h2></div><p>Diagnose complex cloud failures without rebuilding the cloud.</p></div>
+      <p class="section-intro">Live systems change as an agent investigates. Cloud-OpsBench preserves the fault scene as a state snapshot, so different agents can query the same recorded evidence under a reproducible diagnostic interface.</p>
+      <figure class="overview-figure"><img src="assets/overview.png" alt="Cloud-OpsBench overview: incident construction, state snapshots, interactive diagnostic tools, and outcome and process evaluation." width="2308" height="760" loading="lazy"><figcaption>The state snapshot paradigm: from reproducible fault scenes to evidence-grounded agent evaluation.</figcaption></figure>
+      <div class="feature-grid"><article><span class="feature-number">01</span><h3>Replay the environment</h3><p>Resource states, telemetry, code, and cached tool outputs preserve the diagnostic evidence. No cluster deployment is needed to run the released cases.</p></article><article><span class="feature-number">02</span><h3>Investigate, not classify</h3><p>Agents choose tools, collect observations, and reason across multiple steps to identify both the faulty component and the fault type.</p></article><article><span class="feature-number">03</span><h3>Evaluate the reasoning path</h3><p>Milestone annotations check evidence coverage, admissible ordering, and completeness alongside final RCA correctness and tool-use efficiency.</p></article></div>
+    </section>
+
+    <section class="section section-tinted" id="benchmark"><div class="container">
+      <div class="section-heading"><div><p class="eyebrow">02 / THE BENCHMARK</p><h2>From infrastructure to application code.</h2></div><a class="text-link" href="https://huggingface.co/datasets/LLM4Ops/Cloud-OpsBench/tree/main">Browse all artifacts <span aria-hidden="true">↗</span></a></div>
+      <div class="systems-grid"><article class="system-card"><div class="system-title"><span class="system-icon boutique-icon" aria-hidden="true">B</span><h3>Online Boutique</h3><strong>550 <small>cases</small></strong></div><p>An online retail microservice system, with faults spanning eight categories.</p><div class="tags"><span>Admission</span><span>Scheduling</span><span>Startup</span><span>Runtime</span><span>Service routing</span><span>Performance</span><span>Infrastructure</span><span>Code defect</span></div></article><article class="system-card"><div class="system-title"><span class="system-icon train-icon" aria-hidden="true">T</span><h3>TrainTicket</h3><strong>204 <small>cases</small></strong></div><p>A train-ticket booking microservice system, with faults spanning four categories.</p><div class="tags"><span>Startup</span><span>Runtime</span><span>Service routing</span><span>Performance</span></div></article></div>
+      <div class="artifact-grid"><article><span class="directory-label">benchmark/</span><h3>The incident scene</h3><p>Queries, ground truth, tool caches, raw snapshots, and diagnostic source files where available.</p></article><article><span class="directory-label">process-label/</span><h3>The evidence milestones</h3><p>One milestone specification per case, with admissible evidence and dependency constraints.</p></article><article><span class="directory-label">golden-trajectory/</span><h3>The expert paths</h3><p>Two auxiliary expert trajectories per case for diagnostic analysis and further research.</p></article></div>
+    </div></section>
+
+    <section class="section container" id="results">
+      <div class="section-heading"><div><p class="eyebrow">03 / PERFORMANCE</p><h2>Beyond the final answer.</h2></div><p>Outcome correctness, evidence grounding, and diagnostic efficiency.</p></div>
+      <div class="results-toolbar"><div class="system-tabs" aria-label="Choose results system"><button type="button" data-system="boutique" aria-pressed="true">Online Boutique <span>550 cases</span></button><button type="button" data-system="trainticket" aria-pressed="false">TrainTicket <span>204 cases</span></button></div><span class="results-note">Bold = best in column, including ties</span></div>
+      <noscript><p class="notice">Both system tables are shown below. Enable JavaScript to switch between systems.</p></noscript>
+      <div class="table-panel" id="results-boutique" data-panel="boutique">
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Online Boutique performance table; scroll horizontally on small screens">
+          <table data-results="boutique"><caption>Performance comparison on Online Boutique</caption><thead><tr class="column-groups"><th scope="col" rowspan="2">Model</th><th scope="colgroup" colspan="3">Outcome</th><th scope="colgroup" colspan="6">Process</th></tr><tr><th scope="col">CA ↑</th><th scope="col">FA ↑</th><th scope="col" class="jra">JRA ↑</th><th scope="col">MC ↑</th><th scope="col">EOC ↑</th><th scope="col">ECR ↑</th><th scope="col">EE ↑</th><th scope="col">Steps ↓</th><th scope="col">RAR ↓</th></tr></thead><tbody>
+            <tr><th scope="row">GPT-5</th><td>0.86</td><td>0.69</td><td>0.68</td><td>0.64</td><td>0.55</td><td>0.21</td><td>0.64</td><td>5.56</td><td>0.00</td></tr>
+            <tr><th scope="row">Claude-Sonnet-4</th><td>0.71</td><td>0.56</td><td>0.52</td><td>0.61</td><td>0.54</td><td>0.44</td><td>0.44</td><td>6.04</td><td>0.00</td></tr>
+            <tr><th scope="row">Gemini-2.5-Pro</th><td>0.81</td><td>0.69</td><td>0.67</td><td>0.74</td><td>0.68</td><td>0.46</td><td>0.63</td><td>6.21</td><td>0.00</td></tr>
+            <tr><th scope="row">Qwen3.5-Plus</th><td>0.80</td><td>0.68</td><td>0.64</td><td>0.70</td><td>0.64</td><td>0.34</td><td>0.65</td><td>5.92</td><td>0.00</td></tr>
+            <tr><th scope="row">Qwen3-235B-A22B</th><td>0.61</td><td>0.46</td><td>0.40</td><td>0.56</td><td>0.48</td><td>0.34</td><td>0.36</td><td>7.03</td><td>0.01</td></tr>
+            <tr><th scope="row">DeepSeek-V4-Flash</th><td>0.88</td><td>0.77</td><td>0.76</td><td>0.74</td><td>0.64</td><td>0.38</td><td>0.62</td><td>6.45</td><td>0.00</td></tr>
+            <tr><th scope="row">Gemini-2.5-Flash</th><td>0.82</td><td>0.67</td><td>0.65</td><td>0.71</td><td>0.67</td><td>0.37</td><td>0.58</td><td>6.49</td><td>0.01</td></tr>
+            <tr><th scope="row">Qwen3.5-27B</th><td>0.85</td><td>0.71</td><td>0.70</td><td>0.75</td><td>0.70</td><td>0.43</td><td>0.54</td><td>6.87</td><td>0.01</td></tr>
+            <tr><th scope="row">Qwen3-14B</th><td>0.61</td><td>0.42</td><td>0.41</td><td>0.70</td><td>0.57</td><td>0.45</td><td>0.32</td><td>14.58</td><td>0.28</td></tr>
+            <tr><th scope="row">Qwen3-8B</th><td>0.35</td><td>0.19</td><td>0.19</td><td>0.58</td><td>0.40</td><td>0.16</td><td>0.37</td><td>16.01</td><td>0.46</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+      <div class="table-panel" id="results-trainticket" data-panel="trainticket">
+        <div class="table-scroll" tabindex="0" role="region" aria-label="TrainTicket performance table; scroll horizontally on small screens">
+          <table data-results="trainticket"><caption>Performance comparison on TrainTicket</caption><thead><tr class="column-groups"><th scope="col" rowspan="2">Model</th><th scope="colgroup" colspan="3">Outcome</th><th scope="colgroup" colspan="6">Process</th></tr><tr><th scope="col">CA ↑</th><th scope="col">FA ↑</th><th scope="col" class="jra">JRA ↑</th><th scope="col">MC ↑</th><th scope="col">EOC ↑</th><th scope="col">ECR ↑</th><th scope="col">EE ↑</th><th scope="col">Steps ↓</th><th scope="col">RAR ↓</th></tr></thead><tbody>
+            <tr><th scope="row">GPT-5</th><td>0.70</td><td>0.71</td><td>0.68</td><td>0.61</td><td>0.53</td><td>0.15</td><td>0.64</td><td>7.03</td><td>0.00</td></tr>
+            <tr><th scope="row">Claude-Sonnet-4</th><td>0.60</td><td>0.62</td><td>0.59</td><td>0.61</td><td>0.52</td><td>0.15</td><td>0.52</td><td>7.42</td><td>0.00</td></tr>
+            <tr><th scope="row">Gemini-2.5-Pro</th><td>0.62</td><td>0.61</td><td>0.58</td><td>0.58</td><td>0.51</td><td>0.14</td><td>0.51</td><td>7.13</td><td>0.00</td></tr>
+            <tr><th scope="row">Qwen3.5-Plus</th><td>0.67</td><td>0.79</td><td>0.64</td><td>0.64</td><td>0.58</td><td>0.25</td><td>0.63</td><td>5.90</td><td>0.00</td></tr>
+            <tr><th scope="row">Qwen3-235B-A22B</th><td>0.42</td><td>0.23</td><td>0.21</td><td>0.53</td><td>0.50</td><td>0.19</td><td>0.34</td><td>8.70</td><td>0.03</td></tr>
+            <tr><th scope="row">DeepSeek-V4-Flash</th><td>0.69</td><td>0.71</td><td>0.63</td><td>0.62</td><td>0.56</td><td>0.24</td><td>0.53</td><td>7.68</td><td>0.00</td></tr>
+            <tr><th scope="row">Gemini-2.5-Flash</th><td>0.60</td><td>0.55</td><td>0.53</td><td>0.45</td><td>0.42</td><td>0.12</td><td>0.48</td><td>4.91</td><td>0.00</td></tr>
+            <tr><th scope="row">Qwen3.5-27B</th><td>0.62</td><td>0.64</td><td>0.58</td><td>0.59</td><td>0.55</td><td>0.18</td><td>0.55</td><td>7.05</td><td>0.01</td></tr>
+            <tr><th scope="row">Qwen3-14B</th><td>0.41</td><td>0.25</td><td>0.24</td><td>0.60</td><td>0.52</td><td>0.20</td><td>0.37</td><td>14.53</td><td>0.31</td></tr>
+            <tr><th scope="row">Qwen3-8B</th><td>0.38</td><td>0.26</td><td>0.22</td><td>0.53</td><td>0.45</td><td>0.06</td><td>0.45</td><td>11.55</td><td>0.22</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+      <p class="table-caption">All values are reported as provided in the benchmark results. Higher is better (↑), except Steps and RAR (↓). Scores are proportions; Steps is the mean number of diagnostic tool invocations.</p>
+      <details class="metric-details"><summary>What do the metrics measure?</summary><dl class="metric-grid"><div><dt>CA · Component Accuracy</dt><dd>Correct localization of the faulty component.</dd></div><div><dt>FA · Fault-Type Accuracy</dt><dd>Correct identification of the fault type.</dd></div><div><dt>JRA · Joint RCA Accuracy</dt><dd>Both component and fault type are correct.</dd></div><div><dt>MC · Milestone Coverage</dt><dd>Fraction of diagnostic milestone groups completed.</dd></div><div><dt>EOC · Evidence-Order Consistency</dt><dd>Required milestones established in admissible causal order.</dd></div><div><dt>ECR · Evidence Closure Rate</dt><dd>All required milestone groups completed.</dd></div><div><dt>EE · Evidence Efficiency</dt><dd>Tool calls contributing admissible, dependency-grounded evidence.</dd></div><div><dt>Steps · Diagnostic Tool Invocations</dt><dd>Mean number of tool invocations per case.</dd></div><div><dt>RAR · Redundant Action Rate</dt><dd>Repeated calls that add no evidence or milestone progress.</dd></div></dl></details>
+    </section>
+
+    <section class="section section-tinted" id="start"><div class="container">
+      <div class="section-heading"><div><p class="eyebrow">04 / GET STARTED</p><h2>Bring your agent. Keep the evidence fixed.</h2></div><p>Download the snapshots. Choose your diagnostic interface.</p></div>
+      <div class="quickstart-grid"><article class="download-card"><div class="card-topline"><span class="mini-label">01 — DOWNLOAD THE DATASET</span><button class="copy-button" type="button" data-copy="download-code" aria-label="Copy dataset download code" hidden>Copy</button></div><pre><code id="download-code">from huggingface_hub import snapshot_download
+
+snapshot_download(
+    repo_id="LLM4Ops/Cloud-OpsBench",
+    repo_type="dataset",
+    revision="v1.0.0",
+    local_dir="cloudopsbench-data",
+)</code></pre><p>Install <code>huggingface_hub</code> first. This downloads the complete artifact tree, not just the case index.</p><a class="text-link" href="https://huggingface.co/datasets/LLM4Ops/Cloud-OpsBench">Dataset Card & release details ↗</a></article><div class="interface-stack"><a class="interface-card" href="https://github.com/LLM4Ops/Cloud-OpsBench/tree/main/agents"><span class="mini-label">02 — USE THE REFERENCE AGENT</span><h3>Run the bundled ReAct agent <span aria-hidden="true">↗</span></h3><p>Use the baseline agent or the Skill-enabled variant, with outcome and milestone-based process evaluation.</p></a><a class="interface-card" href="https://github.com/LLM4Ops/Cloud-OpsBench/tree/main/cloudopsbench_mcp"><span class="mini-label">OR — CONNECT YOUR OWN HARNESS</span><h3>Use the MCP interface <span aria-hidden="true">↗</span></h3><p>Expose snapshot tools to MCP-compatible agents, including Codex and OpenCode. 12 tools for Boutique; 10 for TrainTicket.</p></a></div></div>
+      <p class="evaluation-note"><strong>Keep evaluation labels separate.</strong> Ground truth, milestones, and expert trajectories are research/evaluation artifacts, not observations to expose to a task agent.</p>
+    </div></section>
+
+    <section class="section container citation-section" id="citation"><div class="section-heading"><div><p class="eyebrow">05 / CITE THE BENCHMARK</p><h2>Built for reproducible research.</h2></div><a class="text-link" href="https://arxiv.org/abs/2603.00468">Read the benchmark paper ↗</a></div><p>If Cloud-OpsBench supports your research, please cite the benchmark and its state snapshot paradigm.</p><div class="citation-block"><div class="card-topline"><span class="mini-label">BIBTEX</span><button class="copy-button" type="button" data-copy="citation-code" hidden>Copy citations</button></div><pre><code id="citation-code">@article{wang2026cloud,
+  title={Cloud-OpsBench: A reproducible benchmark for agentic root cause analysis in cloud systems},
+  author={Wang, Yilun and Yu, Guangba and Huang, Haiyu and Huang, Yujie and Wang, Zirui and Chen, Pengfei and Lyu, Michael R},
+  journal={arXiv preprint arXiv:2603.00468},
+  year={2026}
+}
+
+@inproceedings{yu2026freezing,
+  title={Freezing the Crime Scene: A State Snapshot Paradigm for Reproducible Agentic SRE Evaluation},
+  author={Yu, Guangba and Wang, Yilun and Lyu, Michael R},
+  booktitle={Proceedings of the 34th ACM International Conference on the Foundations of Software Engineering},
+  pages={1733--1737},
+  year={2026}
+}</code></pre></div><p class="copy-feedback" role="status" aria-live="polite"></p></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><div><a class="brand" href="#">Cloud-OpsBench</a><p>Reproducible evidence. Meaningful evaluation.</p></div><div class="footer-links"><a href="https://github.com/LLM4Ops/Cloud-OpsBench">GitHub ↗</a><a href="https://huggingface.co/datasets/LLM4Ops/Cloud-OpsBench">Hugging Face ↗</a><a href="https://github.com/LLM4Ops/Cloud-OpsBench/blob/main/LICENSE">MIT License ↗</a></div></div><div class="container footer-bottom">LLM4Ops · The Chinese University of Hong Kong</div></footer>
+</body>
+</html>
