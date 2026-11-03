@@ -40,5 +40,13 @@ assume the project URL above; update them if using a different domain.
 - System switcher, best-value emphasis and copy buttons: `assets/script.js`.
 - Overview: `assets/overview.png`, copied from `resource/overview_new.png`.
 
-The first version credits LLM4Ops / CUHK rather than inventing author profile
-links or individual affiliations. Source citations are retained from the repo.
+Author affiliations and the corresponding-author designation follow the paper:
+https://arxiv.org/html/2603.00468v2
+
+The community section summarizes self-reported OpenSRE usage, not an endorsement
+or independently replicated result. Source: https://github.com/Tracer-Cloud/opensre/issues/2903
+
+Additional community sources: Cloudwise's official RCA Studio report, Alibaba
+Cloud STAROps benchmark documentation, and Jaeger issue #9135. The latter two
+are methodology references, not claims of completed benchmark runs. Links and
+evidence distinctions are displayed next to each entry on the homepage.
