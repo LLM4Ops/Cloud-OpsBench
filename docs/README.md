@@ -50,3 +50,11 @@ Additional community sources: Cloudwise's official RCA Studio report, Alibaba
 Cloud STAROps benchmark documentation, and Jaeger issue #9135. The latter two
 are methodology references, not claims of completed benchmark runs. Links and
 evidence distinctions are displayed next to each entry on the homepage.
+
+## Fault taxonomy page
+
+`faults.html` lists the 57 fault identifiers from the README taxonomy, grouped
+into eight categories. Difficulty and case counts describe whole categories
+across both systems. `assets/faults.js` adds combined name/category search and
+category/difficulty filters; the complete list remains readable without JS.
+Update this page alongside the README when the taxonomy changes.
